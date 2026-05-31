@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 public enum Status {
 
         PENDENTE,
-        FINALIZADO,
-        CANCELADO
+        APROVADO,
+        NEGADO
 
 }

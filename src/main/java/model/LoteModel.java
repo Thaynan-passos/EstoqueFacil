@@ -1,32 +1,40 @@
 package model;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 
 import java.time.LocalDate;
 
 
 
-public class Lote {
+public class LoteModel {
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
+    @Positive(message = "O ID deve ser positivo")
     private int idLote;
 
-    @NotNull
-    private int numeroLote;
+    @NotNull (message = "Não pode ficar nulo.")
+    @Positive(message = "O numero do lote deve ser maior que 0 ")
+    private final int numeroLote;
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataFabricacao;
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataValidade;
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
+    @PositiveOrZero(message = "A quantidade deve ser 0 ou positivo")
     private int quantidade;
 
-    @NotBlank(message="É necessário digitar o nome do fabricador.")
-    private String fabricador;
+    @NotNull (message = "Não pode ficar nulo.")
+    private LocalDate dataFornecimento;
+
+    public LoteModel(int numeroLote) {
+        this.numeroLote = numeroLote;
+    }
 
 
     public int getIdLote() {
@@ -39,10 +47,6 @@ public class Lote {
 
     public int getNumeroLote() {
         return numeroLote;
-    }
-
-    public void setNumeroLote(int numeroLote) {
-        this.numeroLote = numeroLote;
     }
 
     public LocalDate getDataFabricacao() {
@@ -69,11 +73,12 @@ public class Lote {
         this.quantidade = quantidade;
     }
 
-    public String getFabricador() {
-        return fabricador;
+    public LocalDate getDataFornecimento() {
+        return dataFornecimento;
     }
 
-    public void setFabricador(String fabricador) {
-        this.fabricador = fabricador;
+    public void setDataFornecimento(LocalDate dataFornecimento) {
+        this.dataFornecimento = dataFornecimento;
     }
+
 }

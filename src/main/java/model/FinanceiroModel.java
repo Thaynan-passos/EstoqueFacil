@@ -5,12 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 
 
 
-public class Financeiro extends Funcionario {
+public class FinanceiroModel extends FuncionarioModel {
 
     @NotBlank(message="É necessário digitar a área responsável.")
     private String areaResponsavel;
 
-    public Financeiro(String cpf) {
+    public FinanceiroModel(String cpf) {
         super(cpf);
     }
 

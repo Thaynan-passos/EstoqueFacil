@@ -1,12 +1,15 @@
 package model;
 
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
+public class FuncionarioModel {
 
-
-public class Funcionario {
+    @NotNull (message = "Não pode ficar nulo.")
+    @Positive(message = "O ID deve ser maior que 0")
+    private int idFuncionario;
 
     @NotBlank (message = "É necessário digitar o seu cpf.")
     private final String cpf;
@@ -20,17 +23,25 @@ public class Funcionario {
     @NotBlank(message = "A senha não pode ser vazia.")
     private String senha;
 
-    @NotBlank(message = "A login não pode ser vazio.")
-    private String login;
-
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
+    @PositiveOrZero(message = "O nivel de acesso deve ser 0 ou mais")
     private int nivelAcesso;
+
+    @NotBlank (message = "Não pode ficar vazio.")
     private String turno;
 
-    public Funcionario(String cpf) {
+    public FuncionarioModel(String cpf) {
         this.cpf = cpf;
     }
 
+
+    public int getIdFuncionario() {
+        return idFuncionario;
+    }
+
+    public void setIdFuncionario(int idFuncionario) {
+        this.idFuncionario = idFuncionario;
+    }
 
     public String getCpf() {
         return cpf;
@@ -59,15 +70,7 @@ public class Funcionario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
+    
     public int getNivelAcesso() {
         return nivelAcesso;
     }

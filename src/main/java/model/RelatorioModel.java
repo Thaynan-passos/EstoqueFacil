@@ -2,6 +2,8 @@ package model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 
 import java.math.BigDecimal;
@@ -9,25 +11,29 @@ import java.time.LocalDate;
 
 
 
-public class Relatorio {
+public class RelatorioModel {
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
+    @Positive(message = "O ID deve ser positivo")
     private int idRelatorio;
+
     private LocalDate dataEmissao;
 
     @NotBlank (message = "É necessário escrever qual vai ser o tipo do relatório.")
     private String tipoRelatorio;
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
+    @PositiveOrZero
     private BigDecimal valorTotalEntrada;
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
+    @PositiveOrZero
     private BigDecimal valorTotalSaida;
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataInicioPeriodo;
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataFimPeriodo;
 
     public int getIdRelatorio() {

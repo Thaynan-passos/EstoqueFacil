@@ -2,28 +2,34 @@ package model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import service.TipoSetor;
 
 
 import java.math.BigDecimal;
 
 
 
-public class Setor {
+public class SetorModel {
 
     @NotNull
+    @Positive(message = "O ID deve ser positivo")
     private int idSetor;
 
     @NotBlank(message = "É necessário pôr o nome do setor.")
     private String nomeSetor;
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
+    @PositiveOrZero
     private int capacidade;
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
+    @PositiveOrZero
     private BigDecimal orcamentoMensal;
 
     @NotBlank(message = "É necessário escrever o seu setor")
-    private String TipoSetor;
+    private TipoSetor TipoSetor;
 
 
     public int getIdSetor() {
@@ -58,11 +64,11 @@ public class Setor {
         this.orcamentoMensal = orcamentoMensal;
     }
 
-    public String getTipoSetor() {
+    public TipoSetor getTipoSetor() {
         return TipoSetor;
     }
 
-    public void setTipoSetor(String TipoSetor) {
+    public void setTipoSetor(TipoSetor TipoSetor) {
         this.TipoSetor = TipoSetor;
     }
 

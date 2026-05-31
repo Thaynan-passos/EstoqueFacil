@@ -6,15 +6,15 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalTime;
 
 
-public class Almoxarife extends Funcionario{
+public class AlmoxarifeModel extends FuncionarioModel {
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
     private LocalTime horarioEntrada;
 
-    @NotNull
+    @NotNull (message = "Não pode ficar nulo.")
     private LocalTime horarioSaida;
 
-    public Almoxarife(String cpf){
+    public AlmoxarifeModel(String cpf){
         super(cpf);
     }
 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="<http://www.thymeleaf.org>">
+<head>
+    <meta charset="UTF-8">
+    <title th:text=""></title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+ <header>
+    <div class="conteiner" id="header">
+     <h1 class="h1" th:text="">Login</h1>
+     <h2 id="EstoqueFacil" th:text="">Estoque Facil</h2>
+     <p class="login">Faça o login para continuar</p>
+    </div>
+ </header>
+
+<section>
+    <form>
+        <label th:for="funcionario">CPF do funcionário:</label>
+        <input type="textarea" name="funcionario" required>
+
+        <label th:for="senhaFuncionario">Senha:</label>
+        <input type="textarea" name="senhaFuncionario" required>
+
+        <button>Resgatar Senha?</button>
+        <button>Entrar</button>
+    </form>
+</section>
+</body>
+</html>

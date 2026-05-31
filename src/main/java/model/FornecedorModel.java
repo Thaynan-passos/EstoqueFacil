@@ -3,10 +3,14 @@ package model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 
+public class FornecedorModel {
 
-public class Fornecedor {
+    @NotNull (message = "Não pode ficar nulo.")
+    @Positive(message="O ID deve ser maior que 0")
+    private int idFornecedor;
 
     @NotBlank(message = "É necessário digitar o seu CNPJ.")
     private final String cnpj;
@@ -17,7 +21,7 @@ public class Fornecedor {
     @NotBlank(message = "O email deve ser preenchido.")
     private String email;
 
-    public Fornecedor(String cnpj) {
+    public FornecedorModel(String cnpj) {
         this.cnpj = cnpj;
     }
 

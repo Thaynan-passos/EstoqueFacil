@@ -1,9 +1,15 @@
 package model;
 
+import jakarta.validation.constraints.NotBlank;
+import service.Sexo;
+
 public class DependenteModel {
 
+    @NotBlank (message="Deve possuir um nome")
     private String nomeDependente;
-    private String sexoDependente;
+
+    @NotBlank(message= "Não pode ficar vazio")
+    private Sexo sexoDependente;
 
     public String getNomeDependente() {
         return nomeDependente;
@@ -13,11 +19,11 @@ public class DependenteModel {
         this.nomeDependente = nomeDependente;
     }
 
-    public String getSexoDependente() {
+    public Sexo getSexoDependente() {
         return sexoDependente;
     }
 
-    public void setSexoDependente(String sexoDependente) {
+    public void setSexoDependente(Sexo sexoDependente) {
         this.sexoDependente = sexoDependente;
     }
 }

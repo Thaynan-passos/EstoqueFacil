@@ -20,7 +20,7 @@ public class RelatorioModel {
     private LocalDate dataEmissao;
 
     @NotBlank (message = "É necessário escrever qual vai ser o tipo do relatório.")
-    private String tipoRelatorio;
+    private String descricao;
 
     @NotNull (message = "Não pode ficar nulo.")
     @PositiveOrZero
@@ -31,10 +31,10 @@ public class RelatorioModel {
     private BigDecimal valorTotalSaida;
 
     @NotNull (message = "Não pode ficar nulo.")
-    private LocalDate dataInicioPeriodo;
+    private LocalDate dataInicio;
 
     @NotNull (message = "Não pode ficar nulo.")
-    private LocalDate dataFimPeriodo;
+    private LocalDate dataFim;
 
     public int getIdRelatorio() {
         return idRelatorio;
@@ -52,12 +52,12 @@ public class RelatorioModel {
         this.dataEmissao = dataEmissao;
     }
 
-    public String getTipoRelatorio() {
-        return tipoRelatorio;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setTipoRelatorio(String tipoRelatorio) {
-        this.tipoRelatorio = tipoRelatorio;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public BigDecimal getValorTotalEntrada() {
@@ -76,19 +76,19 @@ public class RelatorioModel {
         this.valorTotalSaida = valorTotalSaida;
     }
 
-    public LocalDate getDataInicioPeriodo() {
-        return dataInicioPeriodo;
+    public LocalDate getDataInicio() {
+        return dataInicio;
     }
 
-    public void setDataInicioPeriodo(LocalDate dataInicioPeriodo) {
-        this.dataInicioPeriodo = dataInicioPeriodo;
+    public void setDataInicio(LocalDate dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
-    public LocalDate getDataFimPeriodo() {
-        return dataFimPeriodo;
+    public LocalDate getDataFim() {
+        return dataFim;
     }
 
-    public void setDataFimPeriodo(LocalDate dataFimPeriodo) {
-        this.dataFimPeriodo = dataFimPeriodo;
+    public void setDataFim(LocalDate dataFim) {
+        this.dataFim = dataFim;
     }
 }

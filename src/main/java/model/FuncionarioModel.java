@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import service.Cargo;
 
 public class FuncionarioModel {
 
@@ -21,14 +22,14 @@ public class FuncionarioModel {
     private String email;
 
     @NotBlank(message = "A senha não pode ser vazia.")
-    private String senha;
+    private String senhaHash;
 
     @NotNull (message = "Não pode ficar nulo.")
     @PositiveOrZero(message = "O nivel de acesso deve ser 0 ou mais")
     private int nivelAcesso;
 
-    @NotBlank (message = "Não pode ficar vazio.")
-    private String turno;
+    @NotBlank (message = "É necessário indicar o cargo.")
+    private Cargo cargo;
 
     public FuncionarioModel(String cpf) {
         this.cpf = cpf;
@@ -64,11 +65,11 @@ public class FuncionarioModel {
     }
 
     public String getSenha() {
-        return senha;
+        return senhaHash;
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        this.senhaHash = senhaHash;
     }
     
     public int getNivelAcesso() {
@@ -79,12 +80,11 @@ public class FuncionarioModel {
         this.nivelAcesso = nivelAcesso;
     }
 
-    public String getTurno() {
-        return turno;
+    public Cargo getCargo() {
+        return cargo;
     }
 
-    public void setTurno(String turno) {
-        this.turno = turno;
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
     }
-
 }

@@ -19,8 +19,8 @@ public class MovimentacaoModel {
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataMovimentacao;
 
-   
-    private String  observacao;
+    @NotBlank(message="É necessário ter a descrição")
+    private String  descricao;
 
 
     public int  getIdMovimentacao() {
@@ -46,12 +46,12 @@ public class MovimentacaoModel {
         this.dataMovimentacao = dataMovimentacao;
     }
 
-    public String getObservacao() {
-        return observacao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
 }

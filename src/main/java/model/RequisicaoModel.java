@@ -14,8 +14,8 @@ public class RequisicaoModel {
     @NotNull (message = "Não pode ficar nulo.")
     private Status status;
 
-    @NotBlank(message="É necessário ter a descrição")
-    private String descricao;
+    @NotBlank(message="É necessário ter o motivo")
+    private String motivo;
 
     public LocalDate getDataRequisicao() {
         return dataRequisicao;
@@ -32,11 +32,11 @@ public class RequisicaoModel {
         this.status = status;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getMotivo() {
+        return motivo;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 }

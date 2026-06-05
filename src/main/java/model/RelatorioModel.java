@@ -17,6 +17,7 @@ public class RelatorioModel {
     @Positive(message = "O ID deve ser positivo")
     private int idRelatorio;
 
+    @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataEmissao;
 
     @NotBlank (message = "É necessário escrever qual vai ser o tipo do relatório.")

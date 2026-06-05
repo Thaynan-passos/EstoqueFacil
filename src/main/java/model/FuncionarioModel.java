@@ -1,5 +1,7 @@
 package model;
 
+import Utils.ValidadorUtils;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -13,7 +15,7 @@ public class FuncionarioModel {
     private int idFuncionario;
 
     @NotBlank (message = "É necessário digitar o seu cpf.")
-    private final String cpf;
+    private String cpf;
 
     @NotBlank(message = "É necessário pôr o seu nome.")
     private String nome;
@@ -28,13 +30,16 @@ public class FuncionarioModel {
     @PositiveOrZero(message = "O nivel de acesso deve ser 0 ou mais")
     private int nivelAcesso;
 
-    @NotBlank (message = "É necessário indicar o cargo.")
+    @NotNull (message = "É necessário indicar o cargo.")
     private Cargo cargo;
 
-    public FuncionarioModel(String cpf) {
-        this.cpf = cpf;
-    }
+    @NotNull(message = "Não pode ficar nulo.")
+    @Valid
+    private TelefoneModel telefone;
 
+    @NotNull(message = "Não pode ficar nulo.")
+    @Valid
+    private EnderecoModel endereco;
 
     public int getIdFuncionario() {
         return idFuncionario;
@@ -46,6 +51,12 @@ public class FuncionarioModel {
 
     public String getCpf() {
         return cpf;
+    }
+
+    public void setCpf(String cpf) {
+
+        ValidadorUtils.validarCPF(cpf);
+        this.cpf = cpf.replaceAll("\\D", "").trim();
     }
 
     public String getNome() {
@@ -64,11 +75,11 @@ public class FuncionarioModel {
         this.email = email;
     }
 
-    public String getSenha() {
+    public String getSenhaHash() {
         return senhaHash;
     }
 
-    public void setSenha(String senha) {
+    public void setSenhaHash(String senhaHash) {
         this.senhaHash = senhaHash;
     }
     
@@ -86,5 +97,20 @@ public class FuncionarioModel {
 
     public void setCargo(Cargo cargo) {
         this.cargo = cargo;
+    }
+
+    public TelefoneModel getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(TelefoneModel telefone) {
+        this.telefone = telefone;
+    }
+
+    public EnderecoModel getEndereco() {
+        return endereco;
+    }
+    public void setEndereco(EnderecoModel endereco) {
+        this.endereco = endereco;
     }
 }

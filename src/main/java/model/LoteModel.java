@@ -17,7 +17,7 @@ public class LoteModel {
 
     @NotNull (message = "Não pode ficar nulo.")
     @Positive(message = "O numero do lote deve ser maior que 0 ")
-    private final int numeroLote;
+    private int numeroLote;
 
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataFabricacao;
@@ -32,11 +32,6 @@ public class LoteModel {
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataFornecimento;
 
-    public LoteModel(int numeroLote) {
-        this.numeroLote = numeroLote;
-    }
-
-
     public int getIdLote() {
         return idLote;
     }
@@ -47,6 +42,10 @@ public class LoteModel {
 
     public int getNumeroLote() {
         return numeroLote;
+    }
+
+    public void setNumeroLote(int numeroLote) {
+        this.numeroLote = numeroLote;
     }
 
     public LocalDate getDataFabricacao() {

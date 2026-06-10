@@ -1,11 +1,12 @@
 package com.EstoqueFacil.EstoqueFacil;
 
-import Utils.ValidadorUtils;
 import jakarta.validation.Valid;
 import model.FuncionarioModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import service.FuncionarioService;
 
 
 import java.util.ArrayList;
@@ -15,12 +16,15 @@ import java.util.List;
 @RequestMapping("/funcionario")
 public class FuncionarioController {
 
+    @Autowired
+    private FuncionarioService funcionarioService;
+
     private List<FuncionarioModel> funcionarios = new ArrayList<>();
 
     @PostMapping
     public ResponseEntity<FuncionarioModel> criarFuncionario(@Valid @RequestBody FuncionarioModel funcionario) {
 
-        ValidadorUtils.validarCPF(funcionario.getCpf());
+        funcionarioService.validarFuncionario(funcionario);
 
         for( FuncionarioModel f : funcionarios) {
             if(f.getCpf().equals(funcionario.getCpf())) {
@@ -44,7 +48,7 @@ public class FuncionarioController {
     @GetMapping("/pegar")
     public ResponseEntity<?> BuscarFuncionarios(@Valid @RequestParam String cpf) {
 
-        ValidadorUtils.validarCPF(cpf);
+
 
         for( FuncionarioModel f : funcionarios) {
             if(f.getCpf().equals(cpf)) {
@@ -56,7 +60,8 @@ public class FuncionarioController {
 
     @PutMapping("/atualizar")
     public Object atualizarFuncionarioPorCpf(@Valid String cpf, @Valid @RequestBody FuncionarioModel funcionario) {
-        ValidadorUtils.validarCPF(cpf);
+
+        funcionarioService.validarFuncionario(funcionario);
 
         for( FuncionarioModel f : funcionarios) {
             if(f.getCpf().equals(cpf)) {
@@ -67,8 +72,8 @@ public class FuncionarioController {
     }
 
     @DeleteMapping("/deletar")
-    public ResponseEntity<?> deletarFuncionarioPorCpf(@RequestParam String cpf) {
-        ValidadorUtils.validarCPF(cpf);
+    public ResponseEntity<?> deletarFuncionarioPorCpf(@Valid @RequestParam String cpf) {
+
 
         boolean remover = funcionarios.removeIf(f -> f.getCpf().equals(cpf));
 

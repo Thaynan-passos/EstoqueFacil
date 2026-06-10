@@ -1,7 +1,8 @@
 package model;
 
 
-import Utils.ValidadorUtils;
+import jakarta.validation.constraints.Email;
+import org.hibernate.validator.constraints.br.CNPJ;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,12 +16,15 @@ public class FornecedorModel {
     private int idFornecedor;
 
     @NotBlank(message = "É necessário digitar o seu CNPJ.")
+    @CNPJ(message = "CNPJ inválido.")
     private  String cnpj;
 
     @NotNull(message = "Digite a sua razão social.")
     private String razaoSocial;
 
     @NotBlank(message = "O email deve ser preenchido.")
+    @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+            message = "Por favor, insira um e-mail válido")
     private String email;
 
     @NotNull(message = "Não pode ficar nulo.")
@@ -44,8 +48,7 @@ public class FornecedorModel {
 
     public void setCnpj(String cnpj){
 
-        ValidadorUtils.validarCNPJ(cnpj);
-        this.cnpj = cnpj.replaceAll("[^a-zA-Z0-9]", "").trim();
+        this.cnpj =cnpj.trim();
     }
 
     public String getRazaoSocial() {

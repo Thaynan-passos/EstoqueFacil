@@ -2,11 +2,12 @@ package com.EstoqueFacil.EstoqueFacil;
 
 
 import jakarta.validation.Valid;
-import model.MovimentacaoModel;
 import model.RelatorioModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import service.RelatorioService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,13 +17,18 @@ import java.util.List;
 @RequestMapping
 public class RelatorioController {
 
+    @Autowired
+    private RelatorioService relatorioService;
+
     private List<RelatorioModel> listaRelatorio = new ArrayList<>();
 
     @PostMapping
     public ResponseEntity<?> criarRelatorio(@Valid @RequestBody RelatorioModel relatorioModel) {
 
+        relatorioService.validarRelatorio(relatorioModel);
+
         for (RelatorioModel relatorio : listaRelatorio) {
-            if(relatorio.getIdRelatorio()==relatorio.getIdRelatorio()) {
+            if(relatorio.getIdRelatorio() == relatorioModel.getIdRelatorio()) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Não pode existir um relatório de mesmo ID");
             }
         }
@@ -40,6 +46,9 @@ public class RelatorioController {
 
     @GetMapping("/pegar")
     public ResponseEntity<?>  pegarRelatorio(@Valid @RequestParam LocalDate dataEmissao) {
+
+        relatorioService.validarDataEmissao(dataEmissao);
+
         for(RelatorioModel relatorio : listaRelatorio) {
             if(relatorio.getDataEmissao().equals(dataEmissao)) {
                 return ResponseEntity.status(HttpStatus.FOUND).body(relatorio);
@@ -50,6 +59,9 @@ public class RelatorioController {
 
     @PutMapping("/atualizar")
     public ResponseEntity<?> atualizarRelatorio(@Valid @RequestParam LocalDate dataEmissao,@Valid @RequestBody RelatorioModel relatorioModel) {
+
+        relatorioService.validarRelatorio(relatorioModel);
+
         for(RelatorioModel r : listaRelatorio) {
             if(r.getDataEmissao().equals(dataEmissao)) {
                 return ResponseEntity.status(HttpStatus.OK).body(relatorioModel);
@@ -60,6 +72,8 @@ public class RelatorioController {
 
     @DeleteMapping("/deletar")
     public ResponseEntity<?> deletarRelatorio(@RequestParam LocalDate dataEmissao) {
+
+        relatorioService.validarDataEmissao(dataEmissao);
 
         boolean remover = listaRelatorio.removeIf(r -> r.getDataEmissao().equals(dataEmissao));
         if(remover) {

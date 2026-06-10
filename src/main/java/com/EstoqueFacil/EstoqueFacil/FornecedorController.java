@@ -1,26 +1,32 @@
 package com.EstoqueFacil.EstoqueFacil;
 
-import Utils.ValidadorUtils;
 import jakarta.validation.Valid;
 import model.FornecedorModel;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import service.FornecedorService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 @RestController
 
 @RequestMapping("/fornecedor")
 public class FornecedorController {
 
+    @Autowired
+    private FornecedorService fornecedorService;
+
     private List<FornecedorModel> fornecedores = new ArrayList<>();
 
     @PostMapping
     public ResponseEntity<FornecedorModel> CriarFornecedor(@Valid @RequestBody FornecedorModel fornecedor) {
+
+        fornecedorService.validarFornecedor(fornecedor);
 
         for (FornecedorModel f : fornecedores) {
 
@@ -44,7 +50,6 @@ public class FornecedorController {
     @GetMapping("/pegar")
     public ResponseEntity<?> pegarFornecedor(@Valid @RequestParam String cnpj) {
 
-        ValidadorUtils.validarCNPJ(cnpj);
 
         for (FornecedorModel f : fornecedores) {
             if (f.getCnpj().equals(cnpj)) {
@@ -55,20 +60,20 @@ public class FornecedorController {
     }
 
     @PutMapping("/atualizar")
-    public FornecedorModel atualizarFornecedorPorCnpj(@Valid @RequestParam String cnpj, @Valid @RequestBody FornecedorModel fornecedor) {
-        for (int i = 0; i < fornecedores.size(); i++) {
-            if (fornecedores.get(i).getCnpj().equals(cnpj)) {
-                fornecedores.set(i, fornecedor);
-                return fornecedor;
+    public ResponseEntity<?> atualizarFornecedorPorCnpj(@Valid @RequestParam String cnpj, @Valid @RequestBody FornecedorModel fornecedor) {
+
+        fornecedorService.validarFornecedor(fornecedor);
+
+        for (FornecedorModel  f : fornecedores) {
+            if (f.getCnpj().equals(cnpj)) {
+                return  ResponseEntity.status(HttpStatus.OK).body(fornecedor);
             }
         }
-        throw new NoSuchElementException("Não foi possível atualizar o fornecedor");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possível atualizar fornecedor");
     }
 
     @DeleteMapping("/deletar")
     public ResponseEntity<String> deletarFornecedor(@Valid @RequestParam String cnpj) {
-
-        ValidadorUtils.validarCNPJ(cnpj);
 
         boolean remover = fornecedores.removeIf(fornecedor -> fornecedor.getCnpj().equals(cnpj));
 

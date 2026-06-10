@@ -1,8 +1,16 @@
 package model;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import service.EnderecoService;
+
 
 public class EnderecoModel {
+
+    @NotNull (message = "O ID não pode ser nulo.")
+    @Positive (message= "O ID precisa ser positivo.")
+    private int idEndereco;
 
     @NotBlank  (message="É necessário indicar o bairro.")
     private String bairro;
@@ -20,12 +28,22 @@ public class EnderecoModel {
     private String numeroCasa;
 
 
+    public int  getIdEndereco() {
+        return idEndereco;
+    }
+
+    public void setIdEndereco(int idEndereco) {
+        this.idEndereco = idEndereco;
+    }
+
     public String getBairro() {
         return bairro;
     }
 
     public void setBairro(String bairro) {
-        this.bairro = bairro;
+
+        EnderecoService.bairroValidar(bairro);
+        this.bairro = bairro.trim();
     }
 
     public String getCep() {
@@ -33,7 +51,9 @@ public class EnderecoModel {
     }
 
     public void setCep(String cep) {
-        this.cep = cep;
+
+        EnderecoService.cepValidar(cep);
+        this.cep = cep.trim();
     }
 
     public String getEstado() {
@@ -41,7 +61,9 @@ public class EnderecoModel {
     }
 
     public void setEstado(String estado) {
-        this.estado = estado;
+
+        EnderecoService.estadoValidar(estado);
+        this.estado = estado.trim();
     }
 
     public String getCidade() {
@@ -49,7 +71,9 @@ public class EnderecoModel {
     }
 
     public void setCidade(String cidade) {
-        this.cidade = cidade;
+
+        EnderecoService.cidadeValidar(cidade);
+        this.cidade = cidade.trim();
     }
 
     public String getNumeroCasa() {
@@ -57,7 +81,9 @@ public class EnderecoModel {
     }
 
     public void setNumeroCasa(String numeroCasa) {
-        this.numeroCasa = numeroCasa;
+
+        EnderecoService.numeroCasaValidar(numeroCasa);
+        this.numeroCasa = numeroCasa.trim();
 
     }
 

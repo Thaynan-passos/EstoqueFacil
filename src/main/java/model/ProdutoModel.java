@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
-import service.ClassificacaoProduto;
 
 
 import java.math.BigDecimal;
@@ -24,15 +23,15 @@ public class ProdutoModel {
     @NotBlank (message="O código de barras deve ser preenchido.")
     private String codigoBarras;
 
-
-    @Positive(message = "A garantia deve ser maior que 0")
+    @NotNull (message="Não pode ser nulo.")
+    @PositiveOrZero(message = "A garantia não pode ser negativa")
     private int garantia;
 
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataCadastro;
 
     @NotNull (message = "Não pode ficar nulo.")
-    @PositiveOrZero(message = "O valor deve ser 0 ou positivo")
+    @Positive(message = "O valor deve ser positivo")
     private BigDecimal valorUnitario;
 
     @NotBlank(message = "É necessário escrever a classificação do produto.")

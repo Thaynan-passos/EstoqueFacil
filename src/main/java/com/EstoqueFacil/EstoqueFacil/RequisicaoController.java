@@ -3,9 +3,11 @@ package com.EstoqueFacil.EstoqueFacil;
 import jakarta.validation.Valid;
 import model.MovimentacaoModel;
 import model.RequisicaoModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import service.RequisicaoService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,10 +15,15 @@ import java.util.List;
 
 public class RequisicaoController {
 
+
+    @Autowired
+    RequisicaoService requisicaoService;
     private List<RequisicaoModel> listaRequisicao = new ArrayList<>();
 
     @PostMapping
     public ResponseEntity<?> criarListaRequisicao(@Valid @RequestBody RequisicaoModel requisicaoModel) {
+
+    requisicaoService.validarRequisicao(requisicaoModel);
 
     for(RequisicaoModel requisicao: listaRequisicao){
         if(requisicao.getIdRequisicao() == requisicaoModel.getIdRequisicao()){
@@ -39,6 +46,8 @@ public class RequisicaoController {
     @GetMapping("/data")
     public ResponseEntity<?> buscarRequisicaoPorData(@Valid @RequestParam LocalDate data){
 
+        requisicaoService.validarDataRequisicao(data);
+
         for(RequisicaoModel requisicao: listaRequisicao){
             if(requisicao.getDataRequisicao().equals(data)){
                 return ResponseEntity.ok(requisicao);
@@ -60,6 +69,10 @@ public class RequisicaoController {
 
     @PutMapping("/atualizarData")
     public ResponseEntity<?> atualizarRequisicaoPorData(@Valid @RequestParam LocalDate data, @Valid @RequestBody RequisicaoModel requisicao) {
+
+
+        requisicaoService.validarRequisicao(requisicao);
+
         for(RequisicaoModel requisicaoModel : listaRequisicao) {
             if(requisicaoModel.getDataRequisicao().equals(data)) {
                 return ResponseEntity.status(HttpStatus.OK).body(requisicao);
@@ -70,6 +83,10 @@ public class RequisicaoController {
 
     @PutMapping("/atualizarId")
     public ResponseEntity<?> atualizarRequisicaoPorId(@Valid @RequestParam int id, @Valid @RequestBody RequisicaoModel requisicaoModel) {
+
+
+        requisicaoService.validarRequisicao(requisicaoModel);
+
         for(RequisicaoModel r : listaRequisicao) {
             if(r.getIdRequisicao() == id) {
                 return ResponseEntity.status(HttpStatus.OK).body(requisicaoModel);
@@ -90,6 +107,9 @@ public class RequisicaoController {
 
     @DeleteMapping("/deletarData")
     public ResponseEntity<?> deletarMovimentacoesPorId(@Valid @RequestParam LocalDate data) {
+
+
+        requisicaoService.validarDataRequisicao(data);
 
         boolean remove =  listaRequisicao.removeIf(r-> r.getDataRequisicao().equals(data));
         if(remove) {

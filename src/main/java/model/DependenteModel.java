@@ -1,7 +1,6 @@
 package model;
 
 import jakarta.validation.constraints.NotBlank;
-import service.Sexo;
 
 public class DependenteModel {
 

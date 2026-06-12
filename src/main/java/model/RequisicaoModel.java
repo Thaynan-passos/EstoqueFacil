@@ -3,8 +3,6 @@ package model;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import org.springframework.http.HttpStatusCode;
-import service.Status;
 
 import java.time.LocalDate;
 

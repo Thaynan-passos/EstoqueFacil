@@ -8,7 +8,6 @@ import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 
 
-
 public class LoteModel {
 
     @NotNull (message = "Não pode ficar nulo.")

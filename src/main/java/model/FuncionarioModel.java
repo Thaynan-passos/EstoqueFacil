@@ -1,12 +1,8 @@
 package model;
 
-import Utils.ValidadorUtils;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.br.CPF;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
-import service.Cargo;
 
 public class FuncionarioModel {
 
@@ -15,12 +11,15 @@ public class FuncionarioModel {
     private int idFuncionario;
 
     @NotBlank (message = "É necessário digitar o seu cpf.")
+    @CPF (message = "O formato do cpf está equivocado")
     private String cpf;
 
     @NotBlank(message = "É necessário pôr o seu nome.")
     private String nome;
 
     @NotBlank(message = "O email deve ser preenchido.")
+    @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+            message = "Por favor, insira um e-mail válido")
     private String email;
 
     @NotBlank(message = "A senha não pode ser vazia.")
@@ -55,7 +54,6 @@ public class FuncionarioModel {
 
     public void setCpf(String cpf) {
 
-        ValidadorUtils.validarCPF(cpf);
         this.cpf = cpf.replaceAll("\\D", "").trim();
     }
 

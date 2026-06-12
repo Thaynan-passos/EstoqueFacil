@@ -3,9 +3,11 @@ package com.EstoqueFacil.EstoqueFacil;
 
 import jakarta.validation.Valid;
 import model.MovimentacaoModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import service.MovimentacaoService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,10 +17,15 @@ import java.util.List;
 @RequestMapping("/movimentar")
 public class MovimentacaoController {
 
+    @Autowired
+    private MovimentacaoService movimentacaoService;
+
     private List<MovimentacaoModel> listaMovimentacoes = new ArrayList<>();
 
     @PostMapping
     public ResponseEntity<?> criarMovimentacoes(@Valid @RequestBody MovimentacaoModel movimentacoes) {
+
+        movimentacaoService.validarMovimentacao(movimentacoes);
 
         for(MovimentacaoModel m : listaMovimentacoes) {
             if(m.getIdMovimentacao()==movimentacoes.getIdMovimentacao()) {
@@ -51,6 +58,9 @@ public class MovimentacaoController {
 
     @GetMapping("/data")
     public ResponseEntity<?> buscarPorData(@Valid @RequestParam LocalDate data){
+
+        movimentacaoService.validarDataMovimentacao(data);
+
         for(MovimentacaoModel m : listaMovimentacoes) {
             if(m.getDataMovimentacao().equals(data)) {
                 return ResponseEntity.status(HttpStatus.FOUND).body(m);
@@ -71,6 +81,9 @@ public class MovimentacaoController {
 
     @PutMapping("/atualizarData")
     public ResponseEntity<?> atualizarMovimentacoesPorData(@Valid @RequestParam LocalDate data, @Valid @RequestBody MovimentacaoModel movimentacoes) {
+
+        movimentacaoService.validarMovimentacao(movimentacoes);
+
         for(MovimentacaoModel m : listaMovimentacoes) {
             if(m.getDataMovimentacao().equals(data)) {
                 return ResponseEntity.status(HttpStatus.OK).body(movimentacoes);
@@ -91,6 +104,9 @@ public class MovimentacaoController {
 
     @DeleteMapping("/deletarData")
     public ResponseEntity<?> deletarMovimentacoesPorId(@Valid @RequestParam LocalDate data) {
+
+        movimentacaoService.validarDataMovimentacao(data);
+
 
         boolean remove =  listaMovimentacoes.removeIf(m -> m.getDataMovimentacao().equals(data));
         if(remove) {

@@ -3,9 +3,11 @@ package com.EstoqueFacil.EstoqueFacil;
 import jakarta.validation.Valid;
 
 import model.LoteModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import service.LoteService;
 
 
 import java.util.ArrayList;
@@ -15,10 +17,15 @@ import java.util.List;
 @RequestMapping("/lote")
 public class LoteController {
 
+    @Autowired
+    private LoteService loteService;
+
     private List<LoteModel> listaLotes = new ArrayList<>();
 
     @PostMapping
     public ResponseEntity<LoteModel> criarLote(@Valid @RequestBody LoteModel lote) {
+
+        loteService.validarLote(lote);
 
         for( LoteModel l : listaLotes ) {
             if(l.getNumeroLote() == lote.getNumeroLote()) {
@@ -54,6 +61,7 @@ public class LoteController {
     @PutMapping("/atualizar")
     public Object atualizarLotePorNumero(@Valid @RequestParam int numeroLote,@Valid @RequestBody LoteModel lote) {
 
+        loteService.validarLote(lote);
 
         for(LoteModel l : listaLotes) {
             if(l.getNumeroLote() == numeroLote) {

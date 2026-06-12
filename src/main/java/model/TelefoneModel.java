@@ -1,8 +1,15 @@
 package model;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import service.TelefoneService;
 
 public class TelefoneModel {
+
+    @NotNull (message="O ID não pode ser nulo")
+    @Positive(message = "O ID deve ser positivo")
+    private int idTelefone;
 
     @NotBlank(message = "É necessário pôr o seu telefone.")
     private String telefone;
@@ -11,11 +18,21 @@ public class TelefoneModel {
     private String tipoTelefone;
 
 
+    public int getIdTelefone() {
+        return idTelefone;
+    }
+
+    public void setIdTelefone(int idTelefone) {
+        this.idTelefone = idTelefone;
+    }
+
     public String getTelefone() {
         return telefone;
     }
 
     public void setTelefone(String telefone) {
+
+        TelefoneService.numeroTelefoneValidar(telefone);
         this.telefone = telefone;
     }
 

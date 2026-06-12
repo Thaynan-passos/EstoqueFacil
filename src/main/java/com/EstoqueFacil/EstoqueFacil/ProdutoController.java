@@ -3,9 +3,11 @@ package com.EstoqueFacil.EstoqueFacil;
 import jakarta.validation.Valid;
 import model.ProdutoModel;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import service.ProdutoService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +16,15 @@ import java.util.List;
 @RequestMapping("/produto")
 public class ProdutoController {
 
+    @Autowired
+    private ProdutoService produtoService;
+
     private List<ProdutoModel> listaProduto = new ArrayList<>();
 
     @PostMapping
     public ResponseEntity<?> inserirProduto(@Valid @RequestBody ProdutoModel produto){
+
+        produtoService.validarProduto(produto);
 
         for(ProdutoModel p : listaProduto){
             if(p.getNomeProduto().equals(produto.getNomeProduto())){
@@ -48,6 +55,9 @@ public class ProdutoController {
 
     @PutMapping("/atualizar")
     public  ResponseEntity<?> atualizarProdutoPorNome(@Valid String nome, @Valid @RequestBody ProdutoModel produto){
+
+        produtoService.validarProduto(produto);
+
         for(ProdutoModel p : listaProduto){
             if(p.getNomeProduto().equalsIgnoreCase(nome)){
                 return ResponseEntity.status(HttpStatus.OK).body(produto);

@@ -1,6 +1,6 @@
 package Utils;
 
-import model.FuncionarioModel;
+import com.EstoqueFacil.EstoqueFacil.model.FuncionarioModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

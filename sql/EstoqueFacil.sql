@@ -85,7 +85,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS EstoqueFacil.`Telefone` (
   `ID_Telefone` INT NOT NULL AUTO_INCREMENT,
-  `Telefone` VARCHAR(9) NOT NULL,
+  `Telefone` VARCHAR(11) NOT NULL,
   `Tipo` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`ID_Telefone`),
   UNIQUE INDEX `Telefone_UNIQUE` (`Telefone` ASC))

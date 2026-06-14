@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 
 @RestController
-@RequestMapping
+@RequestMapping("/relatorio")
 public class RelatorioController {
 
     @Autowired

@@ -14,7 +14,7 @@ public interface TelefoneRepository extends JpaRepository<TelefoneModel,Integer>
 
     boolean existsById(Integer id);
     Optional<TelefoneModel> findById(int id);
-    void deleteById(Integer id);
+    TelefoneModel deleteById(int id);
     List<TelefoneModel> findAll();
     boolean existsByTelefone(String telefone);
 

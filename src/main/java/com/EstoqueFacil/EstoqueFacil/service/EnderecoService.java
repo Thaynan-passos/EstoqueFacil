@@ -97,12 +97,26 @@ public class EnderecoService {
         return enderecoRepository.save( enderecoAtualizado);
     }
 
-    public void deletarPorId(int id) {
+    public EnderecoModel atualizarEnderecoPorId(int id, EnderecoModel dadosAtualizados) {
+
+        EnderecoModel  enderecoAtualizado = buscarPorId(id);
+
+        enderecoAtualizado.setBairro(dadosAtualizados.getBairro());
+        enderecoAtualizado.setCidade(dadosAtualizados.getCidade());
+        enderecoAtualizado.setEstado(dadosAtualizados.getEstado());
+        enderecoAtualizado.setNumeroCasa(dadosAtualizados.getNumeroCasa());
+
+
+        return enderecoRepository.save( enderecoAtualizado);
+
+    }
+
+    public EnderecoModel deletarPorId(int id) {
 
       if(!enderecoRepository.existsById(id)){
           throw new NoSuchElementException("Não foi encontrado nenhum endereço");
       }
-      enderecoRepository.deleteById(id);
+     return  enderecoRepository.deleteById(id);
     }
 
     public void validarEndereco(EnderecoModel endereco) {
@@ -111,6 +125,7 @@ public class EnderecoService {
         bairroValidar(endereco.getBairro());
         cidadeValidar(endereco.getCidade());
         numeroCasaValidar(endereco.getNumeroCasa());
+        estadoValidar(endereco.getEstado());
 
         if(enderecoRepository.existsByCep(endereco.getCep())) {
             throw new CampoPreenchimento("Esse Cep já foi cadastrado");

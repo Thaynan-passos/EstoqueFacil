@@ -41,7 +41,7 @@ public class TelefoneService {
         return telefoneRepository.save(telefoneModel);
     }
 
-    public TelefoneModel  buscarPorId(int id) {
+    public TelefoneModel  buscarTelefonePorId(int id) {
 
         return telefoneRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum telefone foi encontrado"));
     }
@@ -53,7 +53,7 @@ public class TelefoneService {
 
     public TelefoneModel atualizarTelefonePorId(int id,TelefoneModel dadosAtualizado) {
 
-        TelefoneModel telefoneNovo = buscarPorId(id);
+        TelefoneModel telefoneNovo = buscarTelefonePorId(id);
 
         if(!telefoneNovo.getTelefone().equals(dadosAtualizado.getTelefone()) && telefoneRepository.existsByTelefone(dadosAtualizado.getTelefone())) {
             throw new CampoPreenchimento("Já existe telefone!");
@@ -65,13 +65,13 @@ public class TelefoneService {
         return telefoneRepository.save(telefoneNovo);
     }
 
-    public void deletarTelefonePorId(int id) {
+    public TelefoneModel deletarTelefonePorId(int id) {
 
         if(!telefoneRepository.existsById(id)){
             throw new NoSuchElementException("Não foi encontrado nenhum telefone");
         }
 
-        telefoneRepository.deleteById(id);
+        return telefoneRepository.deleteById(id);
     }
 
     public void validarTelefone(TelefoneModel telefone) {

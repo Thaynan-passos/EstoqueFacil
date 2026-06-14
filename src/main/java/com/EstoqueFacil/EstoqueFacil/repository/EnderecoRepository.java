@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface EnderecoRepository extends JpaRepository<EnderecoModel,Integer> {
 
     Optional<EnderecoModel> findById(Integer id);
-    void deleteById(Integer id);
+    EnderecoModel deleteById(int id);
     List<EnderecoModel> findAll();
     boolean existsById(Integer id);
     boolean existsByCep(String cep);

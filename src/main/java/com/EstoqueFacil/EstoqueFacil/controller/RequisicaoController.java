@@ -10,7 +10,8 @@ import com.EstoqueFacil.EstoqueFacil.service.RequisicaoService;
 
 import java.time.LocalDate;
 
-
+@RestController
+@RequestMapping("/requisicao")
 public class RequisicaoController {
 
     @Autowired

@@ -2,7 +2,6 @@ package com.EstoqueFacil.EstoqueFacil.service;
 
 
 import com.EstoqueFacil.EstoqueFacil.repository.RequisicaoRepository;
-import exceptions.CampoPreenchimento;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import com.EstoqueFacil.EstoqueFacil.model.RequisicaoModel;
 import org.springframework.stereotype.Service;

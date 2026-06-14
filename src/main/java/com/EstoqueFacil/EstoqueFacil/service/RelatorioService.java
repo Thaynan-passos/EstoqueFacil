@@ -1,7 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
 
-import com.EstoqueFacil.EstoqueFacil.dao.RelatorioDAO;
+import com.EstoqueFacil.EstoqueFacil.repository.RelatorioRepository;
 import exceptions.CampoPreenchimento;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import com.EstoqueFacil.EstoqueFacil.model.RelatorioModel;
@@ -15,9 +15,9 @@ import java.util.NoSuchElementException;
 @Service
 public class RelatorioService {
 
-    private final RelatorioDAO relatorioDAO;
-    public RelatorioService(RelatorioDAO relatorioDAO) {
-        this.relatorioDAO = relatorioDAO;
+    private final RelatorioRepository relatorioRepository;
+    public RelatorioService(RelatorioRepository relatorioRepository) {
+        this.relatorioRepository = relatorioRepository;
     }
 
     public void validarDataEmissao(LocalDate dataEmissao) {
@@ -41,40 +41,38 @@ public class RelatorioService {
 
     public RelatorioModel cadastrarRelatorio(RelatorioModel relatorioModel) {
         validarRelatorio(relatorioModel);
-        return relatorioDAO.save(relatorioModel);
+        return relatorioRepository.save(relatorioModel);
     }
 
     public RelatorioModel buscarPorId(Integer id){
-        return relatorioDAO.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum relatório foi encontrado"));
+        return relatorioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum relatório foi encontrado"));
     }
 
-    public boolean buscarPorDataEmissao(LocalDate dataEmissao){
-         if(!relatorioDAO.existsByDataEmissao(dataEmissao)){
-             throw new CampoPreenchimento("Não foi possível encontrar o relatório dessa data de emissão");
-         }
-         return relatorioDAO.existsByDataEmissao(dataEmissao);
+    public RelatorioModel buscarPorDataEmissao(LocalDate dataEmissao){
+
+         return relatorioRepository.findByDataEmissao(dataEmissao).orElseThrow(() -> new NoSuchElementException("Nenhum relatório foi encontrado."));
     }
 
     public List<RelatorioModel> buscarTodosRelatorios() {
-        return relatorioDAO.findAll();
+        return relatorioRepository.findAll();
     }
 
 
-    public RelatorioModel atualizarPorId(int id,RelatorioModel dadosAtualizados) {
+    public RelatorioModel atualizarPorDataEmitida(LocalDate dataEmissao,RelatorioModel dadosAtualizados) {
 
-        RelatorioModel relatorioNovo = buscarPorId(id);
+        RelatorioModel relatorioNovo = buscarPorDataEmissao(dataEmissao);
 
         relatorioNovo.setDataFim(dadosAtualizados.getDataFim());
         relatorioNovo.setDescricao(dadosAtualizados.getDescricao());
 
-        return relatorioDAO.save(relatorioNovo);
+        return relatorioRepository.save(relatorioNovo);
     }
 
-    public void deletarLotePorId(int id){
-        if(!relatorioDAO.existsById(id)) {
+    public RelatorioModel deletarLotePorId(int id){
+        if(!relatorioRepository.existsById(id)) {
             throw new NoSuchElementException("Não existe nenhum relatório com o id " + id);
         }
-        relatorioDAO.deleteById(id);
+        return relatorioRepository.deleteById(id);
     }
 
     public void validarRelatorio(RelatorioModel relatorio){

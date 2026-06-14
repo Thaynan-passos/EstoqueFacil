@@ -1,4 +1,4 @@
-package com.EstoqueFacil.EstoqueFacil.dao;
+package com.EstoqueFacil.EstoqueFacil.repository;
 
 
 import com.EstoqueFacil.EstoqueFacil.model.SetorModel;
@@ -11,11 +11,11 @@ import java.util.Optional;
 
 
 @Repository
-public interface SetorDAO extends JpaRepository<SetorModel,Integer> {
+public interface SetorRepository extends JpaRepository<SetorModel,Integer> {
 
     boolean existsById(Integer id);
    Optional<SetorModel> findById(int id);
-    void deleteById(Integer id);
+    SetorModel deleteById(int id);
     List<SetorModel> findAll();
 }
 

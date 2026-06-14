@@ -1,4 +1,4 @@
-package com.EstoqueFacil.EstoqueFacil.dao;
+package com.EstoqueFacil.EstoqueFacil.repository;
 
 import com.EstoqueFacil.EstoqueFacil.model.FornecedorModel;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface  FornecedorDAO extends JpaRepository<FornecedorModel,Integer> {
+public interface FornecedorRepository extends JpaRepository<FornecedorModel,Integer> {
 
     Optional<FornecedorModel> findByCnpj(String cnpj);
     Optional<FornecedorModel> findByEmail(String email);

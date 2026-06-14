@@ -1,8 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-import com.EstoqueFacil.EstoqueFacil.dao.TelefoneDAO;
-import com.EstoqueFacil.EstoqueFacil.model.EnderecoModel;
-import com.EstoqueFacil.EstoqueFacil.model.SetorModel;
+import com.EstoqueFacil.EstoqueFacil.repository.TelefoneRepository;
 import com.EstoqueFacil.EstoqueFacil.model.TelefoneModel;
 import exceptions.CampoPreenchimento;
 import exceptions.TelefoneInvalidoException;
@@ -14,10 +12,10 @@ import java.util.NoSuchElementException;
 @Service
 public class TelefoneService {
 
-    private final TelefoneDAO telefoneDAO;
+    private final TelefoneRepository telefoneRepository;
 
-    public TelefoneService(TelefoneDAO telefoneDAO) {
-        this.telefoneDAO = telefoneDAO;
+    public TelefoneService(TelefoneRepository telefoneRepository) {
+        this.telefoneRepository = telefoneRepository;
     }
 
     public static void numeroTelefoneValidar(String numerotelefone) {
@@ -40,40 +38,40 @@ public class TelefoneService {
 
         validarTelefone(telefoneModel);
 
-        return telefoneDAO.save(telefoneModel);
+        return telefoneRepository.save(telefoneModel);
     }
 
     public TelefoneModel  buscarPorId(int id) {
 
-        return telefoneDAO.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum telefone foi encontrado"));
+        return telefoneRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum telefone foi encontrado"));
     }
 
     public List<TelefoneModel> buscarTodosTelefones() {
 
-        return this.telefoneDAO.findAll();
+        return this.telefoneRepository.findAll();
     }
 
     public TelefoneModel atualizarTelefonePorId(int id,TelefoneModel dadosAtualizado) {
 
         TelefoneModel telefoneNovo = buscarPorId(id);
 
-        if(!telefoneNovo.getTelefone().equals(dadosAtualizado.getTelefone()) && telefoneDAO.existsByTelefone(dadosAtualizado.getTelefone())) {
+        if(!telefoneNovo.getTelefone().equals(dadosAtualizado.getTelefone()) && telefoneRepository.existsByTelefone(dadosAtualizado.getTelefone())) {
             throw new CampoPreenchimento("Já existe telefone!");
         }
 
         telefoneNovo.setTelefone(dadosAtualizado.getTelefone());
         telefoneNovo.setTipoTelefone(dadosAtualizado.getTipoTelefone());
 
-        return telefoneDAO.save(telefoneNovo);
+        return telefoneRepository.save(telefoneNovo);
     }
 
     public void deletarTelefonePorId(int id) {
 
-        if(!telefoneDAO.existsById(id)){
+        if(!telefoneRepository.existsById(id)){
             throw new NoSuchElementException("Não foi encontrado nenhum telefone");
         }
 
-        telefoneDAO.deleteById(id);
+        telefoneRepository.deleteById(id);
     }
 
     public void validarTelefone(TelefoneModel telefone) {

@@ -1,4 +1,4 @@
-package com.EstoqueFacil.EstoqueFacil.dao;
+package com.EstoqueFacil.EstoqueFacil.repository;
 
 import com.EstoqueFacil.EstoqueFacil.model.EnderecoModel;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface EnderecoDAO extends JpaRepository<EnderecoModel,Integer> {
+public interface EnderecoRepository extends JpaRepository<EnderecoModel,Integer> {
 
     Optional<EnderecoModel> findById(Integer id);
     void deleteById(Integer id);

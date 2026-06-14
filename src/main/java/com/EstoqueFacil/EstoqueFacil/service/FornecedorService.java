@@ -1,6 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-import com.EstoqueFacil.EstoqueFacil.dao.FornecedorDAO;
+import com.EstoqueFacil.EstoqueFacil.repository.FornecedorRepository;
 import exceptions.CampoPreenchimento;
 import com.EstoqueFacil.EstoqueFacil.model.FornecedorModel;
 import exceptions.ErroDePreenchimentoInvalidoException;
@@ -12,10 +12,10 @@ import java.util.NoSuchElementException;
 @Service
 public class FornecedorService {
 
-    private final FornecedorDAO fornecedorDAO;
+    private final FornecedorRepository fornecedorRepository;
 
-    public FornecedorService(FornecedorDAO fornecedorDAO) {
-        this.fornecedorDAO = fornecedorDAO;
+    public FornecedorService(FornecedorRepository fornecedorRepository) {
+        this.fornecedorRepository = fornecedorRepository;
     }
 
 
@@ -23,22 +23,22 @@ public class FornecedorService {
 
         validarFornecedor(fornecedor);
 
-        return fornecedorDAO.save(fornecedor);
+        return fornecedorRepository.save(fornecedor);
     }
 
     public FornecedorModel buscarPorCnpj(String cnpj) {
 
-        return fornecedorDAO.findByCnpj(cnpj).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário encontrado"));
+        return fornecedorRepository.findByCnpj(cnpj).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário encontrado"));
     }
 
     public FornecedorModel buscarPorEmail(String email) {
 
-        return fornecedorDAO.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário foi encontrado"));
+        return fornecedorRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário foi encontrado"));
     }
 
     public List<FornecedorModel> buscarTodosFornecedores() {
 
-        return this.fornecedorDAO.findAll();
+        return this.fornecedorRepository.findAll();
     }
 
     public FornecedorModel atualizarFornecedorPorCnpj(String cnpj,FornecedorModel dadosAtualizados) {
@@ -46,33 +46,33 @@ public class FornecedorService {
         FornecedorModel  fornecedorAtualizado = buscarPorCnpj(cnpj);
 
         if(!fornecedorAtualizado.getEmail().equals(dadosAtualizados.getEmail())
-                && fornecedorDAO.existsByEmail(dadosAtualizados.getEmail())) {
+                && fornecedorRepository.existsByEmail(dadosAtualizados.getEmail())) {
             throw new ErroDePreenchimentoInvalidoException("Email já está em uso");
         }
 
         fornecedorAtualizado.setRazaoSocial(dadosAtualizados.getRazaoSocial());
         fornecedorAtualizado.setEmail(dadosAtualizados.getEmail());
 
-        return fornecedorDAO.save(fornecedorAtualizado);
+        return fornecedorRepository.save(fornecedorAtualizado);
     }
 
     public FornecedorModel deletarPorCnpj(String cnpj) {
 
-        if (!fornecedorDAO.existsByCnpj(cnpj)) {
+        if (!fornecedorRepository.existsByCnpj(cnpj)) {
             throw new NoSuchElementException("Nenhum funcionário encontrado");
         }
-        return fornecedorDAO.deleteByCnpj(cnpj);
+        return fornecedorRepository.deleteByCnpj(cnpj);
 
     }
 
     public void validarFornecedor(FornecedorModel fornecedor){
 
 
-        if(fornecedorDAO.existsByCnpj(fornecedor.getCnpj())){
+        if(fornecedorRepository.existsByCnpj(fornecedor.getCnpj())){
             throw new CampoPreenchimento("Este Cnpj já está cadastrado");
         }
 
-        if(fornecedorDAO.existsByEmail(fornecedor.getEmail())){
+        if(fornecedorRepository.existsByEmail(fornecedor.getEmail())){
             throw new CampoPreenchimento("Esté Email já está cadastrado");
         }
 

@@ -1,4 +1,4 @@
-package com.EstoqueFacil.EstoqueFacil.dao;
+package com.EstoqueFacil.EstoqueFacil.repository;
 
 
 import com.EstoqueFacil.EstoqueFacil.model.ProdutoModel;
@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProdutoDAO extends JpaRepository<ProdutoModel,Integer> {
+public interface ProdutoRepository extends JpaRepository<ProdutoModel,Integer> {
 
 
     boolean existsByNome(String nome);
     boolean existsByCodigoProduto(String codigoProduto);
     Optional<ProdutoModel> findByNome(String nome);
     List<ProdutoModel> findAll();
-    void deleteByNome(String nome);
+    ProdutoModel deleteByNome(String nome);
     Optional<ProdutoModel> findByCodigoBarras(String codigoProduto);
 
 

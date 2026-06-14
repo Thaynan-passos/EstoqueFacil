@@ -1,9 +1,8 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
 
-import com.EstoqueFacil.EstoqueFacil.dao.EnderecoDAO;
+import com.EstoqueFacil.EstoqueFacil.repository.EnderecoRepository;
 import com.EstoqueFacil.EstoqueFacil.model.EnderecoModel;
-import com.EstoqueFacil.EstoqueFacil.model.FornecedorModel;
 import exceptions.CampoPreenchimento;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import org.springframework.stereotype.Service;
@@ -15,10 +14,10 @@ import java.util.NoSuchElementException;
 public class EnderecoService {
 
 
-    private final EnderecoDAO enderecoDAO;
+    private final EnderecoRepository enderecoRepository;
 
-    public EnderecoService(EnderecoDAO enderecoDAO) {
-        this.enderecoDAO = enderecoDAO;
+    public EnderecoService(EnderecoRepository enderecoRepository) {
+        this.enderecoRepository =  enderecoRepository;
     }
 
     public static void validarID(int id){
@@ -40,13 +39,6 @@ public class EnderecoService {
         //exatos 8 dígitos
         if(!cep.trim().matches("^\\d{5}-\\d{3}$|^\\d{8}$")){
             throw new ErroDePreenchimentoInvalidoException("\nO CEP deve conter exatamente 8 números");
-        }
-    }
-
-    public static void ruaValidar(String rua){
-
-        if(rua.length() < 3){
-            throw new ErroDePreenchimentoInvalidoException("\nO nome da rua é muito curto");
         }
     }
 
@@ -76,21 +68,21 @@ public class EnderecoService {
 
         validarEndereco(endereco);
 
-        return enderecoDAO.save(endereco);
+        return enderecoRepository.save(endereco);
     }
 
     public EnderecoModel  buscarPorId(int id) {
 
-        return enderecoDAO.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum endereço foi encontrado"));
+        return enderecoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum endereço foi encontrado"));
     }
 
     public EnderecoModel buscarPorCep(String cep) {
-        return enderecoDAO.findByCep(cep).orElseThrow(() -> new NoSuchElementException("Não foi possível achar nenhum endereço ligado a esse cep"));
+        return enderecoRepository.findByCep(cep).orElseThrow(() -> new NoSuchElementException("Não foi possível achar nenhum endereço ligado a esse cep"));
     }
 
     public List<EnderecoModel> buscarTodosEnderecos() {
 
-        return this.enderecoDAO.findAll();
+        return this.enderecoRepository.findAll();
     }
 
     public EnderecoModel  atualizarEnderecoPorCep(String cep, EnderecoModel dadosAtualizados) {
@@ -102,15 +94,15 @@ public class EnderecoService {
         enderecoAtualizado.setEstado(dadosAtualizados.getEstado());
         enderecoAtualizado.setNumeroCasa(dadosAtualizados.getNumeroCasa());
 
-        return enderecoDAO.save( enderecoAtualizado);
+        return enderecoRepository.save( enderecoAtualizado);
     }
 
     public void deletarPorId(int id) {
 
-      if(!enderecoDAO.existsById(id)){
+      if(!enderecoRepository.existsById(id)){
           throw new NoSuchElementException("Não foi encontrado nenhum endereço");
       }
-      enderecoDAO.deleteById(id);
+      enderecoRepository.deleteById(id);
     }
 
     public void validarEndereco(EnderecoModel endereco) {
@@ -120,7 +112,7 @@ public class EnderecoService {
         cidadeValidar(endereco.getCidade());
         numeroCasaValidar(endereco.getNumeroCasa());
 
-        if(enderecoDAO.existsByCep(endereco.getCep())) {
+        if(enderecoRepository.existsByCep(endereco.getCep())) {
             throw new CampoPreenchimento("Esse Cep já foi cadastrado");
         }
     }

@@ -1,6 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-import com.EstoqueFacil.EstoqueFacil.dao.FuncionarioDAO;
+import com.EstoqueFacil.EstoqueFacil.repository.FuncionarioRepository;
 import exceptions.CampoPreenchimento;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import com.EstoqueFacil.EstoqueFacil.model.FuncionarioModel;
@@ -12,11 +12,11 @@ import java.util.NoSuchElementException;
 @Service
 public class FuncionarioService {
 
-    private final FuncionarioDAO funcionarioDAO;
+    private final FuncionarioRepository funcionarioRepository;
 
 
-    public FuncionarioService(FuncionarioDAO funcionarioDAO) {
-        this.funcionarioDAO = funcionarioDAO;
+    public FuncionarioService(FuncionarioRepository funcionarioRepository) {
+        this.funcionarioRepository = funcionarioRepository;
     }
 
     public void nomeValidar(String nome) {
@@ -51,22 +51,22 @@ public class FuncionarioService {
 
         validarFuncionario(funcionario);
 
-        return funcionarioDAO.save(funcionario);
+        return funcionarioRepository.save(funcionario);
     }
 
     public FuncionarioModel buscarPorCpf(String cpf) {
 
-        return funcionarioDAO.findByCpf(cpf).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário encontrado"));
+        return funcionarioRepository.findByCpf(cpf).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário encontrado"));
     }
 
     public FuncionarioModel buscarPorEmail(String email) {
 
-        return funcionarioDAO.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário foi encontrado"));
+        return funcionarioRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário foi encontrado"));
     }
 
     public List<FuncionarioModel> buscarTodosFuncionarios() {
 
-        return this.funcionarioDAO.findAll();
+        return this.funcionarioRepository.findAll();
     }
 
     public FuncionarioModel atualizarFuncionarioPorCpf(String cpf,FuncionarioModel dadosAtualizados) {
@@ -74,7 +74,7 @@ public class FuncionarioService {
         FuncionarioModel  funcionarioAtualizado = buscarPorCpf(cpf);
 
         if(!funcionarioAtualizado.getEmail().equals(dadosAtualizados.getEmail())
-        && funcionarioDAO.existsByEmail(dadosAtualizados.getEmail())) {
+        && funcionarioRepository.existsByEmail(dadosAtualizados.getEmail())) {
             throw new ErroDePreenchimentoInvalidoException("Email já está em uso");
         }
 
@@ -82,15 +82,15 @@ public class FuncionarioService {
         funcionarioAtualizado.setEmail(dadosAtualizados.getEmail());
         funcionarioAtualizado.setSenhaHash(dadosAtualizados.getSenhaHash());
 
-        return funcionarioDAO.save(funcionarioAtualizado);
+        return funcionarioRepository.save(funcionarioAtualizado);
     }
 
     public FuncionarioModel deletarPorCpf(String cpf) {
 
-        if (!funcionarioDAO.existsByCpf(cpf)) {
+        if (!funcionarioRepository.existsByCpf(cpf)) {
            throw new NoSuchElementException("Nenhum funcionário encontrado");
         }
-        return funcionarioDAO.deleteByCpf(cpf);
+        return funcionarioRepository.deleteByCpf(cpf);
 
     }
 
@@ -100,11 +100,11 @@ public class FuncionarioService {
         senhaValidar(funcionario.getSenhaHash());
 
 
-        if(funcionarioDAO.existsByCpf(funcionario.getCpf())){
+        if(funcionarioRepository.existsByCpf(funcionario.getCpf())){
             throw new CampoPreenchimento("CPF já cadastrado");
         }
 
-        if(funcionarioDAO.existsByEmail(funcionario.getEmail())){
+        if(funcionarioRepository.existsByEmail(funcionario.getEmail())){
             throw new CampoPreenchimento("Este Email já está cadastrado");
         }
     }

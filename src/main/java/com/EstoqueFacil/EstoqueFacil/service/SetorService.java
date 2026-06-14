@@ -1,11 +1,10 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-import com.EstoqueFacil.EstoqueFacil.dao.SetorDAO;
+import com.EstoqueFacil.EstoqueFacil.repository.SetorRepository;
 
 import com.EstoqueFacil.EstoqueFacil.model.SetorModel;
 
-import com.EstoqueFacil.EstoqueFacil.model.TelefoneModel;
-import exceptions.CampoPreenchimento;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,26 +13,26 @@ import java.util.NoSuchElementException;
 @Service
 public class SetorService {
 
-    private final SetorDAO setorDAO;
+    private final SetorRepository setorRepository;
 
-    public SetorService(SetorDAO setorDAO){
-        this.setorDAO = setorDAO;
+    public SetorService(SetorRepository setorRepository){
+        this.setorRepository = setorRepository;
     }
 
     public SetorModel cadastrarSetor(SetorModel setorModel){
 
-        return setorDAO.save(setorModel);
+        return setorRepository.save(setorModel);
     }
 
     public SetorModel buscarPorId(int id) {
 
-        return setorDAO.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum telefone foi encontrado"));
+        return setorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum telefone foi encontrado"));
     }
 
 
     public List<SetorModel> buscarTodosSetores() {
 
-        return this.setorDAO.findAll();
+        return this.setorRepository.findAll();
     }
 
     public SetorModel atualizarSetorPorId(int id, SetorModel dadosAtualizado) {
@@ -46,14 +45,14 @@ public class SetorService {
        setorNovo.setOrcamentoMensal(dadosAtualizado.getOrcamentoMensal());
        setorNovo.setNomeSetor(dadosAtualizado.getNomeSetor());
 
-       return setorDAO.save(setorNovo);
+       return setorRepository.save(setorNovo);
     }
 
-    public void deletarSetorPorId(int id){
+    public SetorModel deletarSetorPorId(int id){
 
-        if(!setorDAO.existsById(id)){
+        if(!setorRepository.existsById(id)){
             throw new NoSuchElementException("Não foi encontrado nenhum setor");
         }
-
+        return setorRepository.deleteById(id);
     }
 }

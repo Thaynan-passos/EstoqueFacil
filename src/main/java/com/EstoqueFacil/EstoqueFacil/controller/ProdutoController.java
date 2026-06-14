@@ -9,8 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/produto")
@@ -19,61 +18,37 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    private List<ProdutoModel> listaProduto = new ArrayList<>();
 
     @PostMapping
     public ResponseEntity<?> inserirProduto(@Valid @RequestBody ProdutoModel produto){
 
-        produtoService.validarProduto(produto);
+        ProdutoModel produtoNovo =  produtoService.cadastrarProduto(produto);
 
-        for(ProdutoModel p : listaProduto){
-            if(p.getNomeProduto().equals(produto.getNomeProduto())){
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("Não pode existir um produto de mesmo nome");
-            }
-        }
-        listaProduto.add(produto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(produto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtoNovo);
     }
 
     @GetMapping
     public ResponseEntity<?> listarProduto(){
-        if(listaProduto.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum produto encontrado.");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(listaProduto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(produtoService.buscarTodosProdutos());
     }
 
     @GetMapping("/pegar")
     public ResponseEntity<?> pegarProdutoPorNome(@Valid @RequestParam String nome){
-        for(ProdutoModel p : listaProduto){
-            if(p.getNomeProduto().equalsIgnoreCase(nome)){
-                return ResponseEntity.status(HttpStatus.FOUND).body(p);
-            }
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum produto encontrado.");
+
+        return ResponseEntity.status(HttpStatus.OK).body(produtoService.buscarProdutosPorNome(nome));
     }
 
     @PutMapping("/atualizar")
     public  ResponseEntity<?> atualizarProdutoPorNome(@Valid String nome, @Valid @RequestBody ProdutoModel produto){
 
-        produtoService.validarProduto(produto);
 
-        for(ProdutoModel p : listaProduto){
-            if(p.getNomeProduto().equalsIgnoreCase(nome)){
-                return ResponseEntity.status(HttpStatus.OK).body(produto);
-            }
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nenhum produto foi atualizado.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(produtoService.atualizarProdutosPorNome(nome, produto));
     }
 
     @DeleteMapping("/deletar")
     public ResponseEntity<?> deletarProdutoPorNome(@Valid @RequestParam String nome){
 
-        boolean remove = listaProduto.removeIf(p -> p.getNomeProduto().equalsIgnoreCase(nome));
-
-        if(remove){
-            return ResponseEntity.status(HttpStatus.OK).body("Produto removido com sucesso.");
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nenhum produto foi removido.");
+        return ResponseEntity.status(HttpStatus.OK).body(produtoService.deletarProdutoPorNome(nome));
     }
 }

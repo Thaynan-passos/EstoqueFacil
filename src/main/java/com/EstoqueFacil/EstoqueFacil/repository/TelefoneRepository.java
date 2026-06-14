@@ -1,4 +1,4 @@
-package com.EstoqueFacil.EstoqueFacil.dao;
+package com.EstoqueFacil.EstoqueFacil.repository;
 
 import com.EstoqueFacil.EstoqueFacil.model.TelefoneModel;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface TelefoneDAO extends JpaRepository<TelefoneModel,Integer> {
+public interface TelefoneRepository extends JpaRepository<TelefoneModel,Integer> {
 
     boolean existsById(Integer id);
     Optional<TelefoneModel> findById(int id);

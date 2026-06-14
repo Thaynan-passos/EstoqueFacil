@@ -1,6 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-import com.EstoqueFacil.EstoqueFacil.dao.ProdutoDAO;
+import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
 import exceptions.CampoPreenchimento;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import com.EstoqueFacil.EstoqueFacil.model.ProdutoModel;
@@ -13,9 +13,9 @@ import java.util.NoSuchElementException;
 @Service
 public class ProdutoService {
 
-    private final ProdutoDAO produtoDAO;
-    public ProdutoService(ProdutoDAO produtoDAO) {
-        this.produtoDAO = produtoDAO;
+    private final ProdutoRepository produtoRepository;
+    public ProdutoService(ProdutoRepository produtoRepository) {
+        this.produtoRepository = produtoRepository;
     }
 
     public void validarDataCadastro(LocalDate dataCadastro){
@@ -28,26 +28,26 @@ public class ProdutoService {
     public ProdutoModel cadastrarProduto(ProdutoModel produto){
 
         validarProduto(produto);
-        return produtoDAO.save(produto);
+        return produtoRepository.save(produto);
     }
 
     public List<ProdutoModel> buscarTodosProdutos(){
-        return  produtoDAO.findAll();
+        return  produtoRepository.findAll();
     }
 
     public ProdutoModel buscarProdutosPorNome(String nome){
-        return produtoDAO.findByNome(nome).orElseThrow(()-> new NoSuchElementException("Nenhum produto foi encontrado"));
+        return produtoRepository.findByNome(nome).orElseThrow(()-> new NoSuchElementException("Nenhum produto foi encontrado"));
     }
 
     public ProdutoModel buscarProdutosPorCodigoProduto(String codigoProduto){
-        return produtoDAO.findByCodigoBarras(codigoProduto).orElseThrow(()-> new NoSuchElementException("Produto foi encontrado"));
+        return produtoRepository.findByCodigoBarras(codigoProduto).orElseThrow(()-> new NoSuchElementException("Produto foi encontrado"));
     }
 
     public ProdutoModel atualizarProdutosPorNome(String nome, ProdutoModel dadosAtualizados){
 
         ProdutoModel produtoAtualizado =  buscarProdutosPorNome(nome);
 
-        if(!produtoAtualizado.getCodigoBarras().equals(dadosAtualizados.getCodigoBarras()) && produtoDAO.existsByCodigoProduto(dadosAtualizados.getCodigoBarras())){
+        if(!produtoAtualizado.getCodigoBarras().equals(dadosAtualizados.getCodigoBarras()) && produtoRepository.existsByCodigoProduto(dadosAtualizados.getCodigoBarras())){
             throw new CampoPreenchimento("Esse código de barras já existe");
         }
 
@@ -56,27 +56,27 @@ public class ProdutoService {
         produtoAtualizado.setClassificacao(produtoAtualizado.getClassificacao());
         produtoAtualizado.setCodigoBarras(produtoAtualizado.getCodigoBarras());
 
-        return produtoDAO.save(produtoAtualizado);
+        return produtoRepository.save(produtoAtualizado);
     }
 
-    public void deletarProdutoPorNome(String nome){
-        if (!produtoDAO.existsByNome(nome)) {
+    public ProdutoModel deletarProdutoPorNome(String nome){
+        if (!produtoRepository.existsByNome(nome)) {
             throw new NoSuchElementException("Nenhum produto encontrado");
         }
-        produtoDAO.deleteByNome(nome);
+        return produtoRepository.deleteByNome(nome);
     }
 
-    public void deletarProdutoPorCodigo(String codigo){
-        if (!produtoDAO.existsByCodigoProduto(codigo)) {
+    public ProdutoModel deletarProdutoPorCodigo(String codigo){
+        if (!produtoRepository.existsByCodigoProduto(codigo)) {
             throw new NoSuchElementException("Nenhum produto encontrado");
         }
-        produtoDAO.deleteByNome(codigo);
+        return produtoRepository.deleteByNome(codigo);
     }
 
     public void validarProduto(ProdutoModel produto){
         validarDataCadastro(produto.getDataCadastro());
 
-        if(produtoDAO.existsByCodigoProduto(produto.getCodigoBarras())){
+        if(produtoRepository.existsByCodigoProduto(produto.getCodigoBarras())){
             throw new ErroDePreenchimentoInvalidoException("Produto existente");
         }
     }

@@ -1,6 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-import com.EstoqueFacil.EstoqueFacil.dao.MovimentacaoDAO;
+import com.EstoqueFacil.EstoqueFacil.repository.MovimentacaoRepository;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import com.EstoqueFacil.EstoqueFacil.model.MovimentacaoModel;
 import org.springframework.stereotype.Service;
@@ -12,10 +12,10 @@ import java.util.NoSuchElementException;
 @Service
 public class MovimentacaoService {
 
-    private final MovimentacaoDAO movimentacaoDAO;
+    private final MovimentacaoRepository movimentacaoRepository;
 
-    public MovimentacaoService(MovimentacaoDAO movimentacaoDAO) {
-        this.movimentacaoDAO = movimentacaoDAO;
+    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository) {
+        this.movimentacaoRepository = movimentacaoRepository;
     }
 
     public static void validarID(int id){
@@ -32,14 +32,20 @@ public class MovimentacaoService {
 
     public MovimentacaoModel cadastrarMovimentacao(MovimentacaoModel movimentacaoModel) {
         validarMovimentacao(movimentacaoModel);
-        return movimentacaoDAO.save(movimentacaoModel);
+        return movimentacaoRepository.save(movimentacaoModel);
     }
 
     public MovimentacaoModel buscarPorId(Integer id){
-        return movimentacaoDAO.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum movimento foi encontrado"));
+        return movimentacaoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum movimento foi encontrado"));
     }
+
+    public MovimentacaoModel buscarPorDataMovimentacao(LocalDate dataMovimentacao){
+        validarDataMovimentacao(dataMovimentacao);
+        return  movimentacaoRepository.findByDataMovimentacao(dataMovimentacao).orElseThrow(() -> new NoSuchElementException("Nenhuma movimentação foi encontrada."));
+    }
+
     public List<MovimentacaoModel> buscarTodasMovimentacoes() {
-        return movimentacaoDAO.findAll();
+        return movimentacaoRepository.findAll();
     }
 
     
@@ -51,14 +57,27 @@ public class MovimentacaoService {
       movimentacaoNova.setDescricao(dadosAtualizados.getDescricao());
       movimentacaoNova.setStatus(dadosAtualizados.getStatus());
 
-      return movimentacaoDAO.save(movimentacaoNova);
+      return movimentacaoRepository.save(movimentacaoNova);
     }
 
-    public void deletarMovimentacaoPorId(int id){
-        if(!movimentacaoDAO.existsById(id)) {
+    public MovimentacaoModel atualizarPorData(LocalDate dataMovimentacao,MovimentacaoModel dadosAtualizados) {
+
+        MovimentacaoModel movimentacaoNova = buscarPorDataMovimentacao(dataMovimentacao);
+
+        movimentacaoNova.setDataMovimentacao(dataMovimentacao);
+        movimentacaoNova.setDescricao(dadosAtualizados.getDescricao());
+        movimentacaoNova.setStatus(dadosAtualizados.getStatus());
+
+        return movimentacaoRepository.save(movimentacaoNova);
+
+
+    }
+
+    public MovimentacaoModel deletarMovimentacaoPorId(int id){
+        if(!movimentacaoRepository.existsById(id)) {
             throw new NoSuchElementException("Não existe nenhuma movimentação com o id " + id);
         }
-        movimentacaoDAO.deleteById(id);
+       return movimentacaoRepository.deleteById(id);
     }
 
     public void validarMovimentacao(MovimentacaoModel movimentacao) {

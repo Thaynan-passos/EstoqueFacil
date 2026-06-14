@@ -1,6 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-import com.EstoqueFacil.EstoqueFacil.dao.LoteDAO;
+import com.EstoqueFacil.EstoqueFacil.repository.LoteRepository;
 import exceptions.CampoPreenchimento;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import com.EstoqueFacil.EstoqueFacil.model.LoteModel;
@@ -14,9 +14,9 @@ import java.util.Optional;
 @Service
 public class LoteService {
 
-    private final LoteDAO loteDAO;
-    public LoteService(LoteDAO loteDAO) {
-       this.loteDAO = loteDAO;
+    private final LoteRepository loteRepository;
+    public LoteService(LoteRepository loteRepository) {
+       this.loteRepository = loteRepository;
     }
 
     public void validarDataValida(LocalDate data){
@@ -42,24 +42,24 @@ public class LoteService {
 
     public LoteModel cadastrarLote(LoteModel loteModel) {
         validarLote(loteModel);
-        return loteDAO.save(loteModel);
+        return loteRepository.save(loteModel);
     }
 
     public Optional<LoteModel> buscarPorId(Integer id){
-        if (!loteDAO.existsById(id)) {
+        if (!loteRepository.existsById(id)) {
             throw new NoSuchElementException("Não foi possível encontrar nenhum lote");
         }
-        return loteDAO.findById(id);
+        return loteRepository.findById(id);
     }
     public List<LoteModel> buscarTodosLotes() {
-        return loteDAO.findAll();
+        return loteRepository.findAll();
     }
 
     public LoteModel buscarPorNumeroLote(int numeroLote) {
         if (numeroLote <= 0) {
             throw new NoSuchElementException("Não foi possível encontrar nenhum lote");
         }
-        return loteDAO.findByNumeroLote(numeroLote);
+        return loteRepository.findByNumeroLote(numeroLote);
     }
 
     public LoteModel atualizarLotePorNumero(int numero,LoteModel dadosAtualizados) {
@@ -69,14 +69,14 @@ public class LoteService {
         loteNovo.setDataFornecimento(dadosAtualizados.getDataFornecimento());
         loteNovo.setQuantidade(dadosAtualizados.getQuantidade());
 
-        return  loteDAO.save(loteNovo);
+        return  loteRepository.save(loteNovo);
     }
 
-    public void deletarLotePorId(int id){
-        if(!loteDAO.existsById(id)) {
-            throw new NoSuchElementException("Não existe nenhum Lote com o id " + id);
+    public LoteModel deletarLotePorNumero(int numeroLote){
+        if(!loteRepository.existsByNumeroLote(numeroLote)) {
+            throw new NoSuchElementException("Não existe nenhum Lote com esse numero");
         }
-        loteDAO.deleteById(id);
+        return loteRepository.deleteByNumeroLote(numeroLote);
     }
 
     public void validarLote(LoteModel lote) {
@@ -85,7 +85,7 @@ public class LoteService {
         validarDataFabricacao(lote.getDataFabricacao());
         validarDataFornecimento(lote.getDataFornecimento(), lote.getDataFabricacao());
 
-        if (loteDAO.existsByNumeroLote(lote.getNumeroLote())){
+        if (loteRepository.existsByNumeroLote(lote.getNumeroLote())){
             throw new CampoPreenchimento("Esse número já existe");
         }
     }

@@ -1,4 +1,4 @@
-package com.EstoqueFacil.EstoqueFacil.dao;
+package com.EstoqueFacil.EstoqueFacil.repository;
 
 import com.EstoqueFacil.EstoqueFacil.model.LoteModel;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface LoteDAO extends JpaRepository<LoteModel, Integer> {
+public interface LoteRepository extends JpaRepository<LoteModel, Integer> {
 
 
     List<LoteModel> findAll();
@@ -19,5 +19,6 @@ public interface LoteDAO extends JpaRepository<LoteModel, Integer> {
     boolean existsById(int id);
     LoteModel findByNumeroLote(int numeroLote);
     boolean existsByNumeroLote(int numeroLote);
+    LoteModel deleteByNumeroLote(int numeroLote);
 }
 

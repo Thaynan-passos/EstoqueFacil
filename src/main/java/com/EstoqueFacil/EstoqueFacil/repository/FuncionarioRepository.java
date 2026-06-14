@@ -1,4 +1,4 @@
-package com.EstoqueFacil.EstoqueFacil.dao;
+package com.EstoqueFacil.EstoqueFacil.repository;
 
 import com.EstoqueFacil.EstoqueFacil.model.FuncionarioModel;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface FuncionarioDAO extends JpaRepository<FuncionarioModel, Integer> {
+public interface FuncionarioRepository extends JpaRepository<FuncionarioModel, Integer> {
 
     Optional<FuncionarioModel> findByCpf(String cpf);
     Optional<FuncionarioModel> findByEmail(String email);

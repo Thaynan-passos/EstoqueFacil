@@ -1,8 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
 
-import com.EstoqueFacil.EstoqueFacil.dao.RequisicaoDAO;
-import com.EstoqueFacil.EstoqueFacil.model.RelatorioModel;
+import com.EstoqueFacil.EstoqueFacil.repository.RequisicaoRepository;
 import exceptions.CampoPreenchimento;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import com.EstoqueFacil.EstoqueFacil.model.RequisicaoModel;
@@ -15,10 +14,10 @@ import java.util.NoSuchElementException;
 @Service
 public class RequisicaoService {
 
-    private final RequisicaoDAO requisicaoDAO;
+    private final RequisicaoRepository requisicaoRepository;
 
-    public RequisicaoService(RequisicaoDAO requisicaoDAO) {
-        this.requisicaoDAO = requisicaoDAO;
+    public RequisicaoService(RequisicaoRepository requisicaoRepository) {
+        this.requisicaoRepository = requisicaoRepository;
     }
 
     public void validarDataRequisicao(LocalDate date) {
@@ -28,24 +27,22 @@ public class RequisicaoService {
         }
     }
 
-    public  RequisicaoModel  cadastrarRelatorio( RequisicaoModel requisicaoModel) {
+    public  RequisicaoModel  cadastrarRequisicao( RequisicaoModel requisicaoModel) {
         validarRequisicao(requisicaoModel);
-        return requisicaoDAO.save(requisicaoModel);
+        return requisicaoRepository.save(requisicaoModel);
     }
 
     public RequisicaoModel buscarPorId(Integer id){
-        return requisicaoDAO.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhuma requisição foi encontrada"));
+        return requisicaoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhuma requisição foi encontrada"));
     }
 
-    public boolean buscarPorDataRequisicao(LocalDate dataRequisicao){
-        if(!requisicaoDAO.existsByDataRequisicao(dataRequisicao)){
-            throw new CampoPreenchimento("Não foi possível encontrar a requisição dessa data requisição");
-        }
-        return requisicaoDAO.existsByDataRequisicao(dataRequisicao);
+    public RequisicaoModel buscarPorDataRequisicao(LocalDate dataRequisicao){
+
+        return requisicaoRepository.findByDataRequisicao(dataRequisicao).orElseThrow(() -> new NoSuchElementException("Nenhuma requisiçao foi encontrada"));
     }
 
     public List<RequisicaoModel> buscarTodasRequisicoes() {
-        return requisicaoDAO.findAll();
+        return requisicaoRepository.findAll();
     }
 
 
@@ -57,14 +54,33 @@ public class RequisicaoService {
         requisicaoNovo.setMotivo(dadosAtualizados.getMotivo());
         requisicaoNovo.setStatus(dadosAtualizados.getStatus());
 
-        return requisicaoDAO.save(requisicaoNovo);
+        return requisicaoRepository.save(requisicaoNovo);
     }
 
-    public void deletarLotePorId(int id){
-        if(!requisicaoDAO.existsById(id)) {
+    public RequisicaoModel atualizarPorData(LocalDate dataRequisicao,RequisicaoModel dadosAtualizados) {
+
+        RequisicaoModel requisicaoNovo = buscarPorDataRequisicao(dataRequisicao);
+
+        requisicaoNovo.setDataRequisicao(dataRequisicao);
+        requisicaoNovo.setStatus(dadosAtualizados.getStatus());
+        requisicaoNovo.setMotivo(dadosAtualizados.getMotivo());
+
+        return requisicaoRepository.save(requisicaoNovo);
+    }
+
+    public RequisicaoModel deletarRequisicaoPorId(int id){
+        if(!requisicaoRepository.existsById(id)) {
             throw new NoSuchElementException("Não existe nenhuma requisição com o id " + id);
         }
-        requisicaoDAO.deleteById(id);
+        return requisicaoRepository.deleteById(id);
+    }
+
+    public RequisicaoModel deletarRequisicaoPorData(LocalDate dataRequisicao){
+        if(!requisicaoRepository.existsByDataRequisicao(dataRequisicao)) {
+            throw new NoSuchElementException("Não existe nenhuma requisição com essa data");
+        }
+        return requisicaoRepository.deleteByDataRequisicao(dataRequisicao);
+
     }
 
 

@@ -1,4 +1,4 @@
-package Utils;
+package com.EstoqueFacil.EstoqueFacil.Utils;
 
 import jakarta.mail.Authenticator;
 import java.util.Properties;

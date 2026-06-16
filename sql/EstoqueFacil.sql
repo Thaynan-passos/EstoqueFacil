@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS EstoqueFacil.`Funcionario` (
   `Cargo` ENUM("GERENTE", "FINANCEIRO", "ALMOXARIFE") NOT NULL,
   UNIQUE INDEX `Cpf_UNIQUE` (`Cpf` ASC),
   PRIMARY KEY (`ID_Funcionario`),
-  UNIQUE INDEX `fk_ID_Endereco_UNIQUE` (`fk_ID_Endereco` ASC),
+  INDEX `fk_ID_Endereco` (`fk_ID_Endereco` ASC),
   CONSTRAINT `fk_Funcionario_Endereco`
     FOREIGN KEY (`fk_ID_Endereco`)
     REFERENCES EstoqueFacil.`Endereco` (`ID_Endereco`)
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS EstoqueFacil.`Dependente` (
   PRIMARY KEY (`ID_Dependente`, `Fk_ID_Funcionario`),
   INDEX `fk_Dependente_Funcionario1_idx` (`Fk_ID_Funcionario` ASC),
   CONSTRAINT `fk_Dependente_Funcionario1`
-    FOREIGN KEY (`Fk_ID_Funcionario`)
+    FOREIGN KEY (`fk_ID_Funcionario`)
     REFERENCES EstoqueFacil.`Funcionario` (`ID_Funcionario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS EstoqueFacil.`Fornecedor` (
   `fk_Endereco_Fornecedor` INT NOT NULL,
   UNIQUE INDEX `Nome_UNIQUE` (`Razao_Social` ASC),
   INDEX `Email_idx` (`Email` ASC),
-  UNIQUE INDEX `fk_Endereco_Fornecedor_UNIQUE` (`fk_Endereco_Fornecedor` ASC),
+  INDEX `fk_Endereco_Fornecedor` (`fk_Endereco_Fornecedor` ASC),
   UNIQUE INDEX `CNPJ_UNIQUE` (`CNPJ` ASC),
   PRIMARY KEY (`ID_Fornecedor`),
   CONSTRAINT `fk_Fornecedor_Endereco`

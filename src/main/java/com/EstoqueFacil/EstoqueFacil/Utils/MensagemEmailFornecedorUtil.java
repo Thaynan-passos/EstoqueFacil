@@ -1,4 +1,4 @@
-package Utils;
+package com.EstoqueFacil.EstoqueFacil.Utils;
 
 
 import jakarta.mail.internet.InternetAddress;

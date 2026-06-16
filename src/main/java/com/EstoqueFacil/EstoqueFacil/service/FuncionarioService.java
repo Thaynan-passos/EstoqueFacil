@@ -3,7 +3,10 @@ package com.EstoqueFacil.EstoqueFacil.service;
 import com.EstoqueFacil.EstoqueFacil.repository.FuncionarioRepository;
 import exceptions.CampoPreenchimento;
 import exceptions.ErroDePreenchimentoInvalidoException;
-import com.EstoqueFacil.EstoqueFacil.model.FuncionarioModel;
+import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +16,9 @@ import java.util.NoSuchElementException;
 public class FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     public FuncionarioService(FuncionarioRepository funcionarioRepository) {
@@ -47,31 +53,37 @@ public class FuncionarioService {
     }
 
 
-    public FuncionarioModel cadastrarFuncionario(FuncionarioModel funcionario) {
+    public Funcionario cadastrarFuncionario(Funcionario funcionario) {
 
         validarFuncionario(funcionario);
+
+        String cpfApenasNumeros = funcionario.getCpf().replaceAll("\\D", "");
+        funcionario.setCpf(cpfApenasNumeros);
+
+        String senhaCriptografada = passwordEncoder.encode(funcionario.getSenhaHash());
+        funcionario.setSenhaHash(senhaCriptografada);
 
         return funcionarioRepository.save(funcionario);
     }
 
-    public FuncionarioModel buscarPorCpf(String cpf) {
+    public Funcionario buscarPorCpf(String cpf) {
 
         return funcionarioRepository.findByCpf(cpf).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário encontrado"));
     }
 
-    public FuncionarioModel buscarPorEmail(String email) {
+    public Funcionario buscarPorEmail(String email) {
 
         return funcionarioRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário foi encontrado"));
     }
 
-    public List<FuncionarioModel> buscarTodosFuncionarios() {
+    public List<Funcionario> buscarTodosFuncionarios() {
 
         return this.funcionarioRepository.findAll();
     }
 
-    public FuncionarioModel atualizarFuncionarioPorCpf(String cpf,FuncionarioModel dadosAtualizados) {
+    public Funcionario atualizarFuncionarioPorCpf(String cpf, Funcionario dadosAtualizados) {
 
-        FuncionarioModel  funcionarioAtualizado = buscarPorCpf(cpf);
+        Funcionario funcionarioAtualizado = buscarPorCpf(cpf);
 
         if(!funcionarioAtualizado.getEmail().equals(dadosAtualizados.getEmail())
         && funcionarioRepository.existsByEmail(dadosAtualizados.getEmail())) {
@@ -85,7 +97,8 @@ public class FuncionarioService {
         return funcionarioRepository.save(funcionarioAtualizado);
     }
 
-    public FuncionarioModel deletarPorCpf(String cpf) {
+    @Transactional
+    public Funcionario deletarPorCpf(String cpf) {
 
         if (!funcionarioRepository.existsByCpf(cpf)) {
            throw new NoSuchElementException("Nenhum funcionário encontrado");
@@ -94,7 +107,7 @@ public class FuncionarioService {
 
     }
 
-    public void validarFuncionario(FuncionarioModel funcionario){
+    public void validarFuncionario(Funcionario funcionario){
 
         nomeValidar(funcionario.getNome());
         senhaValidar(funcionario.getSenhaHash());

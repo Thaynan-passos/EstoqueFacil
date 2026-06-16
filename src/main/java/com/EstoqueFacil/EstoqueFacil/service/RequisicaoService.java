@@ -3,7 +3,7 @@ package com.EstoqueFacil.EstoqueFacil.service;
 
 import com.EstoqueFacil.EstoqueFacil.repository.RequisicaoRepository;
 import exceptions.ErroDePreenchimentoInvalidoException;
-import com.EstoqueFacil.EstoqueFacil.model.RequisicaoModel;
+import com.EstoqueFacil.EstoqueFacil.model.Requisicao;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,28 +26,28 @@ public class RequisicaoService {
         }
     }
 
-    public  RequisicaoModel  cadastrarRequisicao( RequisicaoModel requisicaoModel) {
+    public Requisicao cadastrarRequisicao(Requisicao requisicaoModel) {
         validarRequisicao(requisicaoModel);
         return requisicaoRepository.save(requisicaoModel);
     }
 
-    public RequisicaoModel buscarPorId(Integer id){
+    public Requisicao buscarPorId(Integer id){
         return requisicaoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhuma requisição foi encontrada"));
     }
 
-    public RequisicaoModel buscarPorDataRequisicao(LocalDate dataRequisicao){
+    public Requisicao buscarPorDataRequisicao(LocalDate dataRequisicao){
 
         return requisicaoRepository.findByDataRequisicao(dataRequisicao).orElseThrow(() -> new NoSuchElementException("Nenhuma requisiçao foi encontrada"));
     }
 
-    public List<RequisicaoModel> buscarTodasRequisicoes() {
+    public List<Requisicao> buscarTodasRequisicoes() {
         return requisicaoRepository.findAll();
     }
 
 
-    public RequisicaoModel atualizarPorId(int id,RequisicaoModel dadosAtualizados) {
+    public Requisicao atualizarPorId(int id, Requisicao dadosAtualizados) {
 
-        RequisicaoModel requisicaoNovo = buscarPorId(id);
+        Requisicao requisicaoNovo = buscarPorId(id);
 
         requisicaoNovo.setDataRequisicao(dadosAtualizados.getDataRequisicao());
         requisicaoNovo.setMotivo(dadosAtualizados.getMotivo());
@@ -56,9 +56,9 @@ public class RequisicaoService {
         return requisicaoRepository.save(requisicaoNovo);
     }
 
-    public RequisicaoModel atualizarPorData(LocalDate dataRequisicao,RequisicaoModel dadosAtualizados) {
+    public Requisicao atualizarPorData(LocalDate dataRequisicao, Requisicao dadosAtualizados) {
 
-        RequisicaoModel requisicaoNovo = buscarPorDataRequisicao(dataRequisicao);
+        Requisicao requisicaoNovo = buscarPorDataRequisicao(dataRequisicao);
 
         requisicaoNovo.setDataRequisicao(dataRequisicao);
         requisicaoNovo.setStatus(dadosAtualizados.getStatus());
@@ -67,14 +67,14 @@ public class RequisicaoService {
         return requisicaoRepository.save(requisicaoNovo);
     }
 
-    public RequisicaoModel deletarRequisicaoPorId(int id){
+    public Requisicao deletarRequisicaoPorId(int id){
         if(!requisicaoRepository.existsById(id)) {
             throw new NoSuchElementException("Não existe nenhuma requisição com o id " + id);
         }
         return requisicaoRepository.deleteById(id);
     }
 
-    public RequisicaoModel deletarRequisicaoPorData(LocalDate dataRequisicao){
+    public Requisicao deletarRequisicaoPorData(LocalDate dataRequisicao){
         if(!requisicaoRepository.existsByDataRequisicao(dataRequisicao)) {
             throw new NoSuchElementException("Não existe nenhuma requisição com essa data");
         }
@@ -83,7 +83,7 @@ public class RequisicaoService {
     }
 
 
-    public void validarRequisicao(RequisicaoModel requisicao) {
+    public void validarRequisicao(Requisicao requisicao) {
 
         validarDataRequisicao(requisicao.getDataRequisicao());
     }

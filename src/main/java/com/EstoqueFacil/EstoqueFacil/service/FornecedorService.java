@@ -2,8 +2,9 @@ package com.EstoqueFacil.EstoqueFacil.service;
 
 import com.EstoqueFacil.EstoqueFacil.repository.FornecedorRepository;
 import exceptions.CampoPreenchimento;
-import com.EstoqueFacil.EstoqueFacil.model.FornecedorModel;
+import com.EstoqueFacil.EstoqueFacil.model.Fornecedor;
 import exceptions.ErroDePreenchimentoInvalidoException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,31 +20,31 @@ public class FornecedorService {
     }
 
 
-    public FornecedorModel cadastrarFornecedor(FornecedorModel fornecedor) {
+    public Fornecedor cadastrarFornecedor(Fornecedor fornecedor) {
 
         validarFornecedor(fornecedor);
 
         return fornecedorRepository.save(fornecedor);
     }
 
-    public FornecedorModel buscarPorCnpj(String cnpj) {
+    public Fornecedor buscarPorCnpj(String cnpj) {
 
         return fornecedorRepository.findByCnpj(cnpj).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário encontrado"));
     }
 
-    public FornecedorModel buscarPorEmail(String email) {
+    public Fornecedor buscarPorEmail(String email) {
 
         return fornecedorRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário foi encontrado"));
     }
 
-    public List<FornecedorModel> buscarTodosFornecedores() {
+    public List<Fornecedor> buscarTodosFornecedores() {
 
         return this.fornecedorRepository.findAll();
     }
 
-    public FornecedorModel atualizarFornecedorPorCnpj(String cnpj,FornecedorModel dadosAtualizados) {
+    public Fornecedor atualizarFornecedorPorCnpj(String cnpj, Fornecedor dadosAtualizados) {
 
-        FornecedorModel  fornecedorAtualizado = buscarPorCnpj(cnpj);
+        Fornecedor fornecedorAtualizado = buscarPorCnpj(cnpj);
 
         if(!fornecedorAtualizado.getEmail().equals(dadosAtualizados.getEmail())
                 && fornecedorRepository.existsByEmail(dadosAtualizados.getEmail())) {
@@ -56,7 +57,8 @@ public class FornecedorService {
         return fornecedorRepository.save(fornecedorAtualizado);
     }
 
-    public FornecedorModel deletarPorCnpj(String cnpj) {
+    @Transactional
+    public Fornecedor deletarPorCnpj(String cnpj) {
 
         if (!fornecedorRepository.existsByCnpj(cnpj)) {
             throw new NoSuchElementException("Nenhum funcionário encontrado");
@@ -65,7 +67,7 @@ public class FornecedorService {
 
     }
 
-    public void validarFornecedor(FornecedorModel fornecedor){
+    public void validarFornecedor(Fornecedor fornecedor){
 
 
         if(fornecedorRepository.existsByCnpj(fornecedor.getCnpj())){

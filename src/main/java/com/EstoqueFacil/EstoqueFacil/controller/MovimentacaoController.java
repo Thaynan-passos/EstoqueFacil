@@ -2,7 +2,7 @@ package com.EstoqueFacil.EstoqueFacil.controller;
 
 
 import jakarta.validation.Valid;
-import com.EstoqueFacil.EstoqueFacil.model.MovimentacaoModel;
+import com.EstoqueFacil.EstoqueFacil.model.Movimentacao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,9 @@ public class MovimentacaoController {
     private MovimentacaoService movimentacaoService;
 
     @PostMapping
-    public ResponseEntity<?> criarMovimentacoes(@Valid @RequestBody MovimentacaoModel movimentacoes) {
+    public ResponseEntity<?> criarMovimentacoes(@Valid @RequestBody Movimentacao movimentacoes) {
 
-        MovimentacaoModel novaMovimentacao = movimentacaoService.cadastrarMovimentacao(movimentacoes);
+        Movimentacao novaMovimentacao = movimentacaoService.cadastrarMovimentacao(movimentacoes);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaMovimentacao);
     }
 
@@ -45,13 +45,13 @@ public class MovimentacaoController {
     }
 
     @PutMapping("/atualizarId")
-    public ResponseEntity<?> atualizarMovimentacoesPorId(@Valid @RequestParam int id, @Valid @RequestBody MovimentacaoModel movimentacoes) {
+    public ResponseEntity<?> atualizarMovimentacoesPorId(@Valid @RequestParam int id, @Valid @RequestBody Movimentacao movimentacoes) {
 
         return ResponseEntity.status(HttpStatus.OK).body(movimentacaoService.atualizarPorId(id, movimentacoes));
     }
 
     @PutMapping("/atualizarData")
-    public ResponseEntity<?> atualizarMovimentacoesPorData(@Valid @RequestParam LocalDate data, @Valid @RequestBody MovimentacaoModel movimentacoes) {
+    public ResponseEntity<?> atualizarMovimentacoesPorData(@Valid @RequestParam LocalDate data, @Valid @RequestBody Movimentacao movimentacoes) {
 
 
         return ResponseEntity.status(HttpStatus.OK).body(movimentacaoService.atualizarPorData(data, movimentacoes));

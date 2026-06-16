@@ -1,6 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
-import com.EstoqueFacil.EstoqueFacil.model.EnderecoModel;
+import com.EstoqueFacil.EstoqueFacil.model.Endereco;
 
 import com.EstoqueFacil.EstoqueFacil.service.EnderecoService;
 
@@ -20,9 +20,9 @@ public class EnderecoController {
     private EnderecoService enderecoService;
 
     @PostMapping
-    public ResponseEntity<?> criarEndereco(@Valid @RequestBody EnderecoModel endereco){
+    public ResponseEntity<?> criarEndereco(@Valid @RequestBody Endereco endereco){
 
-        EnderecoModel enderecoNovo = enderecoService.cadastrarEndereco(endereco);
+        Endereco enderecoNovo = enderecoService.cadastrarEndereco(endereco);
         return ResponseEntity.status(HttpStatus.OK).body(enderecoNovo);
     }
 
@@ -37,7 +37,7 @@ public class EnderecoController {
     }
 
     @PutMapping("/atualizar")
-    public ResponseEntity<?> atualizarEnderecoPorId(@Valid @RequestParam int id, @Valid @RequestBody EnderecoModel endereco){
+    public ResponseEntity<?> atualizarEnderecoPorId(@Valid @RequestParam int id, @Valid @RequestBody Endereco endereco){
         return ResponseEntity.ok(enderecoService.atualizarEnderecoPorId(id, endereco));
     }
 

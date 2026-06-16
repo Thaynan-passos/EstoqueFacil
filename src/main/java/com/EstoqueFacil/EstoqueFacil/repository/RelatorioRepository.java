@@ -1,6 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.repository;
 
-import com.EstoqueFacil.EstoqueFacil.model.RelatorioModel;
+import com.EstoqueFacil.EstoqueFacil.model.Relatorio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RelatorioRepository extends JpaRepository<RelatorioModel,Integer> {
+public interface RelatorioRepository extends JpaRepository<Relatorio,Integer> {
 
-   Optional<RelatorioModel> findByDataEmissao(LocalDate dataEmissao);
+   Optional<Relatorio> findByDataEmissao(LocalDate dataEmissao);
     boolean existsById(Integer id);
-    List<RelatorioModel> findById(int id);
-    RelatorioModel deleteById(int id);
-    List<RelatorioModel> findAll();
+    List<Relatorio> findById(int id);
+    Relatorio deleteById(int id);
+    List<Relatorio> findAll();
 
 
 }

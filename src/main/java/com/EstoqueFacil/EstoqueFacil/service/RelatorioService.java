@@ -3,7 +3,7 @@ package com.EstoqueFacil.EstoqueFacil.service;
 
 import com.EstoqueFacil.EstoqueFacil.repository.RelatorioRepository;
 import exceptions.ErroDePreenchimentoInvalidoException;
-import com.EstoqueFacil.EstoqueFacil.model.RelatorioModel;
+import com.EstoqueFacil.EstoqueFacil.model.Relatorio;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -38,28 +38,28 @@ public class RelatorioService {
         if(dataFim.isBefore(dataInicio)) throw new ErroDePreenchimentoInvalidoException("O fim não pode ser antes do início");
     }
 
-    public RelatorioModel cadastrarRelatorio(RelatorioModel relatorioModel) {
+    public Relatorio cadastrarRelatorio(Relatorio relatorioModel) {
         validarRelatorio(relatorioModel);
         return relatorioRepository.save(relatorioModel);
     }
 
-    public RelatorioModel buscarPorId(Integer id){
+    public Relatorio buscarPorId(Integer id){
         return relatorioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum relatório foi encontrado"));
     }
 
-    public RelatorioModel buscarPorDataEmissao(LocalDate dataEmissao){
+    public Relatorio buscarPorDataEmissao(LocalDate dataEmissao){
 
          return relatorioRepository.findByDataEmissao(dataEmissao).orElseThrow(() -> new NoSuchElementException("Nenhum relatório foi encontrado."));
     }
 
-    public List<RelatorioModel> buscarTodosRelatorios() {
+    public List<Relatorio> buscarTodosRelatorios() {
         return relatorioRepository.findAll();
     }
 
 
-    public RelatorioModel atualizarPorDataEmitida(LocalDate dataEmissao,RelatorioModel dadosAtualizados) {
+    public Relatorio atualizarPorDataEmitida(LocalDate dataEmissao, Relatorio dadosAtualizados) {
 
-        RelatorioModel relatorioNovo = buscarPorDataEmissao(dataEmissao);
+        Relatorio relatorioNovo = buscarPorDataEmissao(dataEmissao);
 
         relatorioNovo.setDataFim(dadosAtualizados.getDataFim());
         relatorioNovo.setDescricao(dadosAtualizados.getDescricao());
@@ -67,14 +67,14 @@ public class RelatorioService {
         return relatorioRepository.save(relatorioNovo);
     }
 
-    public RelatorioModel deletarLotePorId(int id){
+    public Relatorio deletarLotePorId(int id){
         if(!relatorioRepository.existsById(id)) {
             throw new NoSuchElementException("Não existe nenhum relatório com o id " + id);
         }
         return relatorioRepository.deleteById(id);
     }
 
-    public void validarRelatorio(RelatorioModel relatorio){
+    public void validarRelatorio(Relatorio relatorio){
         validarDataEmissao(relatorio.getDataEmissao());
         validarDataCriacao(relatorio.getDataInicio());
         validarDataFim(relatorio.getDataFim(), relatorio.getDataInicio());

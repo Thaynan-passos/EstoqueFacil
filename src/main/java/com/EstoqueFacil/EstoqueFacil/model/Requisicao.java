@@ -8,7 +8,8 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-public class RequisicaoModel {
+@Table(name="Requisicao")
+public class Requisicao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +27,11 @@ public class RequisicaoModel {
     @Column(name="Motivo", nullable = false, length = 45)
     @NotBlank(message="É necessário ter o motivo")
     private String motivo;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_ID_Setor", nullable = false)
+    @NotNull
+    private Setor setor;
 
     public int getIdRequisicao() {
         return idRequisicao;
@@ -56,5 +62,12 @@ public class RequisicaoModel {
 
     public void setMotivo(String motivo) {
         this.motivo = motivo;
+    }
+
+    public Setor getSetor() {
+        return setor;
+    }
+    public void setSetor(Setor setor) {
+        this.setor = setor;
     }
 }

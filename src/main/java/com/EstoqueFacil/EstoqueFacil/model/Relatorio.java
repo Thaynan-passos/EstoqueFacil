@@ -12,7 +12,8 @@ import java.time.LocalDate;
 
 
 @Entity
-public class RelatorioModel {
+@Table(name="Relatorio")
+public class Relatorio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +27,12 @@ public class RelatorioModel {
     @NotBlank (message = "É necessário escrever qual vai ser o tipo do relatório.")
     private String descricao;
 
-    @Column(name="Valor_Entrada", nullable = false)
+    @Column(name="Valor_Total_Entradas", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     @PositiveOrZero
     private BigDecimal valorTotalEntrada;
 
-    @Column(name="Valor_Total_Saida", nullable = false)
+    @Column(name="Valor_Total_Saidas", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     @PositiveOrZero
     private BigDecimal valorTotalSaida;
@@ -43,6 +44,12 @@ public class RelatorioModel {
     @Column(name = "Data_Fim", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataFim;
+
+
+    @ManyToOne
+    @JoinColumn(name = "fk_ID_Funcionario", nullable = false)
+    @NotNull(message = "O funcionário emissor é obrigatório.")
+    private Funcionario funcionario;
 
     public int getIdRelatorio() {
         return idRelatorio;
@@ -98,5 +105,13 @@ public class RelatorioModel {
 
     public void setDataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 }

@@ -1,7 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
 import com.EstoqueFacil.EstoqueFacil.repository.TelefoneRepository;
-import com.EstoqueFacil.EstoqueFacil.model.TelefoneModel;
+import com.EstoqueFacil.EstoqueFacil.model.Telefone;
 import exceptions.CampoPreenchimento;
 import exceptions.TelefoneInvalidoException;
 import org.springframework.stereotype.Service;
@@ -34,26 +34,26 @@ public class TelefoneService {
         }
     }
 
-    public TelefoneModel cadastrarTelefone(TelefoneModel telefoneModel){
+    public Telefone cadastrarTelefone(Telefone telefoneModel){
 
         validarTelefone(telefoneModel);
 
         return telefoneRepository.save(telefoneModel);
     }
 
-    public TelefoneModel  buscarTelefonePorId(int id) {
+    public Telefone buscarTelefonePorId(int id) {
 
         return telefoneRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum telefone foi encontrado"));
     }
 
-    public List<TelefoneModel> buscarTodosTelefones() {
+    public List<Telefone> buscarTodosTelefones() {
 
         return this.telefoneRepository.findAll();
     }
 
-    public TelefoneModel atualizarTelefonePorId(int id,TelefoneModel dadosAtualizado) {
+    public Telefone atualizarTelefonePorId(int id, Telefone dadosAtualizado) {
 
-        TelefoneModel telefoneNovo = buscarTelefonePorId(id);
+        Telefone telefoneNovo = buscarTelefonePorId(id);
 
         if(!telefoneNovo.getTelefone().equals(dadosAtualizado.getTelefone()) && telefoneRepository.existsByTelefone(dadosAtualizado.getTelefone())) {
             throw new CampoPreenchimento("Já existe telefone!");
@@ -65,7 +65,7 @@ public class TelefoneService {
         return telefoneRepository.save(telefoneNovo);
     }
 
-    public TelefoneModel deletarTelefonePorId(int id) {
+    public Telefone deletarTelefonePorId(int id) {
 
         if(!telefoneRepository.existsById(id)){
             throw new NoSuchElementException("Não foi encontrado nenhum telefone");
@@ -74,7 +74,7 @@ public class TelefoneService {
         return telefoneRepository.deleteById(id);
     }
 
-    public void validarTelefone(TelefoneModel telefone) {
+    public void validarTelefone(Telefone telefone) {
 
         numeroTelefoneValidar(telefone.getTelefone());
     }

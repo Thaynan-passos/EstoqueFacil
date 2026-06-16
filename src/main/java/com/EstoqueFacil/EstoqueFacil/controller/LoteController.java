@@ -2,7 +2,7 @@ package com.EstoqueFacil.EstoqueFacil.controller;
 
 import jakarta.validation.Valid;
 
-import com.EstoqueFacil.EstoqueFacil.model.LoteModel;
+import com.EstoqueFacil.EstoqueFacil.model.Lote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,9 @@ public class LoteController {
 
 
     @PostMapping
-    public ResponseEntity<LoteModel> criarLote(@Valid @RequestBody LoteModel lote) {
+    public ResponseEntity<Lote> criarLote(@Valid @RequestBody Lote lote) {
 
-        LoteModel novoLote = loteService.cadastrarLote(lote);
+        Lote novoLote = loteService.cadastrarLote(lote);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(novoLote);
     }
@@ -43,7 +43,7 @@ public class LoteController {
     }
 
     @PutMapping("/atualizar")
-    public Object atualizarLotePorNumero(@Valid @RequestParam int numeroLote,@Valid @RequestBody LoteModel lote) {
+    public Object atualizarLotePorNumero(@Valid @RequestParam int numeroLote,@Valid @RequestBody Lote lote) {
 
         return ResponseEntity.status(HttpStatus.OK).body(loteService.atualizarLotePorNumero(numeroLote,lote));
     }

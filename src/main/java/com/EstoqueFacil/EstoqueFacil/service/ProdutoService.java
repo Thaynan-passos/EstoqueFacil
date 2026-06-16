@@ -3,7 +3,8 @@ package com.EstoqueFacil.EstoqueFacil.service;
 import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
 import exceptions.CampoPreenchimento;
 import exceptions.ErroDePreenchimentoInvalidoException;
-import com.EstoqueFacil.EstoqueFacil.model.ProdutoModel;
+import com.EstoqueFacil.EstoqueFacil.model.Produto;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,27 +26,27 @@ public class ProdutoService {
         }
     }
 
-    public ProdutoModel cadastrarProduto(ProdutoModel produto){
+    public Produto cadastrarProduto(Produto produto){
 
         validarProduto(produto);
         return produtoRepository.save(produto);
     }
 
-    public List<ProdutoModel> buscarTodosProdutos(){
+    public List<Produto> buscarTodosProdutos(){
         return  produtoRepository.findAll();
     }
 
-    public ProdutoModel buscarProdutosPorNome(String nome){
+    public Produto buscarProdutosPorNome(String nome){
         return produtoRepository.findByNome(nome).orElseThrow(()-> new NoSuchElementException("Nenhum produto foi encontrado"));
     }
 
-    public ProdutoModel buscarProdutosPorCodigoProduto(String codigoProduto){
+    public Produto buscarProdutosPorCodigoProduto(String codigoProduto){
         return produtoRepository.findByCodigoBarras(codigoProduto).orElseThrow(()-> new NoSuchElementException("Produto foi encontrado"));
     }
 
-    public ProdutoModel atualizarProdutosPorNome(String nome, ProdutoModel dadosAtualizados){
+    public Produto atualizarProdutosPorNome(String nome, Produto dadosAtualizados){
 
-        ProdutoModel produtoAtualizado =  buscarProdutosPorNome(nome);
+        Produto produtoAtualizado =  buscarProdutosPorNome(nome);
 
         if(!produtoAtualizado.getCodigoBarras().equals(dadosAtualizados.getCodigoBarras()) && produtoRepository.existsByCodigoProduto(dadosAtualizados.getCodigoBarras())){
             throw new CampoPreenchimento("Esse código de barras já existe");
@@ -59,21 +60,22 @@ public class ProdutoService {
         return produtoRepository.save(produtoAtualizado);
     }
 
-    public ProdutoModel deletarProdutoPorNome(String nome){
+    @Transactional
+    public Produto deletarProdutoPorNome(String nome){
         if (!produtoRepository.existsByNome(nome)) {
             throw new NoSuchElementException("Nenhum produto encontrado");
         }
         return produtoRepository.deleteByNome(nome);
     }
 
-    public ProdutoModel deletarProdutoPorCodigo(String codigo){
+    public Produto deletarProdutoPorCodigo(String codigo){
         if (!produtoRepository.existsByCodigoProduto(codigo)) {
             throw new NoSuchElementException("Nenhum produto encontrado");
         }
         return produtoRepository.deleteByNome(codigo);
     }
 
-    public void validarProduto(ProdutoModel produto){
+    public void validarProduto(Produto produto){
         validarDataCadastro(produto.getDataCadastro());
 
         if(produtoRepository.existsByCodigoProduto(produto.getCodigoBarras())){

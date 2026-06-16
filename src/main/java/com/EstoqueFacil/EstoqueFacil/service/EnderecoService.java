@@ -2,7 +2,7 @@ package com.EstoqueFacil.EstoqueFacil.service;
 
 
 import com.EstoqueFacil.EstoqueFacil.repository.EnderecoRepository;
-import com.EstoqueFacil.EstoqueFacil.model.EnderecoModel;
+import com.EstoqueFacil.EstoqueFacil.model.Endereco;
 import exceptions.CampoPreenchimento;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import org.springframework.stereotype.Service;
@@ -64,30 +64,30 @@ public class EnderecoService {
         }
     }
 
-    public EnderecoModel  cadastrarEndereco(EnderecoModel  endereco) {
+    public Endereco cadastrarEndereco(Endereco endereco) {
 
         validarEndereco(endereco);
 
         return enderecoRepository.save(endereco);
     }
 
-    public EnderecoModel  buscarPorId(int id) {
+    public Endereco buscarPorId(int id) {
 
         return enderecoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum endereço foi encontrado"));
     }
 
-    public EnderecoModel buscarPorCep(String cep) {
+    public Endereco buscarPorCep(String cep) {
         return enderecoRepository.findByCep(cep).orElseThrow(() -> new NoSuchElementException("Não foi possível achar nenhum endereço ligado a esse cep"));
     }
 
-    public List<EnderecoModel> buscarTodosEnderecos() {
+    public List<Endereco> buscarTodosEnderecos() {
 
         return this.enderecoRepository.findAll();
     }
 
-    public EnderecoModel  atualizarEnderecoPorCep(String cep, EnderecoModel dadosAtualizados) {
+    public Endereco atualizarEnderecoPorCep(String cep, Endereco dadosAtualizados) {
 
-        EnderecoModel   enderecoAtualizado = buscarPorCep(cep);
+        Endereco enderecoAtualizado = buscarPorCep(cep);
 
         enderecoAtualizado.setBairro(dadosAtualizados.getBairro());
         enderecoAtualizado.setCidade(dadosAtualizados.getCidade());
@@ -97,9 +97,9 @@ public class EnderecoService {
         return enderecoRepository.save( enderecoAtualizado);
     }
 
-    public EnderecoModel atualizarEnderecoPorId(int id, EnderecoModel dadosAtualizados) {
+    public Endereco atualizarEnderecoPorId(int id, Endereco dadosAtualizados) {
 
-        EnderecoModel  enderecoAtualizado = buscarPorId(id);
+        Endereco enderecoAtualizado = buscarPorId(id);
 
         enderecoAtualizado.setBairro(dadosAtualizados.getBairro());
         enderecoAtualizado.setCidade(dadosAtualizados.getCidade());
@@ -111,7 +111,7 @@ public class EnderecoService {
 
     }
 
-    public EnderecoModel deletarPorId(int id) {
+    public Endereco deletarPorId(int id) {
 
       if(!enderecoRepository.existsById(id)){
           throw new NoSuchElementException("Não foi encontrado nenhum endereço");
@@ -119,7 +119,7 @@ public class EnderecoService {
      return  enderecoRepository.deleteById(id);
     }
 
-    public void validarEndereco(EnderecoModel endereco) {
+    public void validarEndereco(Endereco endereco) {
 
         cepValidar(endereco.getCep());
         bairroValidar(endereco.getBairro());

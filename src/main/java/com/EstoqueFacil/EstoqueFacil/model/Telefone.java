@@ -4,10 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import com.EstoqueFacil.EstoqueFacil.service.TelefoneService;
 
-import java.util.List;
-
 @Entity
-public class TelefoneModel {
+@Table (name="Telefone")
+public class Telefone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +17,9 @@ public class TelefoneModel {
     private String telefone;
 
 
-    @Column(name="Tipo_Telefone", nullable = false, length = 45)
+    @Column(name="Tipo", nullable = false, length = 45)
     @NotBlank(message="É necessário preencher o tipo do telefone.")
     private String tipoTelefone;
-
-
-    @ManyToMany(mappedBy = "telefone")
-    private List<FornecedorModel> fornecedores;
 
     public int getIdTelefone() {
         return idTelefone;
@@ -52,11 +47,4 @@ public class TelefoneModel {
         this.tipoTelefone = tipoTelefone;
     }
 
-    public List<FornecedorModel> getFornecedores() {
-        return fornecedores;
-    }
-
-    public void setFornecedores(List<FornecedorModel> fornecedores) {
-        this.fornecedores = fornecedores;
-    }
 }

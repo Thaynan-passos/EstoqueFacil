@@ -1,7 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
 import jakarta.validation.Valid;
-import com.EstoqueFacil.EstoqueFacil.model.ProdutoModel;
+import com.EstoqueFacil.EstoqueFacil.model.Produto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class ProdutoController {
 
 
     @PostMapping
-    public ResponseEntity<?> inserirProduto(@Valid @RequestBody ProdutoModel produto){
+    public ResponseEntity<?> inserirProduto(@Valid @RequestBody Produto produto){
 
-        ProdutoModel produtoNovo =  produtoService.cadastrarProduto(produto);
+        Produto produtoNovo =  produtoService.cadastrarProduto(produto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoNovo);
     }
@@ -40,7 +40,7 @@ public class ProdutoController {
     }
 
     @PutMapping("/atualizar")
-    public  ResponseEntity<?> atualizarProdutoPorNome(@Valid String nome, @Valid @RequestBody ProdutoModel produto){
+    public  ResponseEntity<?> atualizarProdutoPorNome(@Valid String nome, @Valid @RequestBody Produto produto){
 
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(produtoService.atualizarProdutosPorNome(nome, produto));

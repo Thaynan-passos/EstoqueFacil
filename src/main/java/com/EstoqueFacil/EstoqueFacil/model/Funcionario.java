@@ -1,5 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.model;
 
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
@@ -8,7 +9,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @Entity
-public class FuncionarioModel {
+@Table (name="Funcionario")
+public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +31,7 @@ public class FuncionarioModel {
             message = "Por favor, insira um e-mail válido")
     private String email;
 
-    @Column(name="SenhaHash", nullable = false)
+    @Column(name="Senha_Hash", nullable = false)
     @NotBlank(message = "A senha não pode ser vazia.")
     private String senhaHash;
 
@@ -44,7 +46,7 @@ public class FuncionarioModel {
     private Cargo cargo;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "Funcionario_Telefone",
             joinColumns = @JoinColumn(name = "fk_ID_Funcionario"),
@@ -52,13 +54,13 @@ public class FuncionarioModel {
     )
     @NotNull(message = "Não pode ficar nulo.")
     @Valid
-    private List<TelefoneModel> telefone;
+    private List<Telefone> telefone;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fk_ID_Endereco")
     @NotNull(message = "Não pode ficar nulo.")
     @Valid
-    private EnderecoModel endereco;
+    private Endereco endereco;
 
     public int getIdFuncionario() {
         return idFuncionario;
@@ -74,7 +76,7 @@ public class FuncionarioModel {
 
     public void setCpf(String cpf) {
 
-        this.cpf = cpf.replaceAll("\\D", "").trim();
+        this.cpf = cpf.trim();
     }
 
     public String getNome() {
@@ -117,18 +119,18 @@ public class FuncionarioModel {
         this.cargo = cargo;
     }
 
-    public List<TelefoneModel> getTelefone() {
+    public List<Telefone> getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(List<TelefoneModel> telefone) {
+    public void setTelefone(List<Telefone> telefone) {
         this.telefone = telefone;
     }
 
-    public EnderecoModel getEndereco() {
+    public Endereco getEndereco() {
         return endereco;
     }
-    public void setEndereco(EnderecoModel endereco) {
+    public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 

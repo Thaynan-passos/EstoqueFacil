@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Endereco")
-public class EnderecoModel {
+public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,10 @@ public class EnderecoModel {
     @Column(name="Numero", length = 20, nullable = false)
     @NotBlank  (message="O numero de casa deve ser preenchido.")
     private String numeroCasa;
+
+    @Column(name="Rua",length = 45,nullable = false)
+    @NotBlank (message="É necessário indicar a rua.")
+    private String rua;
 
 
     public int  getIdEndereco() {
@@ -83,6 +87,14 @@ public class EnderecoModel {
 
         this.numeroCasa = numeroCasa.trim();
 
+    }
+
+    public String getRua() {
+        return rua;
+    }
+
+    public void setRua(String rua) {
+        this.rua = rua.trim();
     }
 
 }

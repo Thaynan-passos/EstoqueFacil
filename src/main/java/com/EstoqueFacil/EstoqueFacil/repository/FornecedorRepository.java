@@ -1,6 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.repository;
 
-import com.EstoqueFacil.EstoqueFacil.model.FornecedorModel;
+import com.EstoqueFacil.EstoqueFacil.model.Fornecedor;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface FornecedorRepository extends JpaRepository<FornecedorModel,Integer> {
+public interface FornecedorRepository extends JpaRepository<Fornecedor,Integer> {
 
-    Optional<FornecedorModel> findByCnpj(String cnpj);
-    Optional<FornecedorModel> findByEmail(String email);
-    FornecedorModel deleteByCnpj(String cnpj);
+    Optional<Fornecedor> findByCnpj(String cnpj);
+    Optional<Fornecedor> findByEmail(String email);
+    Fornecedor deleteByCnpj(String cnpj);
     boolean existsByCnpj(String cnpj);
     boolean existsByEmail(String email);
-    List<FornecedorModel> findAll();
+    List<Fornecedor> findAll();
 
 
 

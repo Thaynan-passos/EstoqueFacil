@@ -1,6 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.repository;
 
-import com.EstoqueFacil.EstoqueFacil.model.FuncionarioModel;
+import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,14 +11,14 @@ import java.util.Optional;
 
 
 @Repository
-public interface FuncionarioRepository extends JpaRepository<FuncionarioModel, Integer> {
+public interface FuncionarioRepository extends JpaRepository<Funcionario, Integer> {
 
-    Optional<FuncionarioModel> findByCpf(String cpf);
-    Optional<FuncionarioModel> findByEmail(String email);
-    FuncionarioModel deleteByCpf(String cpf);
+    Optional<Funcionario> findByCpf(String cpf);
+    Optional<Funcionario> findByEmail(String email);
+    Funcionario deleteByCpf(String cpf);
     boolean existsByCpf(String cpf);
     boolean existsByEmail(String email);
-    List<FuncionarioModel> findAll();
+    List<Funcionario> findAll();
 
 
 }

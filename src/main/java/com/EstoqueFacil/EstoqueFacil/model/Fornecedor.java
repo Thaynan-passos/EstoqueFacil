@@ -1,6 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.model;
 
 
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CNPJ;
@@ -10,7 +11,8 @@ import java.util.List;
 
 
 @Entity
-public class FornecedorModel {
+@Table(name="Fornecedor")
+public class Fornecedor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +39,7 @@ public class FornecedorModel {
     private String email;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "Fornecedor_Telefone",
             joinColumns = @JoinColumn(name = "fk_ID_Fornecedor"),
@@ -45,13 +47,13 @@ public class FornecedorModel {
     )
     @NotNull(message = "Não pode ficar nulo.")
     @Valid
-    private List<TelefoneModel> telefone;
+    private List<Telefone> telefone;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fk_Endereco_Fornecedor")
     @NotNull(message = "Não pode ficar nulo.")
     @Valid
-    private EnderecoModel endereco;
+    private Endereco endereco;
 
     public int getIdFornecedor() {
         return idFornecedor;
@@ -85,18 +87,18 @@ public class FornecedorModel {
         this.email = email;
     }
 
-    public List<TelefoneModel> getTelefone() {
+    public List<Telefone> getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(List<TelefoneModel> telefone) {
+    public void setTelefone(List<Telefone> telefone) {
         this.telefone = telefone;
     }
 
-    public EnderecoModel getEndereco() {
+    public Endereco getEndereco() {
         return endereco;
     }
-    public void setEndereco(EnderecoModel endereco) {
+    public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 }

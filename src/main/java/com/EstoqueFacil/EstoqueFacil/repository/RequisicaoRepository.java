@@ -1,7 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.repository;
 
 
-import com.EstoqueFacil.EstoqueFacil.model.RequisicaoModel;
+import com.EstoqueFacil.EstoqueFacil.model.Requisicao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RequisicaoRepository extends JpaRepository<RequisicaoModel,Integer> {
+public interface RequisicaoRepository extends JpaRepository<Requisicao,Integer> {
 
-  Optional<RequisicaoModel> findByDataRequisicao(LocalDate dataRequisicao);
+  Optional<Requisicao> findByDataRequisicao(LocalDate dataRequisicao);
     boolean existsById(Integer id);
-    List<RequisicaoModel> findById(int id);
-    RequisicaoModel deleteById(int id);
-    List<RequisicaoModel> findAll();
+    List<Requisicao> findById(int id);
+    Requisicao deleteById(int id);
+    List<Requisicao> findAll();
     boolean existsByDataRequisicao(LocalDate dataRequisicao);
-    RequisicaoModel deleteByDataRequisicao(LocalDate dataRequisicao);
+    Requisicao deleteByDataRequisicao(LocalDate dataRequisicao);
 
 }
 

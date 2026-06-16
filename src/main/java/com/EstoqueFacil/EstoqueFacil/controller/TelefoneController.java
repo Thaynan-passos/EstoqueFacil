@@ -1,7 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
 
-import com.EstoqueFacil.EstoqueFacil.model.TelefoneModel;
+import com.EstoqueFacil.EstoqueFacil.model.Telefone;
 import com.EstoqueFacil.EstoqueFacil.service.TelefoneService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,9 @@ public class TelefoneController {
     private TelefoneService telefoneService;
 
     @PostMapping
-    public ResponseEntity<?> criarTelefone(@Valid @RequestBody TelefoneModel telefone){
+    public ResponseEntity<?> criarTelefone(@Valid @RequestBody Telefone telefone){
 
-        TelefoneModel telefoneNovo = telefoneService.cadastrarTelefone(telefone);
+        Telefone telefoneNovo = telefoneService.cadastrarTelefone(telefone);
         return ResponseEntity.status(HttpStatus.OK).body(telefoneNovo);
     }
 
@@ -34,7 +34,7 @@ public class TelefoneController {
     }
 
     @PutMapping("/atualizar")
-    public ResponseEntity<?> atualizarTelefone(@Valid @RequestParam int id, @Valid @RequestBody TelefoneModel telefone){
+    public ResponseEntity<?> atualizarTelefone(@Valid @RequestParam int id, @Valid @RequestBody Telefone telefone){
         return ResponseEntity.ok(telefoneService.atualizarTelefonePorId(id, telefone));
     }
 

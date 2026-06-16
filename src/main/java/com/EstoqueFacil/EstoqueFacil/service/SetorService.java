@@ -2,7 +2,7 @@ package com.EstoqueFacil.EstoqueFacil.service;
 
 import com.EstoqueFacil.EstoqueFacil.repository.SetorRepository;
 
-import com.EstoqueFacil.EstoqueFacil.model.SetorModel;
+import com.EstoqueFacil.EstoqueFacil.model.Setor;
 
 
 import org.springframework.stereotype.Service;
@@ -19,25 +19,25 @@ public class SetorService {
         this.setorRepository = setorRepository;
     }
 
-    public SetorModel cadastrarSetor(SetorModel setorModel){
+    public Setor cadastrarSetor(Setor setorModel){
 
         return setorRepository.save(setorModel);
     }
 
-    public SetorModel buscarPorId(int id) {
+    public Setor buscarPorId(int id) {
 
         return setorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum telefone foi encontrado"));
     }
 
 
-    public List<SetorModel> buscarTodosSetores() {
+    public List<Setor> buscarTodosSetores() {
 
         return this.setorRepository.findAll();
     }
 
-    public SetorModel atualizarSetorPorId(int id, SetorModel dadosAtualizado) {
+    public Setor atualizarSetorPorId(int id, Setor dadosAtualizado) {
 
-       SetorModel setorNovo = buscarPorId(id);
+       Setor setorNovo = buscarPorId(id);
 
 
 
@@ -48,7 +48,7 @@ public class SetorService {
        return setorRepository.save(setorNovo);
     }
 
-    public SetorModel deletarSetorPorId(int id){
+    public Setor deletarSetorPorId(int id){
 
         if(!setorRepository.existsById(id)){
             throw new NoSuchElementException("Não foi encontrado nenhum setor");

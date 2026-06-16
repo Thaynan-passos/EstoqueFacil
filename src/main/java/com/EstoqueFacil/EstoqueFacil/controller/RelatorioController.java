@@ -2,7 +2,7 @@ package com.EstoqueFacil.EstoqueFacil.controller;
 
 
 import jakarta.validation.Valid;
-import com.EstoqueFacil.EstoqueFacil.model.RelatorioModel;
+import com.EstoqueFacil.EstoqueFacil.model.Relatorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +20,10 @@ public class RelatorioController {
     private RelatorioService relatorioService;
 
     @PostMapping
-    public ResponseEntity<?> criarRelatorio(@Valid @RequestBody RelatorioModel relatorioModel) {
+    public ResponseEntity<?> criarRelatorio(@Valid @RequestBody Relatorio relatorioModel) {
 
 
-        RelatorioModel relatorioNovo = relatorioService.cadastrarRelatorio(relatorioModel);
+        Relatorio relatorioNovo = relatorioService.cadastrarRelatorio(relatorioModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(relatorioNovo);
     }
@@ -42,7 +42,7 @@ public class RelatorioController {
     }
 
     @PutMapping("/atualizar")
-    public ResponseEntity<?> atualizarRelatorio(@Valid @RequestParam LocalDate dataEmissao,@Valid @RequestBody RelatorioModel relatorioModel) {
+    public ResponseEntity<?> atualizarRelatorio(@Valid @RequestParam LocalDate dataEmissao,@Valid @RequestBody Relatorio relatorioModel) {
 
         return ResponseEntity.status(HttpStatus.OK).body(relatorioService.atualizarPorDataEmitida(dataEmissao,relatorioModel));
     }

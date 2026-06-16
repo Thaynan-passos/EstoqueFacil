@@ -1,7 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
 import jakarta.validation.Valid;
-import com.EstoqueFacil.EstoqueFacil.model.RequisicaoModel;
+import com.EstoqueFacil.EstoqueFacil.model.Requisicao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +19,9 @@ public class RequisicaoController {
 
 
     @PostMapping
-    public ResponseEntity<?> criarListaRequisicao(@Valid @RequestBody RequisicaoModel requisicaoModel) {
+    public ResponseEntity<?> criarListaRequisicao(@Valid @RequestBody Requisicao requisicaoModel) {
 
-    RequisicaoModel novaRequisicao = requisicaoService.cadastrarRequisicao(requisicaoModel);
+    Requisicao novaRequisicao = requisicaoService.cadastrarRequisicao(requisicaoModel);
     return ResponseEntity.status(HttpStatus.CREATED).body(novaRequisicao);
     }
 
@@ -46,7 +46,7 @@ public class RequisicaoController {
     }
 
     @PutMapping("/atualizarData")
-    public ResponseEntity<?> atualizarRequisicaoPorData(@Valid @RequestParam LocalDate data, @Valid @RequestBody RequisicaoModel requisicao) {
+    public ResponseEntity<?> atualizarRequisicaoPorData(@Valid @RequestParam LocalDate data, @Valid @RequestBody Requisicao requisicao) {
 
 
 
@@ -54,7 +54,7 @@ public class RequisicaoController {
     }
 
     @PutMapping("/atualizarId")
-    public ResponseEntity<?> atualizarRequisicaoPorId(@Valid @RequestParam int id, @Valid @RequestBody RequisicaoModel requisicaoModel) {
+    public ResponseEntity<?> atualizarRequisicaoPorId(@Valid @RequestParam int id, @Valid @RequestBody Requisicao requisicaoModel) {
 
 
         return ResponseEntity.status(HttpStatus.OK).body(requisicaoService.atualizarPorId(id, requisicaoModel));

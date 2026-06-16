@@ -9,7 +9,8 @@ import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 
 @Entity
-public class LoteModel {
+@Table(name="Lote")
+public class Lote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +37,16 @@ public class LoteModel {
     @Column(name="Data_Fornecimento", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataFornecimento;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_ID_Produto", nullable = false)
+    @NotNull(message = "O produto do lote é obrigatório.")
+    private Produto produto;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_ID_Fornecedor", nullable = false)
+    @NotNull(message = "O fornecedor do lote é obrigatório.")
+    private Fornecedor fornecedor;
 
     public int getIdLote() {
         return idLote;
@@ -85,4 +96,19 @@ public class LoteModel {
         this.dataFornecimento = dataFornecimento;
     }
 
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+            this.produto = produto;
+    }
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
 }

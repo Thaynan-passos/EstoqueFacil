@@ -11,13 +11,14 @@ import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
 @Entity
-public class SetorModel {
+@Table (name="Setor")
+public class Setor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idSetor;
 
-    @Column(name="Nome_Setor", nullable = false, length = 45)
+    @Column(name="Nome", nullable = false, length = 45)
     @NotBlank(message = "É necessário pôr o nome do setor.")
     private String nomeSetor;
 
@@ -32,15 +33,15 @@ public class SetorModel {
     private BigDecimal orcamentoMensal;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="Tipo_Setor", nullable = false)
+    @Column(name="Tipo", nullable = false)
     @NotNull(message = "É necessário escrever o seu setor")
     private TipoSetor tipoSetor;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_Endereco_Setor")
     @NotNull(message = "Não pode ficar nulo.")
     @Valid
-    private EnderecoModel endereco;
+    private Endereco endereco;
 
 
     public int getIdSetor() {
@@ -83,10 +84,10 @@ public class SetorModel {
         this.tipoSetor = tipoSetor;
     }
 
-    public EnderecoModel getEndereco() {
+    public Endereco getEndereco() {
         return endereco;
     }
-    public void setEndereco(EnderecoModel endereco) {
+    public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 

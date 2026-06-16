@@ -2,7 +2,7 @@ package com.EstoqueFacil.EstoqueFacil.model;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class DependenteModel {
+public class Dependente {
 
     @NotBlank (message="Deve possuir um nome")
     private String nomeDependente;

@@ -1,7 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.repository;
 
 
-import com.EstoqueFacil.EstoqueFacil.model.SetorModel;
+import com.EstoqueFacil.EstoqueFacil.model.Setor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,11 +11,11 @@ import java.util.Optional;
 
 
 @Repository
-public interface SetorRepository extends JpaRepository<SetorModel,Integer> {
+public interface SetorRepository extends JpaRepository<Setor,Integer> {
 
     boolean existsById(Integer id);
-   Optional<SetorModel> findById(int id);
-    SetorModel deleteById(int id);
-    List<SetorModel> findAll();
+   Optional<Setor> findById(int id);
+    Setor deleteById(int id);
+    List<Setor> findAll();
 }
 

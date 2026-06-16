@@ -1,6 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.repository;
 
-import com.EstoqueFacil.EstoqueFacil.model.MovimentacaoModel;
+import com.EstoqueFacil.EstoqueFacil.model.Movimentacao;
 import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.stereotype.Repository;
 
@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MovimentacaoRepository extends JpaRepositoryImplementation<MovimentacaoModel,Integer> {
+public interface MovimentacaoRepository extends JpaRepositoryImplementation<Movimentacao,Integer> {
 
-    List<MovimentacaoModel> findAll();
-   Optional<MovimentacaoModel> findById(int id);
-    MovimentacaoModel deleteById(int id);
+    List<Movimentacao> findAll();
+   Optional<Movimentacao> findById(int id);
+    Movimentacao deleteById(int id);
     boolean existsById(int id);
-   Optional<MovimentacaoModel> findByDataMovimentacao(LocalDate dataMovimentacao);
+   Optional<Movimentacao> findByDataMovimentacao(LocalDate dataMovimentacao);
     boolean existsByDataMovimentacao(LocalDate dataMovimentacao);
 
 }

@@ -12,13 +12,14 @@ import java.time.LocalDate;
 
 
 @Entity
-public class ProdutoModel {
+@Table(name="Produto")
+public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idProduto;
 
-    @Column(name="Nome_Produto",unique = true, nullable = false, length = 45)
+    @Column(name="Nome",unique = true, nullable = false, length = 45)
     @NotBlank(message="É necessário pôr o nome do produto.")
     private String nome;
 
@@ -42,7 +43,7 @@ public class ProdutoModel {
 
     @Enumerated(EnumType.STRING)
     @Column(name="Classificacao", nullable = false)
-    @NotBlank(message = "É necessário escrever a classificação do produto.")
+    @NotNull(message = "É necessário escrever a classificação do produto.")
     private ClassificacaoProduto classificacao;
 
     public int getIdProduto() {
@@ -65,7 +66,7 @@ public class ProdutoModel {
         return codigoProduto;
     }
 
-    public void setCodigoBarras(String codigoBarras) {
+    public void setCodigoBarras(String codigoProduto) {
         this.codigoProduto = codigoProduto;
     }
 

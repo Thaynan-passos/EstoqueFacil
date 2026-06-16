@@ -1,7 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
 import jakarta.validation.Valid;
-import com.EstoqueFacil.EstoqueFacil.model.FuncionarioModel;
+import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,33 +19,33 @@ public class FuncionarioController {
     private FuncionarioService funcionarioService;
     
     @PostMapping
-    public ResponseEntity<FuncionarioModel> criarFuncionario(@Valid @RequestBody FuncionarioModel funcionario) {
+    public ResponseEntity<Funcionario> criarFuncionario(@Valid @RequestBody Funcionario funcionario) {
 
-        FuncionarioModel funcionarioNovo = funcionarioService.cadastrarFuncionario(funcionario);
+        Funcionario funcionarioNovo = funcionarioService.cadastrarFuncionario(funcionario);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioNovo);
     }
 
     @GetMapping
-    public ResponseEntity<List<FuncionarioModel>>  listarFuncionarios() {
+    public ResponseEntity<List<Funcionario>>  listarFuncionarios() {
 
         return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.buscarTodosFuncionarios());
     }
 
     @GetMapping("/pegar")
-    public ResponseEntity<FuncionarioModel> BuscarFuncionariosPorCpf(@Valid @RequestParam String cpf) {
+    public ResponseEntity<Funcionario> BuscarFuncionariosPorCpf(@Valid @RequestParam String cpf) {
 
         return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.buscarPorCpf(cpf));
     }
 
     @PutMapping("/atualizar")
-    public ResponseEntity<FuncionarioModel> atualizarFuncionarioPorCpf(@Valid String cpf, @Valid @RequestBody FuncionarioModel funcionario) {
+    public ResponseEntity<Funcionario> atualizarFuncionarioPorCpf(@Valid String cpf, @Valid @RequestBody Funcionario funcionario) {
 
         return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.atualizarFuncionarioPorCpf(cpf, funcionario));
     }
 
     @DeleteMapping("/deletar")
-    public ResponseEntity<FuncionarioModel> deletarFuncionarioPorCpf(@Valid @RequestParam String cpf) {
+    public ResponseEntity<Funcionario> deletarFuncionarioPorCpf(@Valid @RequestParam String cpf) {
 
         return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.deletarPorCpf(cpf));
     }

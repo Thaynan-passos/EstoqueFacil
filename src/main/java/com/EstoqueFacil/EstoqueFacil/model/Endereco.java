@@ -4,34 +4,34 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "Endereco")
+@Table(name = "endereco")
 public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idEndereco;
 
-    @Column(name="Bairro",length = 45, nullable = false)
+    @Column(name="bairro",length = 45, nullable = false)
     @NotBlank  (message="É necessário indicar o bairro.")
     private String bairro;
 
-    @Column(name="CEP",unique = true, length = 8, nullable = false)
+    @Column(name="cep",unique = true, length = 8, nullable = false)
     @NotBlank  (message="O cep deve ser preenchido.")
     private String cep;
 
-    @Column(name="Estado", length = 2, nullable = false)
+    @Column(name="estado", length = 2, nullable = false)
     @NotBlank  (message="É necessário indicar o estado.")
     private String estado;
 
-    @Column(name="Cidade", length = 45, nullable = false)
+    @Column(name="cidade", length = 45, nullable = false)
     @NotBlank (message="É necessário indicar a cidade.")
     private String cidade;
 
-    @Column(name="Numero", length = 20, nullable = false)
+    @Column(name="numero", length = 20, nullable = false)
     @NotBlank  (message="O numero de casa deve ser preenchido.")
     private String numeroCasa;
 
-    @Column(name="Rua",length = 45,nullable = false)
+    @Column(name="rua",length = 45,nullable = false)
     @NotBlank (message="É necessário indicar a rua.")
     private String rua;
 

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="Movimentacao")
+@Table(name="movimentacao")
 public class Movimentacao {
 
     @Id
@@ -15,15 +15,15 @@ public class Movimentacao {
     private int idMovimentacao;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="Status", nullable = false)
+    @Column(name="status", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     private Status status;
 
-    @Column(name="Data_Movimentacao", nullable = false)
+    @Column(name="data_movimentacao", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataMovimentacao;
 
-    @Column(name="Descricao", length = 45,nullable = false)
+    @Column(name="descricao", length = 45,nullable = false)
     @NotBlank(message="É necessário ter a descrição")
     private String  descricao;
 

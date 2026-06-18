@@ -12,37 +12,37 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name="Produto")
+@Table(name="produto")
 public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idProduto;
 
-    @Column(name="Nome",unique = true, nullable = false, length = 45)
+    @Column(name="nome",unique = true, nullable = false, length = 45)
     @NotBlank(message="É necessário pôr o nome do produto.")
     private String nome;
 
-    @Column(name="Codigo_Barras",unique = true, nullable = false, length = 20)
+    @Column(name="codigo_barras",unique = true, nullable = false, length = 20)
     @NotBlank (message="O código de barras deve ser preenchido.")
     private String codigoProduto;
 
-    @Column(name="Garantia", nullable = false)
+    @Column(name="garantia", nullable = false)
     @NotNull (message="Não pode ser nulo.")
     @PositiveOrZero(message = "A garantia não pode ser negativa")
     private int garantia;
 
-    @Column(name="Data_Cadastro", nullable = false)
+    @Column(name="data_cadastro", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataCadastro;
 
-    @Column(name="Valor_Unitario", nullable = false)
+    @Column(name="valor_unitario", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     @Positive(message = "O valor deve ser positivo")
     private BigDecimal valorUnitario;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="Classificacao", nullable = false)
+    @Column(name="classificacao", nullable = false)
     @NotNull(message = "É necessário escrever a classificação do produto.")
     private ClassificacaoProduto classificacao;
 

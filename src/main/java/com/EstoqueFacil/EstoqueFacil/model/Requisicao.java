@@ -8,28 +8,28 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="Requisicao")
+@Table(name="requisicao")
 public class Requisicao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idRequisicao;
 
-    @Column(name="Data_Requisicao", nullable = false)
+    @Column(name="data_requisicao", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataRequisicao;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="Status", nullable = false)
+    @Column(name="status", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     private Status status;
 
-    @Column(name="Motivo", nullable = false, length = 45)
+    @Column(name="motivo", nullable = false, length = 45)
     @NotBlank(message="É necessário ter o motivo")
     private String motivo;
 
     @ManyToOne
-    @JoinColumn(name = "fk_ID_Setor", nullable = false)
+    @JoinColumn(name = "fk_id_setor", nullable = false)
     @NotNull
     private Setor setor;
 

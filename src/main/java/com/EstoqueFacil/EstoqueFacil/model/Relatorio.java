@@ -12,42 +12,42 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name="Relatorio")
+@Table(name="relatorio")
 public class Relatorio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idRelatorio;
 
-    @Column(name="Data_Emissao", nullable = false)
+    @Column(name="data_emissao", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataEmissao;
 
-    @Column(name="Descricao", nullable = false, length = 45)
+    @Column(name="descricao", nullable = false, length = 45)
     @NotBlank (message = "É necessário escrever qual vai ser o tipo do relatório.")
     private String descricao;
 
-    @Column(name="Valor_Total_Entradas", nullable = false)
+    @Column(name="valor_total_entradas", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     @PositiveOrZero
     private BigDecimal valorTotalEntrada;
 
-    @Column(name="Valor_Total_Saidas", nullable = false)
+    @Column(name="valor_total_saidas", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     @PositiveOrZero
     private BigDecimal valorTotalSaida;
 
-    @Column(name = "Data_Inicio", nullable = false)
+    @Column(name = "data_inicio", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataInicio;
 
-    @Column(name = "Data_Fim", nullable = false)
+    @Column(name = "data_fim", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     private LocalDate dataFim;
 
 
     @ManyToOne
-    @JoinColumn(name = "fk_ID_Funcionario", nullable = false)
+    @JoinColumn(name = "fk_id_funcionario", nullable = false)
     @NotNull(message = "O funcionário emissor é obrigatório.")
     private Funcionario funcionario;
 

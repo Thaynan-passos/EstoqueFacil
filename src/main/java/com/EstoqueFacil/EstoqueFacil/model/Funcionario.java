@@ -9,55 +9,55 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @Entity
-@Table (name="Funcionario")
+@Table (name="funcionario")
 public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idFuncionario;
 
-    @Column(name="CPF", length = 11, nullable = false, unique = true)
+    @Column(name="cpf", length = 11, nullable = false, unique = true)
     @NotBlank (message = "É necessário digitar o seu cpf.")
     @CPF (message = "O formato do cpf está equivocado")
     private String cpf;
 
-    @Column(name="Nome", length = 45, nullable = false)
+    @Column(name="nome", length = 45, nullable = false)
     @NotBlank(message = "É necessário pôr o seu nome.")
     private String nome;
 
-    @Column(name="Email",    unique = true,length = 45, nullable = false)
+    @Column(name="email",    unique = true,length = 45, nullable = false)
     @NotBlank(message = "O email deve ser preenchido.")
     @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
             message = "Por favor, insira um e-mail válido")
     private String email;
 
-    @Column(name="Senha_Hash", nullable = false)
+    @Column(name="senha_hash", nullable = false)
     @NotBlank(message = "A senha não pode ser vazia.")
     private String senhaHash;
 
-    @Column(name="Nivel_Acesso", nullable = false)
+    @Column(name="nivel_acesso", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     @PositiveOrZero(message = "O nivel de acesso deve ser 0 ou mais")
     private int nivelAcesso;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="Cargo", nullable = false)
+    @Column(name="cargo", nullable = false)
     @NotNull (message = "É necessário indicar o cargo.")
     private Cargo cargo;
 
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "Funcionario_Telefone",
-            joinColumns = @JoinColumn(name = "fk_ID_Funcionario"),
-            inverseJoinColumns = @JoinColumn(name = "fk_ID_Telefone")
+            name = "funcionario_telefone",
+            joinColumns = @JoinColumn(name = "fk_id_funcionario"),
+            inverseJoinColumns = @JoinColumn(name = "fk_id_telefone")
     )
     @NotNull(message = "Não pode ficar nulo.")
     @Valid
     private List<Telefone> telefone;
 
     @ManyToOne
-    @JoinColumn(name = "fk_ID_Endereco")
+    @JoinColumn(name = "fk_id_endereco")
     @NotNull(message = "Não pode ficar nulo.")
     @Valid
     private Endereco endereco;

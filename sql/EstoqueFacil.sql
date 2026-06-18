@@ -1,336 +1,335 @@
-CREATE SCHEMA IF NOT EXISTS EstoqueFacil DEFAULT CHARACTER SET utf8 ;
-USE EstoqueFacil ;
+CREATE SCHEMA IF NOT EXISTS estoquefacil DEFAULT CHARACTER SET utf8 ;
+USE estoquefacil ;
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Endereco`
+-- Table estoquefacil.endereco
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Endereco` (
-  `ID_Endereco` INT NOT NULL AUTO_INCREMENT,
-  `Bairro` VARCHAR(45) NOT NULL,
-  `Rua` VARCHAR(45) NOT NULL,
-  `Estado` VARCHAR(2) NOT NULL,
-  `CEP` VARCHAR(8) NOT NULL,
-  `Cidade` VARCHAR(45) NOT NULL,
-  `Numero` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`ID_Endereco`),
-  UNIQUE INDEX `CEP_UNIQUE` (`CEP` ASC))
+CREATE TABLE IF NOT EXISTS estoquefacil.endereco (
+  id_endereco INT NOT NULL AUTO_INCREMENT,
+  bairro VARCHAR(45) NOT NULL,
+  rua VARCHAR(45) NOT NULL,
+  estado VARCHAR(2) NOT NULL,
+  cep VARCHAR(8) NOT NULL,
+  cidade VARCHAR(45) NOT NULL,
+  numero VARCHAR(20) NOT NULL,
+  PRIMARY KEY (id_endereco),
+  UNIQUE INDEX cep_unique (cep ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Funcionario`
+-- Table estoquefacil.funcionario
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Funcionario` (
-  `ID_Funcionario` INT NOT NULL AUTO_INCREMENT,
-  `Cpf` VARCHAR(11) NOT NULL,
-  `Email` VARCHAR(45) NOT NULL,
-  `Nivel_Acesso` INT NOT NULL,
-  `Nome` VARCHAR(45) NOT NULL,
-  `Senha_Hash` VARCHAR(255) NOT NULL,
-  `fk_ID_Endereco` INT NOT NULL,
-  `Cargo` ENUM("GERENTE", "FINANCEIRO", "ALMOXARIFE") NOT NULL,
-  UNIQUE INDEX `Cpf_UNIQUE` (`Cpf` ASC),
-  PRIMARY KEY (`ID_Funcionario`),
-  INDEX `fk_ID_Endereco` (`fk_ID_Endereco` ASC),
-  CONSTRAINT `fk_Funcionario_Endereco`
-    FOREIGN KEY (`fk_ID_Endereco`)
-    REFERENCES EstoqueFacil.`Endereco` (`ID_Endereco`)
+CREATE TABLE IF NOT EXISTS estoquefacil.funcionario (
+  id_funcionario INT NOT NULL AUTO_INCREMENT,
+  cpf VARCHAR(11) NOT NULL,
+  email VARCHAR(45) NOT NULL,
+  nivel_acesso INT NOT NULL,
+  nome VARCHAR(45) NOT NULL,
+  senha_hash VARCHAR(255) NOT NULL,
+  fk_id_endereco INT NOT NULL,
+  cargo ENUM('GERENTE', 'FINANCEIRO', 'ALMOXARIFE') NOT NULL,
+  UNIQUE INDEX cpf_unique (cpf ASC),
+  PRIMARY KEY (id_funcionario),
+  INDEX fk_id_endereco (fk_id_endereco ASC),
+  CONSTRAINT fk_funcionario_endereco
+    FOREIGN KEY (fk_id_endereco)
+    REFERENCES estoquefacil.endereco (id_endereco)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Dependente`
+-- Table estoquefacil.dependente
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Dependente` (
-  `ID_Dependente` INT NOT NULL,
-  `Nome` VARCHAR(45) NOT NULL,
-  `Sexo` ENUM("MASCULINO", "FEMININO", "NAO_BINARIO", "OUTRO") NULL,
-  `Fk_ID_Funcionario` INT NOT NULL,
-  PRIMARY KEY (`ID_Dependente`, `Fk_ID_Funcionario`),
-  INDEX `fk_Dependente_Funcionario1_idx` (`Fk_ID_Funcionario` ASC),
-  CONSTRAINT `fk_Dependente_Funcionario1`
-    FOREIGN KEY (`fk_ID_Funcionario`)
-    REFERENCES EstoqueFacil.`Funcionario` (`ID_Funcionario`)
+CREATE TABLE IF NOT EXISTS estoquefacil.dependente (
+  id_dependente INT NOT NULL,
+  nome VARCHAR(45) NOT NULL,
+  sexo ENUM('MASCULINO', 'FEMININO', 'NAO_BINARIO', 'OUTRO') NULL,
+  fk_id_funcionario INT NOT NULL,
+  PRIMARY KEY (id_dependente, fk_id_funcionario),
+  INDEX fk_dependente_funcionario1_idx (fk_id_funcionario ASC),
+  CONSTRAINT fk_dependente_funcionario1
+    FOREIGN KEY (fk_id_funcionario)
+    REFERENCES estoquefacil.funcionario (id_funcionario)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Fornecedor`
+-- Table estoquefacil.fornecedor
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Fornecedor` (
-  `ID_Fornecedor` INT NOT NULL AUTO_INCREMENT,
-  `CNPJ` VARCHAR(14) NOT NULL,
-  `Razao_Social` VARCHAR(45) NOT NULL,
-  `Email` VARCHAR(45) NOT NULL,
-  `fk_Endereco_Fornecedor` INT NOT NULL,
-  UNIQUE INDEX `Nome_UNIQUE` (`Razao_Social` ASC),
-  INDEX `Email_idx` (`Email` ASC),
-  INDEX `fk_Endereco_Fornecedor` (`fk_Endereco_Fornecedor` ASC),
-  UNIQUE INDEX `CNPJ_UNIQUE` (`CNPJ` ASC),
-  PRIMARY KEY (`ID_Fornecedor`),
-  CONSTRAINT `fk_Fornecedor_Endereco`
-    FOREIGN KEY (`fk_Endereco_Fornecedor`)
-    REFERENCES EstoqueFacil.`Endereco` (`ID_Endereco`)
+CREATE TABLE IF NOT EXISTS estoquefacil.fornecedor (
+  id_fornecedor INT NOT NULL AUTO_INCREMENT,
+  cnpj VARCHAR(14) NOT NULL,
+  razao_social VARCHAR(45) NOT NULL,
+  email VARCHAR(45) NOT NULL,
+  fk_endereco_fornecedor INT NOT NULL,
+  UNIQUE INDEX nome_unique (razao_social ASC),
+  INDEX email_idx (email ASC),
+  INDEX fk_endereco_fornecedor (fk_endereco_fornecedor ASC),
+  UNIQUE INDEX cnpj_unique (cnpj ASC),
+  PRIMARY KEY (id_fornecedor),
+  CONSTRAINT fk_fornecedor_endereco
+    FOREIGN KEY (fk_endereco_fornecedor)
+    REFERENCES estoquefacil.endereco (id_endereco)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Telefone`
+-- Table estoquefacil.telefone
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Telefone` (
-  `ID_Telefone` INT NOT NULL AUTO_INCREMENT,
-  `Telefone` VARCHAR(11) NOT NULL,
-  `Tipo` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`ID_Telefone`),
-  UNIQUE INDEX `Telefone_UNIQUE` (`Telefone` ASC))
+CREATE TABLE IF NOT EXISTS estoquefacil.telefone (
+  id_telefone INT NOT NULL AUTO_INCREMENT,
+  telefone VARCHAR(11) NOT NULL,
+  tipo VARCHAR(45) NOT NULL,
+  PRIMARY KEY (id_telefone),
+  UNIQUE INDEX telefone_unique (telefone ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Funcionario_Telefone`
+-- Table estoquefacil.funcionario_telefone
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Funcionario_Telefone` (
-  `fk_ID_Funcionario` INT NOT NULL,
-  `fk_ID_Telefone` INT NOT NULL,
-  PRIMARY KEY (`fk_ID_Funcionario`, `fk_ID_Telefone`),
-  INDEX `fk_Funcionario_Telefone_Telefone_idx` (`fk_ID_Telefone` ASC),
-  INDEX `fk_Funcionario_Telefone_idx` (`fk_ID_Funcionario` ASC),
-  CONSTRAINT `fk_Funcionario_Telefone_Telefone`
-    FOREIGN KEY (`fk_ID_Telefone`)
-    REFERENCES EstoqueFacil.`Telefone` (`ID_Telefone`)
+CREATE TABLE IF NOT EXISTS estoquefacil.funcionario_telefone (
+  fk_id_funcionario INT NOT NULL,
+  fk_id_telefone INT NOT NULL,
+  PRIMARY KEY (fk_id_funcionario, fk_id_telefone),
+  INDEX fk_funcionario_telefone_telefone_idx (fk_id_telefone ASC),
+  INDEX fk_funcionario_telefone_idx (fk_id_funcionario ASC),
+  CONSTRAINT fk_funcionario_telefone_telefone
+    FOREIGN KEY (fk_id_telefone)
+    REFERENCES estoquefacil.telefone (id_telefone)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Funcionario_Telefone_Funcionario`
-    FOREIGN KEY (`fk_ID_Funcionario`)
-    REFERENCES EstoqueFacil.`Funcionario` (`ID_Funcionario`)
+  CONSTRAINT fk_funcionario_telefone_funcionario
+    FOREIGN KEY (fk_id_funcionario)
+    REFERENCES estoquefacil.funcionario (id_funcionario)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Produto`
+-- Table estoquefacil.produto
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Produto` (
-  `ID_Produto` INT NOT NULL AUTO_INCREMENT,
-  `Garantia` INT NULL,
-  `Data_Cadastro` DATE NOT NULL,
-  `Nome` VARCHAR(45) NOT NULL,
-  `Codigo_Barras` VARCHAR(20) NOT NULL,
-  `Valor_Unitario` DECIMAL(10,2) NOT NULL,
-  `Classificacao` ENUM("CONSUMO", "REPARO", "LIMPEZA") NOT NULL,
-  PRIMARY KEY (`ID_Produto`),
-  UNIQUE INDEX `Nome_UNIQUE` (`Nome` ASC),
-  UNIQUE INDEX `Codigo_Barras_UNIQUE` (`Codigo_Barras` ASC))
+CREATE TABLE IF NOT EXISTS estoquefacil.produto (
+  id_produto INT NOT NULL AUTO_INCREMENT,
+  garantia INT NULL,
+  data_cadastro DATE NOT NULL,
+  nome VARCHAR(45) NOT NULL,
+  codigo_barras VARCHAR(20) NOT NULL,
+  valor_unitario DECIMAL(10,2) NOT NULL,
+  classificacao ENUM('CONSUMO', 'REPARO', 'LIMPEZA') NOT NULL,
+  PRIMARY KEY (id_produto),
+  UNIQUE INDEX nome_unique (nome ASC),
+  UNIQUE INDEX codigo_barras_unique (codigo_barras ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Setor`
+-- Table estoquefacil.setor
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Setor` (
-  `ID_Setor` INT NOT NULL AUTO_INCREMENT,
-  `Nome` VARCHAR(45) NOT NULL,
-  `Capacidade` INT NOT NULL,
-  `Orcamento_Mensal` DECIMAL(10,2) NOT NULL,
-  `Tipo` ENUM("SETOR_ALMOXARIFE", "SETOR_FINANCEIRO", "SETOR_GERENCIA") NOT NULL,
-  `fk_Endereco_Setor` INT NOT NULL,
-  PRIMARY KEY (`ID_Setor`),
-  UNIQUE INDEX `fk_Endereco_Setor_UNIQUE` (`fk_Endereco_Setor` ASC),
-  CONSTRAINT `fk_Setor_Endereco`
-    FOREIGN KEY (`fk_Endereco_Setor`)
-    REFERENCES EstoqueFacil.`Endereco` (`ID_Endereco`)
+CREATE TABLE IF NOT EXISTS estoquefacil.setor (
+  id_setor INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(45) NOT NULL,
+  capacidade INT NOT NULL,
+  orcamento_mensal DECIMAL(10,2) NOT NULL,
+  tipo ENUM('SETOR_ALMOXARIFE', 'SETOR_FINANCEIRO', 'SETOR_GERENCIA') NOT NULL,
+  fk_endereco_setor INT NOT NULL,
+  PRIMARY KEY (id_setor),
+  UNIQUE INDEX fk_endereco_setor_unique (fk_endereco_setor ASC),
+  CONSTRAINT fk_setor_endereco
+    FOREIGN KEY (fk_endereco_setor)
+    REFERENCES estoquefacil.endereco (id_endereco)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Relatorio`
+-- Table estoquefacil.relatorio
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Relatorio` (
-  `ID_Relatorio` INT NOT NULL AUTO_INCREMENT,
-  `Data_Emissao` DATE NOT NULL,
-  `Descricao` VARCHAR(45) NOT NULL,
-  `Valor_Total_Entradas` DECIMAL(10,2) NOT NULL,
-  `Valor_Total_Saidas` DECIMAL(10,2) NOT NULL,
-  `Data_Inicio` DATE NOT NULL,
-  `Data_Fim` DATE NOT NULL,
-  `fk_ID_Funcionario` INT NOT NULL,
-  PRIMARY KEY (`ID_Relatorio`),
-  INDEX `fk_ID_Funcionario_idx` (`fk_ID_Funcionario` ASC),
-  CONSTRAINT `fk_ID_Funcionario`
-    FOREIGN KEY (`fk_ID_Funcionario`)
-    REFERENCES EstoqueFacil.`Funcionario` (`ID_Funcionario`)
+CREATE TABLE IF NOT EXISTS estoquefacil.relatorio (
+  id_relatorio INT NOT NULL AUTO_INCREMENT,
+  data_emissao DATE NOT NULL,
+  descricao VARCHAR(45) NOT NULL,
+  valor_total_entradas DECIMAL(10,2) NOT NULL,
+  valor_total_saidas DECIMAL(10,2) NOT NULL,
+  data_inicio DATE NOT NULL,
+  data_fim DATE NOT NULL,
+  fk_id_funcionario INT NOT NULL,
+  PRIMARY KEY (id_relatorio),
+  INDEX fk_id_funcionario_idx (fk_id_funcionario ASC),
+  CONSTRAINT fk_id_funcionario
+    FOREIGN KEY (fk_id_funcionario)
+    REFERENCES estoquefacil.funcionario (id_funcionario)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Lote`
+-- Table estoquefacil.lote
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Lote` (
-  `ID_Lote` INT NOT NULL AUTO_INCREMENT,
-  `Numero_Lote` INT NOT NULL,
-  `Data_Fabricacao` DATE NOT NULL,
-  `Data_Validade` DATE NOT NULL,
-  `Quantidade` INT NOT NULL,
-  `fk_ID_Produto` INT NOT NULL,
-  `fk_ID_Fornecedor` INT NOT NULL,
-  `Data_Fornecimento` DATE NOT NULL,
-  PRIMARY KEY (`ID_Lote`),
-  UNIQUE INDEX `Numero_Lote_UNIQUE` (`Numero_Lote` ASC),
-  INDEX `fk_Lote_Produto_idx` (`fk_ID_Produto` ASC),
-  INDEX `fk_Lote_Fornecedor_idx` (`fk_ID_Fornecedor` ASC),
-  CONSTRAINT `fk_Lote_Produto`
-    FOREIGN KEY (`fk_ID_Produto`)
-    REFERENCES EstoqueFacil.`Produto` (`ID_Produto`)
+CREATE TABLE IF NOT EXISTS estoquefacil.lote (
+  id_lote INT NOT NULL AUTO_INCREMENT,
+  numero_lote INT NOT NULL,
+  data_fabricacao DATE NOT NULL,
+  data_validade DATE NOT NULL,
+  quantidade INT NOT NULL,
+  fk_id_produto INT NOT NULL,
+  fk_id_fornecedor INT NOT NULL,
+  data_fornecimento DATE NOT NULL,
+  PRIMARY KEY (id_lote),
+  UNIQUE INDEX numero_lote_unique (numero_lote ASC),
+  INDEX fk_lote_produto_idx (fk_id_produto ASC),
+  INDEX fk_lote_fornecedor_idx (fk_id_fornecedor ASC),
+  CONSTRAINT fk_lote_produto
+    FOREIGN KEY (fk_id_produto)
+    REFERENCES estoquefacil.produto (id_produto)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Lote_Fornecedor`
-    FOREIGN KEY (`fk_ID_Fornecedor`)
-    REFERENCES EstoqueFacil.`Fornecedor` (`ID_Fornecedor`)
+  CONSTRAINT fk_lote_fornecedor
+    FOREIGN KEY (fk_id_fornecedor)
+    REFERENCES estoquefacil.fornecedor (id_fornecedor)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Movimentacao`
+-- Table estoquefacil.movimentacao
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Movimentacao` (
-  `ID_Movimentacao` INT NOT NULL AUTO_INCREMENT,
-  `Status` ENUM("PENDENTE", "APROVADO", "NEGADO") NOT NULL,
-  `Data_Movimentacao` DATE NOT NULL,
-  `Descricao` VARCHAR(45) NULL,
-  `fk_ID_Funcionario_Aprovador` INT NOT NULL,
-  `fk_ID_Funcionario_Executor` INT NOT NULL,
-  PRIMARY KEY (`ID_Movimentacao`),
-  INDEX `fk_Movimentacao_Almoxarife_idx` (`fk_ID_Funcionario_Executor` ASC),
-  INDEX `fk_Movimentacao_Gerente_idx` (`fk_ID_Funcionario_Aprovador` ASC),
-  CONSTRAINT `fk_Movimentacao_Gerente`
-    FOREIGN KEY (`fk_ID_Funcionario_Aprovador`)
-    REFERENCES EstoqueFacil.`Funcionario` (`ID_Funcionario`)
+CREATE TABLE IF NOT EXISTS estoquefacil.movimentacao (
+  id_movimentacao INT NOT NULL AUTO_INCREMENT,
+  status ENUM('PENDENTE', 'APROVADO', 'NEGADO') NOT NULL,
+  data_movimentacao DATE NOT NULL,
+  descricao VARCHAR(45) NULL,
+  fk_id_funcionario_aprovador INT NOT NULL,
+  fk_id_funcionario_executor INT NOT NULL,
+  PRIMARY KEY (id_movimentacao),
+  INDEX fk_movimentacao_almoxarife_idx (fk_id_funcionario_executor ASC),
+  INDEX fk_movimentacao_gerente_idx (fk_id_funcionario_aprovador ASC),
+  CONSTRAINT fk_movimentacao_gerente
+    FOREIGN KEY (fk_id_funcionario_aprovador)
+    REFERENCES estoquefacil.funcionario (id_funcionario)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Movimentacao_Almoxarife`
-    FOREIGN KEY (`fk_ID_Funcionario_Executor`)
-    REFERENCES EstoqueFacil.`Funcionario` (`ID_Funcionario`)
+  CONSTRAINT fk_movimentacao_almoxarife
+    FOREIGN KEY (fk_id_funcionario_executor)
+    REFERENCES estoquefacil.funcionario (id_funcionario)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Requisicao`
+-- Table estoquefacil.requisicao
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Requisicao` (
-  `ID_Requisicao` INT NOT NULL AUTO_INCREMENT,
-  `Data_Requisicao` DATE NOT NULL,
-  `Status` ENUM("PENDENTE", "APROVADO", "NEGADO") NOT NULL,
-  `Motivo` VARCHAR(45) NOT NULL,
-  `fk_ID_Setor` INT NOT NULL,
-  PRIMARY KEY (`ID_Requisicao`),
-  INDEX `fk_Requisicao_Setor_idx` (`fk_ID_Setor` ASC),
-  CONSTRAINT `fk_Requisicao_Setor`
-    FOREIGN KEY (`fk_ID_Setor`)
-    REFERENCES EstoqueFacil.`Setor` (`ID_Setor`)
+CREATE TABLE IF NOT EXISTS estoquefacil.requisicao (
+  id_requisicao INT NOT NULL AUTO_INCREMENT,
+  data_requisicao DATE NOT NULL,
+  status ENUM('PENDENTE', 'APROVADO', 'NEGADO') NOT NULL,
+  motivo VARCHAR(45) NOT NULL,
+  fk_id_setor INT NOT NULL,
+  PRIMARY KEY (id_requisicao),
+  INDEX fk_requisicao_setor_idx (fk_id_setor ASC),
+  CONSTRAINT fk_requisicao_setor
+    FOREIGN KEY (fk_id_setor)
+    REFERENCES estoquefacil.setor (id_setor)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Produto_Movimentacao`
+-- Table estoquefacil.produto_movimentacao
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Produto_Movimentacao` (
-  `fk_ID_Lote` INT NOT NULL,
-  `fk_ID_Movimentacao` INT NOT NULL,
-  `Quantidade` INT NOT NULL,
-  PRIMARY KEY (`fk_ID_Lote`, `fk_ID_Movimentacao`),
-  INDEX `fk_Produto_Movimentacao_Movimentacao_idx` (`fk_ID_Movimentacao` ASC),
-  CONSTRAINT `fk_Lote_Movimentacao_Lote`
-    FOREIGN KEY (`fk_ID_Lote`)
-    REFERENCES EstoqueFacil.`Lote` (`ID_Lote`)
+CREATE TABLE IF NOT EXISTS estoquefacil.produto_movimentacao (
+  fk_id_lote INT NOT NULL,
+  fk_id_movimentacao INT NOT NULL,
+  quantidade INT NOT NULL,
+  PRIMARY KEY (fk_id_lote, fk_id_movimentacao),
+  INDEX fk_produto_movimentacao_movimentacao_idx (fk_id_movimentacao ASC),
+  CONSTRAINT fk_lote_movimentacao_lote
+    FOREIGN KEY (fk_id_lote)
+    REFERENCES estoquefacil.lote (id_lote)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Lote_Movimentacao_Movimentacao`
-    FOREIGN KEY (`fk_ID_Movimentacao`)
-    REFERENCES EstoqueFacil.`Movimentacao` (`ID_Movimentacao`)
+  CONSTRAINT fk_lote_movimentacao_movimentacao
+    FOREIGN KEY (fk_id_movimentacao)
+    REFERENCES estoquefacil.movimentacao (id_movimentacao)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table estoquefacil.requisicao_produto
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS estoquefacil.requisicao_produto (
+  fk_id_requisicao INT NOT NULL,
+  fk_id_produto INT NOT NULL,
+  quantidade_solicitada INT NOT NULL,
+  PRIMARY KEY (fk_id_requisicao, fk_id_produto),
+  INDEX fk_requisicao_produto_produto_idx (fk_id_produto ASC),
+  INDEX fk_requisicao_produto_requisicao_idx (fk_id_requisicao ASC),
+  CONSTRAINT fk_requisicao_produto_requisicao
+    FOREIGN KEY (fk_id_requisicao)
+    REFERENCES estoquefacil.requisicao (id_requisicao)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_requisicao_produto_produto
+    FOREIGN KEY (fk_id_produto)
+    REFERENCES estoquefacil.produto (id_produto)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Requisicao_Produto`
+-- Table estoquefacil.fornecedor_telefone
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Requisicao_Produto` (
-  `fk_ID_Requisicao` INT NOT NULL,
-  `fk_ID_Produto` INT NOT NULL,
-  `Quantidade_Solicitada` INT NOT NULL,
-  PRIMARY KEY (`fk_ID_Requisicao`, `fk_ID_Produto`),
-  INDEX `fk_Requisicao_Produto_Produto_idx` (`fk_ID_Produto` ASC),
-  INDEX `fk_Requisicao_Produto_Requisicao_idx` (`fk_ID_Requisicao` ASC),
-  CONSTRAINT `fk_Requisicao_Produto_Requisicao`
-    FOREIGN KEY (`fk_ID_Requisicao`)
-    REFERENCES EstoqueFacil.`Requisicao` (`ID_Requisicao`)
+CREATE TABLE IF NOT EXISTS estoquefacil.fornecedor_telefone (
+  fk_id_fornecedor INT NOT NULL,
+  fk_id_telefone INT NOT NULL,
+  PRIMARY KEY (fk_id_fornecedor, fk_id_telefone),
+  INDEX fk_fornecedor_telefone_telefone_idx (fk_id_telefone ASC),
+  CONSTRAINT fk_fornecedor_telefone_fornecedor
+    FOREIGN KEY (fk_id_fornecedor)
+    REFERENCES estoquefacil.fornecedor (id_fornecedor)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Requisicao_Produto_Produto`
-    FOREIGN KEY (`fk_ID_Produto`)
-    REFERENCES EstoqueFacil.`Produto` (`ID_Produto`)
+  CONSTRAINT fk_fornecedor_telefone_telefone
+    FOREIGN KEY (fk_id_telefone)
+    REFERENCES estoquefacil.telefone (id_telefone)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table EstoqueFacil.`Fornecedor_Telefone`
+-- Table estoquefacil.funcionario_setor
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Fornecedor_Telefone` (
-  `fk_ID_Fornecedor` INT NOT NULL,
-  `fk_ID_Telefone` INT NOT NULL,
-  PRIMARY KEY (`fk_ID_Fornecedor`, `fk_ID_Telefone`),
-  INDEX `fk_Fornecedor_Telefone_Telefone_idx` (`fk_ID_Telefone` ASC),
-  CONSTRAINT `fk_Fornecedor_Telefone_Fornecedor`
-    FOREIGN KEY (`fk_ID_Fornecedor`)
-    REFERENCES EstoqueFacil.`Fornecedor` (`ID_Fornecedor`)
+CREATE TABLE IF NOT EXISTS estoquefacil.funcionario_setor (
+  data_inicio DATE NOT NULL,
+  fk_id_funcionario INT NOT NULL,
+  fk_id_setor INT NOT NULL,
+  PRIMARY KEY (data_inicio),
+  INDEX funcionario_setor_funcionario_idx (fk_id_funcionario ASC),
+  INDEX funcionario_setor_setor_idx (fk_id_setor ASC),
+  CONSTRAINT fk_funcionario_setor_funcionario
+    FOREIGN KEY (fk_id_funcionario)
+    REFERENCES estoquefacil.funcionario (id_funcionario)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Fornecedor_Telefone_Telefone`
-    FOREIGN KEY (`fk_ID_Telefone`)
-    REFERENCES EstoqueFacil.`Telefone` (`ID_Telefone`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table EstoqueFacil.`Funcionario_Setor`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS EstoqueFacil.`Funcionario_Setor` (
-  `data_inicio` DATE NOT NULL,
-  `fk_ID_Funcionario` INT NOT NULL,
-  `fk_ID_Setor` INT NOT NULL,
-  PRIMARY KEY (`data_inicio`),
-  INDEX `Funcionario_Setor_Funcionario_idx` (`fk_ID_Funcionario` ASC),
-  INDEX `Funcionario_Setor_Setor_idx` (`fk_ID_Setor` ASC),
-  CONSTRAINT `fk_Funcionario_Setor_Funcionario`
-    FOREIGN KEY (`fk_ID_Funcionario`)
-    REFERENCES EstoqueFacil.`Funcionario` (`ID_Funcionario`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Funcionario_Setor_Setor`
-    FOREIGN KEY (`fk_ID_Setor`)
-    REFERENCES EstoqueFacil.`Setor` (`ID_Setor`)
+  CONSTRAINT fk_funcionario_setor_setor
+    FOREIGN KEY (fk_id_setor)
+    REFERENCES estoquefacil.setor (id_setor)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

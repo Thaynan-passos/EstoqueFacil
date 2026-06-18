@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+		<meta charset="UTF-8">
+		<title>Relatório Financeiro - Estoque Fácil</title>
+		<style>
+				body { color: #222; margin: 0; background-color: #f4f6f9; font-family: Arial, Helvetica, sans-serif; }
+				#painel { position: fixed; top:0; left:0; width:275px; height:100vh; background: linear-gradient(180deg,#0a4da3 0%,#032049 100%); display:flex; flex-direction:column; align-items:center; padding-top:45px; box-shadow:2px 0 8px rgba(0,0,0,0.25); }
+				#titulo1 { color: white; font-size: 28px; margin-bottom:8px; }
+				span.subtitle { color: rgba(255,255,255,0.9); font-size:14px; font-weight:bold; text-align:center; margin-bottom:30px; display:block }
+				.menu-btn { width:210px; height:42px; margin-bottom:12px; border:none; border-radius:4px; background-color:transparent; color:white; font-size:14px; font-weight:bold; text-align:left; padding-left:18px; cursor:pointer; }
+				header { margin-left: 275px; width: calc(100% - 275px); height: 85px; background-color: #ffffff; border-bottom: 1px solid #dcdcdc; display:flex; align-items:center; padding-left:35px; box-shadow:0 2px 6px rgba(0,0,0,0.05);} 
+				section { margin-left:305px; margin-top:30px; margin-right:35px; background-color:#ffffff; border-radius:6px; padding:25px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:30px; }
+				.filtros { display:flex; gap:12px; align-items:center; margin-bottom:18px }
+				.input-filtro, .select-filtro { padding:10px; border:1px solid #d0d0d0; border-radius:4px; font-size:13px }
+				.btn-acao { background:#0a4da3; color:white; padding:10px 14px; border-radius:4px; border:none; cursor:pointer }
+				.grid { display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:18px }
+				.card { background:#fff; border-radius:6px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.06) }
+				.valor-grande { font-size:28px; font-weight:bold; color:#0a4da3 }
+				table { width:100%; border-collapse:collapse }
+				th, td { padding:10px; border-bottom:1px solid #eee; text-align:left }
+				thead { background:#f7f9fb }
+		</style>
+</head>
+<body>
+	<div id="painel">
+		<h1 id="titulo1">Estoque Fácil</h1>
+		<span class="subtitle">Painel Financeiro</span>
+		<button class="menu-btn">Dashboard</button>
+		<button class="menu-btn">Produtos solicitados</button>
+		<button class="menu-btn">Análise de Solicitações</button>
+		<button class="menu-btn">Cadastrar Produto</button>
+		<button class="menu-btn">Cadastrar Funcionário</button>
+	</div>
+
+	<header>
+		<div>
+			<h1 id="historico">Relatório Financeiro</h1>
+			<p>Visão geral de receitas/despesas relacionadas ao estoque</p>
+		</div>
+	</header>
+
+	<section>
+		<div class="filtros">
+			<input id="periodoInicio" type="date" class="input-filtro">
+			<input id="periodoFim" type="date" class="input-filtro">
+			<select id="tipo" class="select-filtro">
+				<option value="">Todos os tipos</option>
+				<option value="entrada">Entrada (Compras)</option>
+				<option value="saida">Saída (Uso/Venda)</option>
+			</select>
+			<button class="btn-acao" onclick="aplicarFiltro()">Aplicar</button>
+		</div>
+
+		<div class="grid">
+			<div class="card">
+				<div>Total Entradas</div>
+				<div class="valor-grande" id="totalEntradas">R$ 0,00</div>
+			</div>
+			<div class="card">
+				<div>Total Saídas</div>
+				<div class="valor-grande" id="totalSaidas">R$ 0,00</div>
+			</div>
+		</div>
+
+		<div class="card" style="margin-bottom:18px">
+			<h3>Lançamentos</h3>
+			<table>
+				<thead>
+					<tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Valor (R$)</th></tr>
+				</thead>
+				<tbody id="corpoLancamentos">
+					<tr><td>01/05/2026</td><td>Entrada</td><td>Compra de parafusos</td><td>120.00</td></tr>
+					<tr><td>05/05/2026</td><td>Saída</td><td>Uso interno - manutenção</td><td>45.50</td></tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="card">
+			<h3>Resumo por Categoria</h3>
+			<div id="resumoCat">
+				<!-- pequenos indicadores -->
+			</div>
+		</div>
+	</section>
+
+	<script>
+		function aplicarFiltro() {
+			// Implementação simples para recalcular totais com base na tabela atual
+			const trs = document.querySelectorAll('#corpoLancamentos tr');
+			let totalE = 0, totalS = 0;
+			trs.forEach(tr => {
+				const tipo = tr.children[1].innerText.toLowerCase();
+				const valor = parseFloat(tr.children[3].innerText.replace(',', '.')) || 0;
+				if (tipo.includes('entrada')) totalE += valor; else totalS += valor;
+			});
+			document.getElementById('totalEntradas').innerText = 'R$ ' + totalE.toFixed(2).replace('.', ',');
+			document.getElementById('totalSaidas').innerText = 'R$ ' + totalS.toFixed(2).replace('.', ',');
+		}
+
+		// calcular iniciais
+		aplicarFiltro();
+	</script>
+</body>
+</html>
+

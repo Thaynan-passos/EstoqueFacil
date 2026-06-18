@@ -15,4 +15,19 @@ public class HomeController {
         // Isso diz ao Spring para procurar o arquivo "index.html" na pasta templates
         return "index";
     }
+
+    @GetMapping("/menu")
+    public String menu() {
+        return "menu";
+    }
+
+    @GetMapping("/controle-estoque")
+    public String controleEstoque() {
+        return "telas-almoxarife/controle-estoque";
+    }
+
+    @GetMapping("/relatorio-financeiro")
+    public String relatorioFinanceiro() {
+        return "telas-gerente/relatorio-financeiro";
+    }
 }

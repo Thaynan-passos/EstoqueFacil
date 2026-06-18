@@ -4,20 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="747cc4f7-a007-43b8-a3e4-2ccd39ca62be" name="Changes" comment="Correção de bugs">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/telas-gerente/dashboard-gerente.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/EstoqueFacil/EstoqueFacil/HomeController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/EstoqueFacil/EstoqueFacil/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/EstoqueFacil/EstoqueFacil/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/stily.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/telas-almoxarife/controle-estoque.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/telas-almoxarife/controle-estoque.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/telas-almoxarife/entrada-materiais.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/telas-almoxarife/entrada-materiais.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/telas-funcionario/historico-requisicoes.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/telas-funcionario/historico-requisicoes.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/telas-funcionario/requisicoes.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/telas-funcionario/requisicoes.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/telas-gerente/analise-gerente.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/telas-gerente/analise-gerente.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/telas-gerente/cadastrar-produto.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/telas-gerente/cadastrar-produto.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/telas-gerente/cadastro-funcionario.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/telas-gerente/cadastro-funcionario.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/telas-gerente/relatorio-financeiro.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/telas-gerente/relatorio-financeiro.html" afterDir="false" />
+    <list default="true" id="747cc4f7-a007-43b8-a3e4-2ccd39ca62be" name="Changes" comment="conexão das telas e criação de todas as telas restantes.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -342,7 +330,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781746632020</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="conexão das telas e criação de todas as telas restantes.">
+      <option name="closed" value="true" />
+      <created>1781757846311</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1781757846311</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -366,7 +362,8 @@
     <MESSAGE value="Conectando o banco de dados e o spring no docker compose" />
     <MESSAGE value="Foi necessário restruturar o código SQL para ele ser funcional com o Docker, pois o docker utiliza o linux de base." />
     <MESSAGE value="Correção de bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Correção de bugs" />
+    <MESSAGE value="conexão das telas e criação de todas as telas restantes." />
+    <option name="LAST_COMMIT_MESSAGE" value="conexão das telas e criação de todas as telas restantes." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

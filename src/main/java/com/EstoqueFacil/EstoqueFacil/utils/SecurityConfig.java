@@ -28,17 +28,24 @@ public class SecurityConfig {
 
                         // GERENTE
                         .requestMatchers("/dashboard-gerente/**").hasRole("GERENTE")
-                        .requestMatchers("/cadastrar-produto/**").hasRole("GERENTE")
+                        .requestMatchers("/relatorio-financeiro/**").hasRole("GERENTE")
                         .requestMatchers("/cadastro-funcionario/**").hasRole("GERENTE")
+                        .requestMatchers("/analise-gerente/**").hasRole("GERENTE")
 
                         // ALMOXARIFE
-                        .requestMatchers("/dashboard-almoxarife/**").hasRole("ALMOXARIFE")
-                        .requestMatchers("/controle-estoque/**").hasRole("ALMOXARIFE")
+                        .requestMatchers("/dashboard-almoxarife/**").hasRole("ALMOXARIFADO")
+                        .requestMatchers("/controle-estoque/**").hasRole("ALMOXARIFADO")
+                        .requestMatchers("/cadastrar-produto/**").hasRole("ALMOXARIFADO")
+                        .requestMatchers("/entrada-materiais/**").hasRole("ALMOXARIFADO")
+                        .requestMatchers("/inventario/**").hasRole("ALMOXARIFADO")
+                        .requestMatchers("/saida-materiais/**").hasRole("ALMOXARIFADO")
+
 
                         // FUNCIONÁRIO
-                        .requestMatchers("/dashboard-funcionario/**").hasRole("FUNCIONARIO")
-                        .requestMatchers("/requisicoes/**").hasRole("FUNCIONARIO")
-                        .requestMatchers("/historico-requisicoes/**").hasRole("FUNCIONARIO")
+                        .requestMatchers("/dashboard-funcionario/**").hasRole("FINANCEIRO")
+                        .requestMatchers("/requisicoes/**").hasRole("FINANCEIRO")
+                        .requestMatchers("/historico-requisicoes/**").hasRole("FINANCEIRO")
+                        .requestMatchers("/minhas-solicitacoes/**").hasRole("FINANCEIRO")
 
                         // LOGIN E PÁGINAS PÚBLICAS
                         .requestMatchers("/login", "/css/**", "/js/**").permitAll()
@@ -58,7 +65,7 @@ public class SecurityConfig {
                                     .anyMatch(a -> a.getAuthority().equals("ROLE_GERENTE"));
 
                             boolean isAlmoxarife = authorities.stream()
-                                    .anyMatch(a -> a.getAuthority().equals("ROLE_ALMOXARIFE"));
+                                    .anyMatch(a -> a.getAuthority().equals("ROLE_ALMOXARIFADO"));
 
                             if (isGerente) {
                                 response.sendRedirect("/dashboard-gerente");

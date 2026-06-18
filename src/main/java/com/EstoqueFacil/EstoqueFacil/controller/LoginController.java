@@ -38,7 +38,7 @@ public class LoginController {
     // =========================
     @GetMapping("/login")
     public String login() {
-        return "telas-gerente/login";
+        return "login";
     }
 
     // =========================
@@ -60,7 +60,7 @@ public class LoginController {
                     !passwordEncoder.matches(senha, funcionario.getSenhaHash())) {
 
                 model.addAttribute("erro", "CPF ou senha inválidos");
-                return "telas-gerente/login";
+                return "login";
             }
 
             session.setAttribute("usuarioLogado", funcionario);
@@ -73,7 +73,7 @@ public class LoginController {
 
         } catch (Exception e) {
             model.addAttribute("erro", "CPF ou senha inválidos");
-            return "telas-gerente/login";
+            return "login";
         }
     }
 

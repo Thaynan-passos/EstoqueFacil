@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fornecedores - Estoque Fácil</title>
+
+    <style>
+        body{
+            color: #ffffff;
+            margin:0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color:#f4f6f9;
+        }
+
+        #painel{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 275px;
+            height: 100vh;
+            background: linear-gradient(180deg, #0a4da3 0%, #032049 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 45px;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.25);
+        }
+
+        #titulo1{
+            margin:0;
+            font-size:28px;
+        }
+
+        .subtitle{
+            color:#d1d5db;
+            margin-bottom:30px;
+        }
+
+        .menu-btn{
+            display:block;
+            padding:12px 15px;
+            margin-bottom:10px;
+            text-decoration:none;
+            color:white;
+            border-radius:6px;
+            transition:0.2s;
+            width: 85%;
+            text-align: center;
+        }
+
+        .menu-btn:hover{
+            background:#374151;
+        }
+
+        header{
+            margin-left:275px;
+            background:white;
+            padding:20px 35px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        #titulo-header{
+            margin:0;
+            color:#1f2937;
+        }
+
+        section{
+            margin-left:275px;
+            padding:35px;
+        }
+
+        .grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:25px;
+        }
+
+        .box{
+            background:white;
+            padding:25px;
+            border-radius:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            color:#1f2937;
+        }
+
+        h2{
+            margin-top:0;
+            color:#0a4da3;
+        }
+
+        label{
+            font-weight:bold;
+            font-size:14px;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin:8px 0 15px 0;
+            border:1px solid #ccc;
+            border-radius:6px;
+        }
+
+        button{
+            background-color:#0a4da3;
+            color:white;
+            border:none;
+            padding:10px 15px;
+            border-radius:6px;
+            cursor:pointer;
+            width:100%;
+        }
+
+        button:hover{
+            background-color:#083b7a;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th, td{
+            padding:10px;
+            border-bottom:1px solid #ddd;
+            text-align:left;
+        }
+
+        th{
+            background-color:#0a4da3;
+            color:white;
+        }
+
+        .badge{
+            padding:5px 10px;
+            border-radius:12px;
+            font-size:12px;
+            color:white;
+        }
+
+        .ativo{
+            background-color:#28a745;
+        }
+
+        .inativo{
+            background-color:#dc3545;
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<div id="painel">
+    <h1 id="titulo1">Estoque Fácil</h1>
+    <span class="subtitle">Painel Gerencial</span>
+
+    <a th:href="@{/dashboard-gerente}" class="menu-btn">Dashboard</a>
+    <a th:href="@{/analise-gerente}" class="menu-btn">Análise Gerente</a>
+    <a th:href="@{/cadastro-funcionario}" class="menu-btn">Cadastrar Funcionário</a>
+    <a th:href="@{/relatorio-financeiro}" class="menu-btn">Relatório Financeiro</a>
+    <a th:href="@{/fornecedores}" class="menu-btn">Fornecedores</a>
+</div>
+
+
+<header>
+    <h1 id="titulo-header">Gestão de Fornecedores</h1>
+</header>
+
+
+<section>
+
+    <div class="grid">
+
+
+        <div class="box">
+            <h2>Cadastrar Fornecedor</h2>
+
+            <form method="post" th:action="@{/fornecedor/salvar}">
+
+                <label>Nome:</label>
+                <input type="text" name="nome" required>
+
+                <label>CNPJ:</label>
+                <input type="text" name="cnpj" required>
+
+                <label>Telefone:</label>
+                <input type="text" name="telefone">
+
+                <label>Email:</label>
+                <input type="email" name="email">
+
+                <button type="submit">Salvar Fornecedor</button>
+            </form>
+        </div>
+
+
+        <div class="box">
+            <h2>Fornecedores Cadastrados</h2>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>CNPJ</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="f : ${fornecedores}">
+                    <td th:text="${f.id}"></td>
+                    <td th:text="${f.nome}"></td>
+                    <td th:text="${f.cnpj}"></td>
+                    <td>
+                            <span th:classappend="${f.ativo} ? 'badge ativo' : 'badge inativo'"
+                                  th:text="${f.ativo} ? 'ATIVO' : 'INATIVO'">
+                            </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>

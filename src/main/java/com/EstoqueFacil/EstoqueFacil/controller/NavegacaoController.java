@@ -1,5 +1,8 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
+import com.EstoqueFacil.EstoqueFacil.model.Cargo;
+import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
+import com.EstoqueFacil.EstoqueFacil.service.FornecedorService;
 import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
 import com.EstoqueFacil.EstoqueFacil.service.RelatorioService;
 import com.EstoqueFacil.EstoqueFacil.service.RequisicaoService;
@@ -21,6 +24,9 @@ public class NavegacaoController {
 
     @Autowired
     RequisicaoService requisicaoService;
+
+    @Autowired
+    FornecedorService fornecedorService;
 
     // =========================
     // AUTH UTIL
@@ -76,6 +82,31 @@ public class NavegacaoController {
         if (!hasRole("ROLE_GERENTE")) return "redirect:/dashboard-gerente";
 
         return "telas-gerente/cadastrar-produto";
+    }
+
+    @GetMapping("/fornecedores")
+    public String fornecedores(Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated()
+                || auth.getPrincipal().equals("anonymousUser")) {
+            return "redirect:/login";
+        }
+
+        Object principal = auth.getPrincipal();
+
+        if (!(principal instanceof Funcionario f)) {
+            return "redirect:/login";
+        }
+
+        if (f.getCargo() != Cargo.GERENTE) {
+            return "redirect:/dashboard-gerente";
+        }
+
+        model.addAttribute("fornecedores", fornecedorService.buscarTodosFornecedores());
+
+        return "telas-gerente/fornecedor";
     }
 
     @GetMapping("/cadastro-funcionario")

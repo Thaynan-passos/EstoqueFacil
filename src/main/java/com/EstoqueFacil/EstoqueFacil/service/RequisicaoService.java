@@ -1,6 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
 
+import com.EstoqueFacil.EstoqueFacil.model.Status;
 import com.EstoqueFacil.EstoqueFacil.repository.RequisicaoRepository;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import com.EstoqueFacil.EstoqueFacil.model.Requisicao;
@@ -28,6 +29,7 @@ public class RequisicaoService {
 
     public Requisicao cadastrarRequisicao(Requisicao requisicaoModel) {
         validarRequisicao(requisicaoModel);
+        requisicaoModel.setStatus(Status.PENDENTE);
         return requisicaoRepository.save(requisicaoModel);
     }
 
@@ -45,6 +47,33 @@ public class RequisicaoService {
     }
 
 
+
+    public long totalRequisicoes() {
+        return requisicaoRepository.count();
+    }
+
+
+    public long totalPorStatus(Status status) {
+        return requisicaoRepository.countByStatus(status);
+    }
+
+    public List<Requisicao> buscarPendentes() {
+        return requisicaoRepository.findByStatus(Status.PENDENTE);
+    }
+
+    public List<Requisicao> buscarAprovadas() {
+        return requisicaoRepository.findByStatus(Status.APROVADO);
+    }
+
+    public List<Requisicao> buscarRejeitadas() {
+        return requisicaoRepository.findByStatus(Status.NEGADO);
+    }
+
+    public List<Requisicao> buscarUltimas(int limite) {
+        return requisicaoRepository.findTopByOrderByDataRequisicaoDesc();
+    }
+
+
     public Requisicao atualizarPorId(int id, Requisicao dadosAtualizados) {
 
         Requisicao requisicaoNovo = buscarPorId(id);
@@ -52,17 +81,6 @@ public class RequisicaoService {
         requisicaoNovo.setDataRequisicao(dadosAtualizados.getDataRequisicao());
         requisicaoNovo.setMotivo(dadosAtualizados.getMotivo());
         requisicaoNovo.setStatus(dadosAtualizados.getStatus());
-
-        return requisicaoRepository.save(requisicaoNovo);
-    }
-
-    public Requisicao atualizarPorData(LocalDate dataRequisicao, Requisicao dadosAtualizados) {
-
-        Requisicao requisicaoNovo = buscarPorDataRequisicao(dataRequisicao);
-
-        requisicaoNovo.setDataRequisicao(dataRequisicao);
-        requisicaoNovo.setStatus(dadosAtualizados.getStatus());
-        requisicaoNovo.setMotivo(dadosAtualizados.getMotivo());
 
         return requisicaoRepository.save(requisicaoNovo);
     }

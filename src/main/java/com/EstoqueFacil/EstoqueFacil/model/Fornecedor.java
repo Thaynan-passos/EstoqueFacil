@@ -49,7 +49,7 @@ public class Fornecedor {
     @Valid
     private List<Telefone> telefone;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_endereco_fornecedor")
     @NotNull(message = "Não pode ficar nulo.")
     @Valid

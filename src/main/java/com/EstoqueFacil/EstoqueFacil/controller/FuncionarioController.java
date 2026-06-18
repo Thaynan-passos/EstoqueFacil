@@ -21,7 +21,7 @@ public class FuncionarioController {
     @PostMapping
     public ResponseEntity<Funcionario> criarFuncionario(@Valid @RequestBody Funcionario funcionario) {
 
-        Funcionario funcionarioNovo = funcionarioService.cadastrarFuncionario(funcionario);
+        Funcionario funcionarioNovo = funcionarioService.cadastrarFuncionario(funcionario, funcionario.getSenhaHash());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioNovo);
     }

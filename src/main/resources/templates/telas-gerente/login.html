@@ -142,21 +142,35 @@
 <body>
     <div class="planoFundo">
         <section class="conteiner" id="header">
-            <form action="#" method="POST">
+            <form th:action="@{/login}" method="post">
+
                 <h1 class="h1">Login</h1>
                 <h2 id="EstoqueFacil">Estoque Fácil</h2>
+
                 <p class="login">Faça o login para continuar</p>
 
-                <label th:for="funcionario">CPF do funcionário:</label>
-                <input type="text" name="funcionario" id="funcionario" placeholder="000.000.000-00" required>
+                <p th:if="${erro}" th:text="${erro}" style="color:red;"></p>
 
-                <label th:for="senhaFuncionario">Senha:</label>
-                <input type="password" name="senhaFuncionario" id="senhaFuncionario" placeholder="••••••••" required>
+                <label>CPF:</label>
+                <input type="text"
+                       name="cpf"
+                       placeholder="000.000.000-00"
+                       maxlength="14"
+                       required>
+
+                <label>Senha:</label>
+                <input type="password" name="senha" required>
 
                 <div class="botoes">
-                    <a href="/cadastro-funcionario" class="btn-resgatar" style="text-decoration:none;display:inline-block;line-height:34px">Cadastrar Funcionário</a>
+                    <a href="/cadastro-funcionario"
+                       class="btn-resgatar"
+                       style="text-decoration:none;display:inline-block;line-height:34px">
+                        Cadastrar Funcionário
+                    </a>
+
                     <button type="submit" class="btn-entrar">Entrar</button>
                 </div>
+
             </form>
         </section>
     </div>

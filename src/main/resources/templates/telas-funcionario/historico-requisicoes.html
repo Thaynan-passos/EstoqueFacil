@@ -167,30 +167,45 @@
               <th>Status</th>
           </tr>
           </thead>
-          <tbody>
-          <tr>
-              <td>REQ-105</td>
-              <td>Teclado Mecânico Logitech</td>
-              <td>16/05/2026</td>
-              <td>1</td>
-              <td><span class="status-pendente">Aguardando Gerência</span></td>
-          </tr>
-          <tr>
-              <td>REQ-082</td>
-              <td>Mouse sem fio Dell</td>
-              <td>02/05/2026</td>
-              <td>1</td>
-              <td><span class="status-aprovado">Aprovado</span></td>
-          </tr>
-          <tr>
-              <td>REQ-041</td>
-              <td>Cadeira Ergonômica</td>
-              <td>15/04/2026</td>
-              <td>1</td>
-              <td><span class="status-desaprovado">Rejeitado</span></td>
-          </tr>
+          <tbody id="tbody-requisicoes">
+
           </tbody>
       </table>
   </section>
+
+<script>document.addEventListener("DOMContentLoaded", async () => {
+
+    const response = await fetch("/requisicao");
+    const requisicoes = await response.json();
+
+    const tbody = document.getElementById("tbody-requisicoes");
+
+    tbody.innerHTML = "";
+
+    requisicoes.forEach(req => {
+
+        let statusClass = "";
+
+        if (req.status === "PENDENTE") statusClass = "status-pendente";
+        if (req.status === "APROVADO") statusClass = "status-aprovado";
+        if (req.status === "REJEITADO") statusClass = "status-desaprovado";
+
+        
+        const produtoNome = req.produtos?.[0]?.produto?.nome || "N/A";
+        const quantidade = req.produtos?.[0]?.quantidadeSolicitada || 0;
+
+        const row = `
+            <tr>
+                <td>REQ-${req.idRequisicao}</td>
+                <td>${produtoNome}</td>
+                <td>${req.dataRequisicao}</td>
+                <td>${quantidade}</td>
+                <td><span class="${statusClass}">${req.status}</span></td>
+            </tr>
+        `;
+
+        tbody.innerHTML += row;
+    });
+});</script>
 </body>
 </html>

@@ -5,15 +5,22 @@ import com.EstoqueFacil.EstoqueFacil.service.EnderecoService;
 import com.EstoqueFacil.EstoqueFacil.service.FuncionarioService;
 import com.EstoqueFacil.EstoqueFacil.service.TelefoneService;
 
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class LoginController {
 
+    // =========================
+    // SERVICES
+    // =========================
     @Autowired
     private FuncionarioService funcionarioService;
 
@@ -26,134 +33,131 @@ public class LoginController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // =========================
+    // LOGIN PAGE
+    // =========================
     @GetMapping("/login")
     public String login() {
         return "telas-gerente/login";
     }
 
+    // =========================
+    // AUTH LOGIN
+    // =========================
     @PostMapping("/login")
     public String autenticar(
-            @RequestParam String email,
-            @RequestParam String senha,
-            Model model) {
+           @Valid @RequestParam String cpf,
+           @Valid @RequestParam String senha,
+            Model model,
+            HttpSession session) {
 
         try {
+            String cpfLimpo = cpf.replaceAll("\\D", "");
 
-            Funcionario funcionario =
-                    funcionarioService.buscarPorEmail(email);
+            Funcionario funcionario = funcionarioService.buscarPorCpf(cpfLimpo);
 
-            if (!passwordEncoder.matches(
-                    senha,
-                    funcionario.getSenhaHash())) {
+            if (funcionario == null ||
+                    !passwordEncoder.matches(senha, funcionario.getSenhaHash())) {
 
-                model.addAttribute(
-                        "erro",
-                        "Email ou senha inválidos"
-                );
-
+                model.addAttribute("erro", "CPF ou senha inválidos");
                 return "telas-gerente/login";
             }
 
-            switch (funcionario.getCargo()) {
+            session.setAttribute("usuarioLogado", funcionario);
 
-                case GERENTE:
-                    return "redirect:/dashboard";
-
-                case ALMOXARIFADO:
-                    return "redirect:/dashboard-almoxarife";
-
-                default:
-                    return "redirect:/dashboard-funcionario";
-            }
+            return switch (funcionario.getCargo()) {
+                case GERENTE -> "redirect:/dashboard-gerente";
+                case ALMOXARIFADO -> "redirect:/dashboard-almoxarife";
+                default -> "redirect:/dashboard-funcionario";
+            };
 
         } catch (Exception e) {
-
-            model.addAttribute(
-                    "erro",
-                    "Email ou senha inválidos"
-            );
-
+            model.addAttribute("erro", "CPF ou senha inválidos");
             return "telas-gerente/login";
         }
     }
 
-    @GetMapping("/cadastro-funcionario")
+    // =========================
+    // LOGOUT
+    // =========================
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
+    }
+
+    // =========================
+    // CADASTRO PAGE
+    // =========================
+    @GetMapping("/cadastro-trabalhador")
     public String cadastroFuncionario() {
         return "telas-gerente/cadastro-funcionario";
     }
 
-    @PostMapping("/cadastro-funcionario")
+    // =========================
+    // CADASTRO FUNCIONARIO
+    // =========================
+    @PostMapping("/cadastro")
     public String handleCadastro(
-            @RequestParam String nome,
-            @RequestParam String cpf,
-            @RequestParam String senha,
-            @RequestParam String email,
-            @RequestParam(required = false) String telefone,
-            @RequestParam(required = false) String setor,
-            @RequestParam(required = false) String cargo) {
+           @Valid @RequestParam String nome,
+           @Valid  @RequestParam String cpf,
+           @Valid  @RequestParam String senha,
+           @Valid  @RequestParam String email,
+           @Valid  @RequestParam(required = false) Telefone telefone,
+           @Valid  @RequestParam(required = false) Setor setor,
+           @Valid  @RequestParam(required = false) Cargo cargo) {
 
-        Telefone tel = null;
+        telefoneService.cadastrarTelefone(telefone);
 
-        if (telefone != null && !telefone.trim().isEmpty()) {
-
-            tel = new Telefone();
-            tel.setTelefone(
-                    telefone.replaceAll("\\D", "")
-            );
-            tel.setTipoTelefone("PRINCIPAL");
-
-            telefoneService.cadastrarTelefone(tel);
-        }
-
+        // =========================
+        // ENDEREÇO PADRÃO
+        // =========================
         Endereco end = new Endereco();
-
-        end.setBairro("NA");
-        end.setCep("00000000");
-        end.setEstado("SP");
-        end.setCidade("Cidade");
-        end.setNumeroCasa("0");
         end.setRua("Rua");
+        end.setNumeroCasa("0");
+        end.setBairro("NA");
+        end.setCidade("Cidade");
+        end.setEstado("SP");
+        end.setCep("00000000");
 
         enderecoService.cadastrarEndereco(end);
 
+        // =========================
+        // FUNCIONÁRIO
+        // =========================
         Funcionario f = new Funcionario();
-
         f.setNome(nome);
         f.setCpf(cpf.replaceAll("\\D", ""));
         f.setEmail(email);
-        f.setSenhaHash(senha);
+        f.setSenhaHash(passwordEncoder.encode(senha));
         f.setNivelAcesso(0);
-
-        if (cargo != null) {
-
-            String c = cargo.toLowerCase();
-
-            if (c.contains("gerente")) {
-
-                f.setCargo(Cargo.GERENTE);
-
-            } else if (c.contains("almox")) {
-
-                f.setCargo(Cargo.ALMOXARIFADO);
-
-            } else {
-
-                f.setCargo(Cargo.FINANCEIRO);
-            }
-
-        } else {
-
-            f.setCargo(Cargo.FINANCEIRO);
-        }
-
-        if (tel != null) {
-            f.setTelefone(java.util.List.of(tel));
-        }
-
         f.setEndereco(end);
 
-        funcionarioService.cadastrarFuncionario(f);
+        // cargo
+        f.setCargo(definirCargo(String.valueOf(cargo)));
+
+        // telefone
+        if (telefone != null) {
+            f.setTelefone(List.of(telefone));
+        }
+
+        funcionarioService.cadastrarFuncionario(f, f.getSenhaHash());
 
         return "redirect:/login";
+    }
+
+    // =========================
+    // HELPER (CARGO)
+    // =========================
+    private Cargo definirCargo(String cargo) {
+
+        if (cargo == null) return Cargo.FINANCEIRO;
+
+        String c = cargo.toLowerCase();
+
+        if (c.contains("gerente")) return Cargo.GERENTE;
+        if (c.contains("almox")) return Cargo.ALMOXARIFADO;
+
+        return Cargo.FINANCEIRO;
     }
 }

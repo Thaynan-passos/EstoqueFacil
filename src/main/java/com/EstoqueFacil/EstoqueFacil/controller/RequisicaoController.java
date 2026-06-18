@@ -39,35 +39,27 @@ public class RequisicaoController {
         return ResponseEntity.status(HttpStatus.OK).body(requisicaoService.buscarPorDataRequisicao(data));
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<?> buscarRequisicaoPorId(@Valid @RequestParam int id){
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscarRequisicaoPorId(@Valid @PathVariable int id){
 
        return ResponseEntity.status(HttpStatus.OK).body(requisicaoService.buscarPorId(id));
     }
 
-    @PutMapping("/atualizarData")
-    public ResponseEntity<?> atualizarRequisicaoPorData(@Valid @RequestParam LocalDate data, @Valid @RequestBody Requisicao requisicao) {
-
-
-
-        return ResponseEntity.status(HttpStatus.OK).body(requisicaoService.atualizarPorData(data, requisicao));
-    }
-
-    @PutMapping("/atualizarId")
-    public ResponseEntity<?> atualizarRequisicaoPorId(@Valid @RequestParam int id, @Valid @RequestBody Requisicao requisicaoModel) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizarRequisicaoPorId(@Valid @PathVariable  int id, @Valid @RequestBody Requisicao requisicaoModel) {
 
 
         return ResponseEntity.status(HttpStatus.OK).body(requisicaoService.atualizarPorId(id, requisicaoModel));
     }
 
-    @DeleteMapping("/deletarId")
-    public ResponseEntity<?> deletarMovimentacoesPorId(@Valid @RequestParam int id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarMovimentacoesPorId(@Valid @PathVariable int id) {
 
 
         return ResponseEntity.status(HttpStatus.OK).body(requisicaoService.deletarRequisicaoPorId(id));
     }
 
-    @DeleteMapping("/deletarData")
+    @DeleteMapping("/data")
     public ResponseEntity<?> deletarMovimentacoesPorData(@Valid @RequestParam LocalDate data) {
 
         return ResponseEntity.status(HttpStatus.OK).body(requisicaoService.deletarRequisicaoPorData(data));

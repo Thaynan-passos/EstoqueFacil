@@ -1,5 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.utils;
 
+import com.EstoqueFacil.EstoqueFacil.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,12 +12,69 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    private final AuthService authService;
+
+    public SecurityConfig(AuthService authService) {
+        this.authService = authService;
+    }
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+                .userDetailsService(authService)
+                .authorizeHttpRequests(auth -> auth
 
+                        // GERENTE
+                        .requestMatchers("/dashboard-gerente/**").hasRole("GERENTE")
+                        .requestMatchers("/cadastrar-produto/**").hasRole("GERENTE")
+                        .requestMatchers("/cadastro-funcionario/**").hasRole("GERENTE")
+
+                        // ALMOXARIFE
+                        .requestMatchers("/dashboard-almoxarife/**").hasRole("ALMOXARIFE")
+                        .requestMatchers("/controle-estoque/**").hasRole("ALMOXARIFE")
+
+                        // FUNCIONÁRIO
+                        .requestMatchers("/dashboard-funcionario/**").hasRole("FUNCIONARIO")
+                        .requestMatchers("/requisicoes/**").hasRole("FUNCIONARIO")
+                        .requestMatchers("/historico-requisicoes/**").hasRole("FUNCIONARIO")
+
+                        // LOGIN E PÁGINAS PÚBLICAS
+                        .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+
+
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .usernameParameter("cpf")
+                        .passwordParameter("senha")
+                        .successHandler((request, response, authentication) -> {
+
+                            var authorities = authentication.getAuthorities();
+
+                            boolean isGerente = authorities.stream()
+                                    .anyMatch(a -> a.getAuthority().equals("ROLE_GERENTE"));
+
+                            boolean isAlmoxarife = authorities.stream()
+                                    .anyMatch(a -> a.getAuthority().equals("ROLE_ALMOXARIFE"));
+
+                            if (isGerente) {
+                                response.sendRedirect("/dashboard-gerente");
+                            } else if (isAlmoxarife) {
+                                response.sendRedirect("/dashboard-almoxarife");
+                            } else {
+                                response.sendRedirect("/dashboard-funcionario");
+                            }
+                        })
+                        .permitAll()
+                )
+
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login")
+                        .permitAll()
+                );
         return http.build();
     }
 

@@ -278,40 +278,87 @@
                 <th>Status</th>
             </tr>
             </thead>
-
-            <tbody>
-
-            <tr>
-                <td>001</td>
-                <td>Mouse Dell</td>
-                <td>2</td>
-                <td>17/06/2026</td>
-                <td class="status-aprovada">Aprovada</td>
-            </tr>
-
-            <tr>
-                <td>002</td>
-                <td>Notebook Lenovo</td>
-                <td>1</td>
-                <td>16/06/2026</td>
-                <td class="status-pendente">Pendente</td>
-            </tr>
-
-            <tr>
-                <td>003</td>
-                <td>Teclado Logitech</td>
-                <td>1</td>
-                <td>15/06/2026</td>
-                <td class="status-recusada">Recusada</td>
-            </tr>
-
-            </tbody>
+            <tbody id="tbody-solicitacoes"></tbody>
 
         </table>
 
     </div>
 
 </section>
+<script>
+    let requisicoesCache = [];
 
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        const response = await fetch("/requisicao");
+        requisicoesCache = await response.json();
+
+        renderTabela(requisicoesCache);
+    });
+
+    function renderTabela(lista) {
+
+        const tbody = document.getElementById("tbody-solicitacoes");
+        tbody.innerHTML = "";
+
+        lista.forEach(req => {
+
+            const produto = req.produtos?.[0]?.produto?.nome || "N/A";
+            const quantidade = req.produtos?.[0]?.quantidadeSolicitada || 0;
+
+            let statusClass = "";
+
+            if (req.status === "APROVADA") statusClass = "status-aprovada";
+            if (req.status === "PENDENTE") statusClass = "status-pendente";
+            if (req.status === "RECUSADA") statusClass = "status-recusada";
+
+            const data = req.dataRequisicao
+                ? new Date(req.dataRequisicao).toLocaleDateString("pt-BR")
+                : "";
+
+            const row = `
+            <tr>
+                <td>${req.idRequisicao}</td>
+                <td>${produto}</td>
+                <td>${quantidade}</td>
+                <td>${data}</td>
+                <td class="${statusClass}">${req.status}</td>
+            </tr>
+        `;
+
+            tbody.innerHTML += row;
+        });
+    }
+
+    document.querySelector(".filtros input").addEventListener("input", function () {
+
+        const valor = this.value.toLowerCase();
+
+        const filtrado = requisicoesCache.filter(req => {
+
+            const produto = req.produtos?.[0]?.produto?.nome || "";
+
+            return produto.toLowerCase().includes(valor);
+        });
+
+        renderTabela(filtrado);
+    });
+
+    document.querySelector(".filtros select").addEventListener("change", function () {
+
+        const valor = this.value.toLowerCase();
+
+        if (valor === "todos os status") {
+            renderTabela(requisicoesCache);
+            return;
+        }
+
+        const filtrado = requisicoesCache.filter(req =>
+            req.status.toLowerCase() === valor
+        );
+
+        renderTabela(filtrado);
+    });
+</script>
 </body>
 </html>

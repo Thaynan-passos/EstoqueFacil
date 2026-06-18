@@ -228,16 +228,16 @@
       </div>
   </header>
   <section>
-      <form id="form-requisicao" action="#" method="POST">
+      <form id="form-requisicao"  th:action="@{/requisicao}" th:object="${requisicao}" method="POST">
           <div class="form-grid">
               <div class="form-group full-width">
                   <label for="produto">Produto Desejado</label>
                   <select id="produto" name="produto" required>
                       <option value="" disabled selected>Busque e selecione o produto...</option>
-                      <option value="1">Mouse sem fio Dell</option>
-                      <option value="2">Teclado Mecânico Logitech</option>
-                      <option value="3">Papel A4 (Caixa)</option>
-                      <option value="4">Cadeira Ergonômica</option>
+                      <option th:each="p : ${produtos}"
+                              th:value="${p.id}"
+                              th:text="${p.nome}">
+                      </option>
                   </select>
               </div>
               <div class="form-group">
@@ -272,22 +272,46 @@
   </div>
 
   <script>
-      document.getElementById('form-requisicao').addEventListener('submit', function(e) {
-          e.preventDefault(); 
-          const popup = document.getElementById('popup-sucesso');
-          popup.className = 'popup-visivel';
-          
-          e.target.reset();
-          
-          setTimeout(function() {
-              fecharPopup();
-          }, 3000);
+      document.getElementById("form-requisicao").addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const produtoId = document.getElementById("produto").value;
+          const quantidade = document.getElementById("quantidade").value;
+          const justificativa = document.getElementById("justificativa").value;
+
+          const requisicao = {
+              dataRequisicao: new Date().toISOString().split("T")[0],
+              status: "PENDENTE",
+              motivo: justificativa,
+              setor: {
+                  idSetor: 1
+              },
+              produtos: [
+                  {
+                      produto: {
+                          idProduto: produtoId
+                      },
+                      quantidadeSolicitada: quantidade
+                  }
+              ]
+          };
+
+          const response = await fetch("/requisicao", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify(requisicao)
+          });
+
+          if (response.ok) {
+              document.getElementById("popup-sucesso").className = "popup-visivel";
+              e.target.reset();
+          } else {
+              alert("Erro ao enviar requisição");
+          }
       });
 
-      function fecharPopup() {
-          const popup = document.getElementById('popup-sucesso');
-          popup.className = 'popup-escondido';
-      }
   </script>
 </body>
 </html>

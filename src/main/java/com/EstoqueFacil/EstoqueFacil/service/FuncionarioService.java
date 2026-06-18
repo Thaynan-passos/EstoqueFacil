@@ -53,14 +53,14 @@ public class FuncionarioService {
     }
 
 
-    public Funcionario cadastrarFuncionario(Funcionario funcionario) {
+    public Funcionario cadastrarFuncionario(Funcionario funcionario, String senhaPura) {
 
-        validarFuncionario(funcionario);
+        validarFuncionario(funcionario, senhaPura);
 
         String cpfApenasNumeros = funcionario.getCpf().replaceAll("\\D", "");
         funcionario.setCpf(cpfApenasNumeros);
 
-        String senhaCriptografada = passwordEncoder.encode(funcionario.getSenhaHash());
+        String senhaCriptografada = passwordEncoder.encode(senhaPura);
         funcionario.setSenhaHash(senhaCriptografada);
 
         return funcionarioRepository.save(funcionario);
@@ -107,10 +107,10 @@ public class FuncionarioService {
 
     }
 
-    public void validarFuncionario(Funcionario funcionario){
+    public void validarFuncionario(Funcionario funcionario, String senhaPura) {
 
         nomeValidar(funcionario.getNome());
-        senhaValidar(funcionario.getSenhaHash());
+        senhaValidar(senhaPura);
 
 
         if(funcionarioRepository.existsByCpf(funcionario.getCpf())){

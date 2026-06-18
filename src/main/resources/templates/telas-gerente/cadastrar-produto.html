@@ -217,47 +217,51 @@
   </header>
 
   <section>
-      <form action="#" method="POST">
+      <form th:action="@{/produto/cadastrar}" method="post">
           <div class="form-grid">
-              
+
               <div class="form-group full-width">
-                  <label for="nomeProduto">Nome do Produto</label>
-                  <input type="text" id="nomeProduto" name="nomeProduto" placeholder="Ex: Cadeira de Escritório Ergonômica" required>
+                  <label for="nome">Nome do Produto</label>
+                  <input type="text" id="nome" name="nome"
+                         placeholder="Ex: Cadeira de Escritório Ergonômica" required>
               </div>
 
               <div class="form-group full-width">
                   <label for="descricao">Descrição</label>
-                  <textarea id="descricao" name="descricao" placeholder="Detalhes técnicos, cor, marca, etc." required></textarea>
+                  <textarea id="descricao" name="descricao"
+                            placeholder="Detalhes técnicos, cor, marca, etc." required></textarea>
               </div>
 
               <div class="form-group">
                   <label for="quantidade">Quantidade em Estoque</label>
-                  <input type="number" id="quantidade" name="quantidade" min="0" placeholder="0" required>
+                  <input type="number" id="quantidade" name="quantidade"
+                         min="0" required>
               </div>
 
               <div class="form-group">
                   <label for="valorUnitario">Valor Unitário (R$)</label>
-                  <input type="number" step="0.01" id="valorUnitario" name="valorUnitario" min="0" placeholder="0,00" required>
+                  <input type="number" step="0.01" id="valorUnitario"
+                         name="valorUnitario" required>
               </div>
 
               <div class="form-group">
                   <label for="fornecedor">Fornecedor</label>
                   <select id="fornecedor" name="fornecedor" required>
-                      <option value="" disabled selected>Selecione o fornecedor...</option>
+                      <option value="" disabled selected>Selecione...</option>
                       <option value="1">Dell Computadores</option>
                       <option value="2">Kalunga Materiais</option>
                       <option value="3">Giroflex Cadeiras</option>
                   </select>
               </div>
-              
+
               <div class="form-group">
-                  <label for="categoria">Categoria do Material</label>
+                  <label for="categoria">Categoria</label>
                   <select id="categoria" name="categoria" required>
-                      <option value="" disabled selected>Selecione a categoria...</option>
-                      <option value="eletronicos">Eletrônicos e Informática</option>
-                      <option value="moveis">Móveis e Decoração</option>
-                      <option value="papelaria">Papelaria e Escritório</option>
-                      <option value="limpeza">Material de Limpeza</option>
+                      <option value="" disabled selected>Selecione...</option>
+                      <option value="eletronicos">Eletrônicos</option>
+                      <option value="moveis">Móveis</option>
+                      <option value="papelaria">Papelaria</option>
+                      <option value="limpeza">Limpeza</option>
                   </select>
               </div>
 

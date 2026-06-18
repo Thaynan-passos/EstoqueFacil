@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
-
 
     <style>
         body{
@@ -12,7 +11,6 @@
             font-family: Arial, Helvetica, sans-serif;
             background-color:#f4f6f9;
         }
-
 
         #painel{
             position: fixed;
@@ -38,19 +36,13 @@
             margin-bottom:30px;
         }
 
-
-
         .menu-btn{
             display:block;
-
             padding:12px 15px;
             margin-bottom:10px;
-
             text-decoration:none;
             color:white;
-
             border-radius:6px;
-
             transition:0.2s;
         }
 
@@ -58,19 +50,10 @@
             background:#374151;
         }
 
-        .active{
-            background:#2563eb;
-        }
-
-
-
         header{
             margin-left:250px;
-
             background:white;
-
             padding:20px 35px;
-
             box-shadow:0 2px 8px rgba(0,0,0,0.08);
         }
 
@@ -79,37 +62,23 @@
             color:#1f2937;
         }
 
-
-
         section{
             margin-left:250px;
-
             padding:35px;
         }
 
-
-
         .cards{
             display:grid;
-
-            grid-template-columns:
-            repeat(auto-fit,minmax(220px,1fr));
-
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
             gap:25px;
-
             margin-bottom:35px;
         }
 
         .card{
             background:white;
-
             padding:25px;
-
             border-radius:12px;
-
-            box-shadow:
-                    0 2px 8px rgba(0,0,0,0.08);
-
+            box-shadow:0 2px 8px rgba(0,0,0,0.08);
             transition:0.2s;
         }
 
@@ -120,36 +89,26 @@
         .card h3{
             margin:0;
             color:#6b7280;
-
             font-size:16px;
         }
 
         .card span{
             display:block;
-
             margin-top:15px;
-
             font-size:38px;
             font-weight:bold;
-
             color:#2563eb;
         }
 
-
         .atividade-recente{
             background:white;
-
             padding:25px;
-
             border-radius:12px;
-
-            box-shadow:
-                    0 2px 8px rgba(0,0,0,0.08);
+            box-shadow:0 2px 8px rgba(0,0,0,0.08);
         }
 
         .atividade-recente h2{
             margin-top:0;
-
             color:#1f2937;
         }
 
@@ -159,20 +118,18 @@
 
         .atividade-recente li{
             margin-bottom:12px;
-
             color:#4b5563;
         }
     </style>
 </head>
+
 <body>
-
-
 
 <div id="painel">
     <h1 id="titulo1">Estoque Fácil</h1>
     <span class="subtitle">Painel Administrativo</span>
 
-    <a th:href="@{/dashboard-gerente}" class="menu-btn active">
+    <a th:href="@{/dashboard-gerente}" class="menu-btn">
         Dashboard
     </a>
 
@@ -201,22 +158,22 @@
 
         <div class="card">
             <h3>Produtos</h3>
-            <span>152</span>
+            <span th:text="${totalProdutos}">152</span>
         </div>
 
         <div class="card">
             <h3>Funcionários</h3>
-            <span>18</span>
+            <span th:text="${totalFuncionarios}">18</span>
         </div>
 
         <div class="card">
             <h3>Requisições</h3>
-            <span>27</span>
+            <span th:text="${totalRequisicoes}">27</span>
         </div>
 
         <div class="card">
             <h3>Estoque Baixo</h3>
-            <span>5</span>
+            <span th:text="${estoqueBaixo}">5</span>
         </div>
 
     </div>
@@ -226,16 +183,12 @@
         <h2>Atividades Recentes</h2>
 
         <ul>
-            <li>50 canetas adicionadas ao estoque</li>
-            <li>10 cadeiras requisitadas</li>
-            <li>Funcionário cadastrado</li>
-            <li>20 notebooks recebidos</li>
+            <li th:each="a : ${atividades}" th:text="${a}"></li>
         </ul>
 
     </div>
 
 </section>
-
 
 </body>
 </html>

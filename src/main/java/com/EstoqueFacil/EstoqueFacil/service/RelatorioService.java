@@ -2,10 +2,15 @@ package com.EstoqueFacil.EstoqueFacil.service;
 
 
 import com.EstoqueFacil.EstoqueFacil.repository.RelatorioRepository;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import com.EstoqueFacil.EstoqueFacil.model.Relatorio;
 import org.springframework.stereotype.Service;
+import com.lowagie.text.Document;
 
+
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -41,6 +46,48 @@ public class RelatorioService {
     public Relatorio cadastrarRelatorio(Relatorio relatorioModel) {
         validarRelatorio(relatorioModel);
         return relatorioRepository.save(relatorioModel);
+    }
+
+    public byte[] gerarPdf() {
+
+        List<Relatorio> relatorios = relatorioRepository.findAll();
+
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+
+            Document doc = new Document();
+            PdfWriter.getInstance(doc, out);
+
+            doc.open();
+
+
+            doc.add(new Paragraph("RELATÓRIO FINANCEIRO DO ESTOQUE"));
+            doc.add(new Paragraph(" "));
+
+            for (Relatorio r : relatorios) {
+
+                doc.add(new Paragraph("==================================="));
+
+                doc.add(new Paragraph("ID: " + r.getIdRelatorio()));
+                doc.add(new Paragraph("Descrição: " + r.getDescricao()));
+                doc.add(new Paragraph("Data emissão: " + r.getDataEmissao()));
+                doc.add(new Paragraph("Período: " + r.getDataInicio() + " até " + r.getDataFim()));
+
+                doc.add(new Paragraph("Valor total entradas: R$ " + r.getValorTotalEntrada()));
+                doc.add(new Paragraph("Valor total saídas: R$ " + r.getValorTotalSaida()));
+
+                if (r.getFuncionario() != null) {
+                    doc.add(new Paragraph("Emitido por: " + r.getFuncionario().getNome()));
+                }
+
+                doc.add(new Paragraph(" "));
+            }
+
+            doc.close();
+            return out.toByteArray();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao gerar PDF", e);
+        }
     }
 
     public Relatorio buscarPorId(Integer id){

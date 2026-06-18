@@ -218,44 +218,47 @@
   </header>
 
   <section>
-      <form action="#" method="POST">
+      <form th:action="@{/cadastro-funcionario}" method="post">
           <div class="form-grid">
-              
+
               <div class="form-group full-width">
                   <label for="nome">Nome Completo</label>
-                  <input type="text" id="nome" name="nome" placeholder="Digite o nome completo do funcionário" required>
+                  <input type="text" id="nome" name="nome"
+                         placeholder="Digite o nome completo do funcionário" required>
               </div>
 
               <div class="form-group">
                   <label for="cpf">CPF (Login)</label>
-                  <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
-                  <span class="dica-campo">Este CPF será utilizado como identificação no login do sistema.</span>
+                  <input type="text" id="cpf" name="cpf"
+                         placeholder="000.000.000-00" required>
+                  <span class="dica-campo">Este CPF será utilizado no login.</span>
               </div>
 
               <div class="form-group">
                   <label for="senha">Senha de Acesso</label>
-                  <input type="password" id="senha" name="senha" placeholder="Crie uma senha inicial" required>
+                  <input type="password" id="senha" name="senha"
+                         placeholder="Crie uma senha inicial" required>
               </div>
 
               <div class="form-group">
                   <label for="email">E-mail Corporativo</label>
-                  <input type="email" id="email" name="email" placeholder="funcionario@empresa.com" required>
+                  <input type="email" id="email" name="email"
+                         placeholder="funcionario@empresa.com" required>
               </div>
 
               <div class="form-group">
                   <label for="telefone">Telefone / Celular</label>
-                  <input type="text" id="telefone" name="telefone" placeholder="(00) 00000-0000">
+                  <input type="text" id="telefone" name="telefone"
+                         placeholder="(00) 00000-0000">
               </div>
 
               <div class="form-group">
                   <label for="setor">Setor</label>
-                  <select id="setor" name="setor" required>
+                  <select id="setor" name="setor">
                       <option value="" disabled selected>Selecione o setor...</option>
-                      <option value="ti">Tecnologia da Informação (TI)</option>
-                      <option value="rh">Recursos Humanos (RH)</option>
-                      <option value="administracao">Administração</option>
-                      <option value="financeiro">Financeiro</option>
-                      <option value="compras">Compras</option>
+                      <option value="almoxarife">Setor Almoxarifado</option>
+                      <option value="financeiro">Setor Financeiro</option>
+                      <option value="gerente">Setor de Gerência</option>
                   </select>
               </div>
 
@@ -263,10 +266,9 @@
                   <label for="cargo">Perfil de Acesso (Cargo)</label>
                   <select id="cargo" name="cargo" required>
                       <option value="" disabled selected>Selecione o nível de acesso...</option>
-                      <option value="funcionario">Funcionário Comum</option>
+                      <option value="funcionario">Financeiro</option>
                       <option value="almoxarife">Almoxarife</option>
-                      <option value="gerente_setor">Gerente de Setor</option>
-                      <option value="gerente_almoxarifado">Gerente de Almoxarifado</option>
+                      <option value="gerente_setor">Gerente</option>
                   </select>
               </div>
 

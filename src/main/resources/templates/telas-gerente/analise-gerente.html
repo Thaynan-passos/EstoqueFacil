@@ -312,33 +312,40 @@
           </tr>
           </thead>
           <tbody id="corpo-pendentes">
-          <tr class="linha-tabela">
-              <td>001</td>
-              <td>Gabriel</td>
-              <td>TI</td>
-              <td>Mouse</td>
-              <td><span class="descricao">Mouse gamer sem fio com sensor óptico...</span></td>
-              <td>10/08/2025</td>
-              <td>3</td>
-              <td><span class="status-pendente">Pendente</span></td>
+          <tr class="linha-tabela" th:each="req : ${pendentes}">
+
+              <td th:text="${req.id}"></td>
+
+              <td th:text="${req.solicitante.nome}"></td>
+
+              <td th:text="${req.solicitante.setor}"></td>
+
+              <td th:text="${req.produto.nomeProduto}"></td>
+
               <td>
-                  <button class="btn-acao btn-aprovar" onclick="moverParaHistorico(this, 'aprovar')">Aprovar</button>
-                  <button class="btn-acao btn-rejeitar" onclick="moverParaHistorico(this, 'rejeitar')">Rejeitar</button>
+                  <span class="descricao" th:text="${req.produto.nomeProduto}"></span>
               </td>
-          </tr>
-          <tr class="linha-tabela">
-              <td>002</td>
-              <td>Ana</td>
-              <td>RH</td>
-              <td>Cadeira Ergonômica</td>
-              <td><span class="descricao">Cadeira com encosto ajustável e apoio...</span></td>
-              <td>12/08/2025</td>
-              <td>5</td>
-              <td><span class="status-pendente">Pendente</span></td>
+
+              <td th:text="${#temporals.format(req.dataRequisicao, 'dd/MM/yyyy')}"></td>
+
+              <td th:text="${req.quantidade}"></td>
+
               <td>
-                  <button class="btn-acao btn-aprovar" onclick="moverParaHistorico(this, 'aprovar')">Aprovar</button>
-                  <button class="btn-acao btn-rejeitar" onclick="moverParaHistorico(this, 'rejeitar')">Rejeitar</button>
+                  <span class="status-pendente">Pendente</span>
               </td>
+
+              <td>
+                  <a th:href="@{'/requisicao/aprovar/' + ${req.id}}"
+                     class="btn-acao btn-aprovar">
+                      Aprovar
+                  </a>
+
+                  <a th:href="@{'/requisicao/rejeitar/' + ${req.id}}"
+                     class="btn-acao btn-rejeitar">
+                      Rejeitar
+                  </a>
+              </td>
+
           </tr>
           </tbody>
       </table>
@@ -360,68 +367,37 @@
               <th>Status Final</th>
           </tr>
           </thead>
+
           <tbody id="corpo-historico">
-          <tr class="linha-tabela">
-              <td>011</td>
-              <td>Pedro</td>
-              <td>TI</td>
-              <td>Teclado Mecânico</td>
-              <td><span class="descricao">Teclado mecânico para jogos...</span></td>
-              <td>10/04/2022</td>
-              <td>10</td>
-              <td><span class="status-aprovado">Aprovado</span></td>
-          </tr>
-          <tr class="linha-tabela">
-              <td>023</td>
-              <td>Carlos</td>
-              <td>TI</td>
-              <td>Controle</td>
-              <td><span class="descricao">Controle com grande velocidade...</span></td>
-              <td>10/05/2022</td>
-              <td>30</td>
-              <td><span class="status-desaprovado">Desaprovado</span></td>
+          <tr class="linha-tabela" th:each="req : ${historico}">
+
+              <td th:text="${req.id}"></td>
+
+              <td th:text="${req.solicitante.nome}"></td>
+
+              <td th:text="${req.solicitante.setor}"></td>
+
+              <td th:text="${req.produto.nomeProduto}"></td>
+
+              <td>
+                  <span class="descricao" th:text="${req.produto.nomeProduto}"></span>
+              </td>
+
+              <td th:text="${#temporals.format(req.dataRequisicao, 'dd/MM/yyyy')}"></td>
+
+              <td th:text="${req.quantidade}"></td>
+
+              <td>
+        <span th:classappend="
+            ${req.status == 'APROVADO'} ? 'status-aprovado' :
+            (${req.status == 'REJEITADO'} ? 'status-desaprovado' : 'status-pendente')"
+              th:text="${req.status}">
+        </span>
+              </td>
+
           </tr>
           </tbody>
       </table>
   </section>
-
-  <script>
-      function moverParaHistorico(botao, acao) {
-          const linha = botao.closest('tr');
-          const celulas = linha.querySelectorAll('td');
-
-          const codigo = celulas[0].innerHTML;
-          const solicitante = celulas[1].innerHTML;
-          const setor = celulas[2].innerHTML;
-          const produto = celulas[3].innerHTML;
-          const descricao = celulas[4].innerHTML;
-          const data = celulas[5].innerHTML;
-          const qtd = celulas[6].innerHTML;
-
-          let badgeStatus = '';
-          if (acao === 'aprovar') {
-              badgeStatus = '<span class="status-aprovado">Aprovado</span>';
-          } else {
-              badgeStatus = '<span class="status-desaprovado">Desaprovado</span>';
-          }
-
-          linha.remove();
-
-          const novaLinha = document.createElement('tr');
-          novaLinha.className = 'linha-tabela';
-          novaLinha.innerHTML = `
-              <td>${codigo}</td>
-              <td>${solicitante}</td>
-              <td>${setor}</td>
-              <td>${produto}</td>
-              <td>${descricao}</td>
-              <td>${data}</td>
-              <td>${qtd}</td>
-              <td>${badgeStatus}</td>
-          `;
-
-          document.getElementById('corpo-historico').appendChild(novaLinha);
-      }
-  </script>
 </body>
 </html>

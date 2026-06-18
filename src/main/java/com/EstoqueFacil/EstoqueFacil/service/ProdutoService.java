@@ -52,10 +52,10 @@ public class ProdutoService {
             throw new CampoPreenchimento("Esse código de barras já existe");
         }
 
-        produtoAtualizado.setGarantia(produtoAtualizado.getGarantia());
-        produtoAtualizado.setValorUnitario(produtoAtualizado.getValorUnitario());
-        produtoAtualizado.setClassificacao(produtoAtualizado.getClassificacao());
-        produtoAtualizado.setCodigoBarras(produtoAtualizado.getCodigoBarras());
+        produtoAtualizado.setGarantia(dadosAtualizados.getGarantia());
+        produtoAtualizado.setValorUnitario(dadosAtualizados.getValorUnitario());
+        produtoAtualizado.setClassificacao(dadosAtualizados.getClassificacao());
+        produtoAtualizado.setCodigoBarras(dadosAtualizados.getCodigoBarras());
 
         return produtoRepository.save(produtoAtualizado);
     }
@@ -72,7 +72,7 @@ public class ProdutoService {
         if (!produtoRepository.existsByCodigoProduto(codigo)) {
             throw new NoSuchElementException("Nenhum produto encontrado");
         }
-        return produtoRepository.deleteByNome(codigo);
+        return produtoRepository.deleteByCodigoProduto(codigo);
     }
 
     public void validarProduto(Produto produto){

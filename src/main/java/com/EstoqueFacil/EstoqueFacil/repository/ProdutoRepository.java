@@ -21,6 +21,6 @@ public interface ProdutoRepository extends JpaRepository<Produto,Integer> {
     Produto deleteByNome(String nome);
     Optional<Produto> findByCodigoBarras(String codigoProduto);
 
-
+   Produto deleteByCodigoProduto(String codigoProduto);
 }
 

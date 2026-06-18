@@ -16,7 +16,7 @@ public class Lote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idLote;
 
-    @Column(name="numero_Lote",unique = true, nullable = false)
+    @Column(name="numero_lote",unique = true, nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     @Positive(message = "O numero do lote deve ser maior que 0 ")
     private int numeroLote;

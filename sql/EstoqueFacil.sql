@@ -1,4 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS estoquefacil DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS estoquefacil DEFAULT CHARACTER SET utf8;
 USE estoquefacil ;
 
 -- -----------------------------------------------------

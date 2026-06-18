@@ -28,7 +28,8 @@ public class CadastroController {
             @RequestParam String cpf,
             @RequestParam String email,
             @RequestParam String senha,
-            @RequestParam Cargo cargo
+            @RequestParam (required = true) Cargo cargo,
+            @RequestParam String telefone
     ) {
 
         // =========================
@@ -41,6 +42,10 @@ public class CadastroController {
         f.setSenhaHash(senha);
         f.setCargo(cargo);
         f.setNivelAcesso(0);
+
+        if (cargo == null) {
+            throw new RuntimeException("Cargo obrigatório");
+        }
 
         // =========================
         // ENDEREÇO (OBRIGATÓRIO)
@@ -59,7 +64,7 @@ public class CadastroController {
         // TELEFONE (OBRIGATÓRIO)
         // =========================
         Telefone tel = new Telefone();
-        tel.setTelefone("000000000");
+        tel.setTelefone(telefone);
         tel.setTipoTelefone("PRINCIPAL");
 
         f.setTelefone(List.of(tel));
@@ -67,7 +72,7 @@ public class CadastroController {
         // =========================
         // SALVAR
         // =========================
-        funcionarioService.cadastrarFuncionario(f, f.getSenhaHash());
+        funcionarioService.cadastrarFuncionario(f, senha);
 
         return "redirect:/cadastro-funcionario";
     }

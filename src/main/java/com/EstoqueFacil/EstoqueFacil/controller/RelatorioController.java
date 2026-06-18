@@ -4,14 +4,13 @@ package com.EstoqueFacil.EstoqueFacil.controller;
 import jakarta.validation.Valid;
 import com.EstoqueFacil.EstoqueFacil.model.Relatorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import com.EstoqueFacil.EstoqueFacil.service.RelatorioService;
 
 import java.time.LocalDate;
+
+import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
 
 
 @RestController
@@ -30,17 +29,20 @@ public class RelatorioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(relatorioNovo);
     }
 
-    @GetMapping("/relatorio-financeiro/pdf")
-    public ResponseEntity<byte[]> baixarRelatorioPdf() {
+    @GetMapping("/pdf")
+    public ResponseEntity<byte[]> gerarPdf() {
 
         byte[] pdf = relatorioService.gerarPdf();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("attachment", "relatorio-financeiro.pdf");
+        headers.setContentDisposition(
+                ContentDisposition.attachment()
+                        .filename("relatorio-financeiro.pdf")
+                        .build()
+        );
 
-        return ResponseEntity
-                .ok()
+        return ResponseEntity.ok()
                 .headers(headers)
                 .body(pdf);
     }

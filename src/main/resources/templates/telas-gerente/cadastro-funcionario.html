@@ -210,7 +210,7 @@
       <a th:href="@{/relatorio-financeiro}" class="menu-btn">
           Relatório Financeiro
       </a>
-      <a th:href="@{/fornecedores}" class="menu-btn">Fornecedores</a>
+      <a th:href="@{/cadastrar-fornecedor}" class="menu-btn">Fornecedores</a>
   </div>
 
   <header>
@@ -220,7 +220,7 @@
   </header>
 
   <section>
-      <form th:action="@{/cadastro-funcionario}" method="post">
+      <form th:action="@{/cadastro/funcionario}" method="post">
           <div class="form-grid">
 
               <div class="form-group full-width">
@@ -254,23 +254,23 @@
                          placeholder="(00) 00000-0000">
               </div>
 
-              <div class="form-group">
-                  <label for="setor">Setor</label>
-                  <select id="setor" name="setor">
-                      <option value="" disabled selected>Selecione o setor...</option>
-                      <option value="almoxarife">Setor Almoxarifado</option>
-                      <option value="financeiro">Setor Financeiro</option>
-                      <option value="gerente">Setor de Gerência</option>
-                  </select>
-              </div>
+<!--              <div class="form-group">-->
+<!--                  <label for="setor">Setor</label>-->
+<!--                  <select id="setor" name="setor">-->
+<!--                      <option value="" disabled selected>Selecione o setor...</option>-->
+<!--                      <option value="SETOR_ALMOXARIFE">Setor Almoxarifado</option>-->
+<!--                      <option value="SETOR_FINANCEIRO">Setor Financeiro</option>-->
+<!--                      <option value="SETOR_GERENCIA">Setor de Gerência</option>-->
+<!--                  </select>-->
+<!--              </div>-->
 
               <div class="form-group">
                   <label for="cargo">Perfil de Acesso (Cargo)</label>
                   <select id="cargo" name="cargo" required>
                       <option value="" disabled selected>Selecione o nível de acesso...</option>
-                      <option value="funcionario">Financeiro</option>
-                      <option value="almoxarife">Almoxarife</option>
-                      <option value="gerente_setor">Gerente</option>
+                      <option value="FINANCEIRO">Financeiro</option>
+                      <option value="ALMOXARIFADO">Almoxarife</option>
+                      <option value="GERENTE">Gerente</option>
                   </select>
               </div>
 

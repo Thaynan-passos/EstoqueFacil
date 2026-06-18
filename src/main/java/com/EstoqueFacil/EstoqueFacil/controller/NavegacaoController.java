@@ -84,8 +84,8 @@ public class NavegacaoController {
         return "telas-gerente/cadastrar-produto";
     }
 
-    @GetMapping("/fornecedores")
-    public String fornecedores(Model model) {
+    @GetMapping("/cadastrar-fornecedor")
+    public String CadastrarFornecedor(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -106,7 +106,7 @@ public class NavegacaoController {
 
         model.addAttribute("fornecedores", fornecedorService.buscarTodosFornecedores());
 
-        return "telas-gerente/fornecedor";
+        return "telas-gerente/cadastrar-fornecedor";
     }
 
     @GetMapping("/cadastro-funcionario")

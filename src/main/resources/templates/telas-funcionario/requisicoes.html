@@ -235,8 +235,8 @@
                   <select id="produto" name="produto" required>
                       <option value="" disabled selected>Busque e selecione o produto...</option>
                       <option th:each="p : ${produtos}"
-                              th:value="${p.id}"
-                              th:text="${p.nome}">
+                              th:value="${p.idProduto}"
+                              th:text="${p.nomeProduto}">
                       </option>
                   </select>
               </div>

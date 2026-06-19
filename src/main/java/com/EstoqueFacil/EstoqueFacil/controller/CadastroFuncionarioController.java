@@ -32,7 +32,7 @@ public class CadastroFuncionarioController {
             @RequestParam String cpf,
             @RequestParam String email,
             @RequestParam String senha,
-            @RequestParam (required = true) Cargo cargo,
+            @RequestParam Cargo cargo,
             @RequestParam String telefone,
             @RequestParam String cep,
             @RequestParam String rua,
@@ -83,9 +83,10 @@ public class CadastroFuncionarioController {
         // SALVAR
         // =========================
 
-        emailUtil.enviarConfirmacao(f.getEmail(), f.getNome());
+
 
         funcionarioService.cadastrarFuncionario(f, senha);
+        emailUtil.enviarConfirmacao(f.getEmail(), f.getNome());
 
         return "redirect:/cadastro-funcionario";
     }

@@ -80,9 +80,9 @@ public class CadastroFornecedorController {
         // SALVAR
         // =========================
 
-        emailUtil.enviarConfirmacaoFornecedor(f.getEmail(), f.getRazaoSocial());
 
         fornecedorService.cadastrarFornecedor(f);
+        emailUtil.enviarConfirmacaoFornecedor(f.getEmail(), f.getRazaoSocial());
 
         return "redirect:/fornecedor";
     }

@@ -1,5 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
+import com.EstoqueFacil.EstoqueFacil.model.Requisicao;
 import com.EstoqueFacil.EstoqueFacil.model.Status;
 import com.EstoqueFacil.EstoqueFacil.service.*;
 import com.EstoqueFacil.EstoqueFacil.utils.AuthUtil;
@@ -54,7 +55,7 @@ public class NavegadorFinanceiroController {
             return "redirect:/dashboard-funcionario";
 
         model.addAttribute("produtos", produtoService.buscarTodosProdutos());
-
+        model.addAttribute("requisicao", new Requisicao());
         return "telas-funcionario/requisicoes";
     }
 

@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS estoquefacil.funcionario (
   nome VARCHAR(45) NOT NULL,
   senha_hash VARCHAR(255) NOT NULL,
   fk_id_endereco INT NOT NULL,
-  cargo ENUM('GERENTE', 'FINANCEIRO', 'ALMOXARIFE') NOT NULL,
+  cargo ENUM('GERENTE', 'FINANCEIRO', 'ALMOXARIFADO') NOT NULL,
   UNIQUE INDEX cpf_unique (cpf ASC),
   PRIMARY KEY (id_funcionario),
   INDEX fk_id_endereco (fk_id_endereco ASC),

@@ -76,7 +76,8 @@ public class Funcionario {
 
     public void setCpf(String cpf) {
 
-        this.cpf = cpf.trim();
+        cpf = cpf.trim();
+        this.cpf = cpf.trim().replaceAll("\\D", "");
     }
 
     public String getNome() {

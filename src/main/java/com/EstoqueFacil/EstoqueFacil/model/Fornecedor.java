@@ -68,7 +68,7 @@ public class Fornecedor {
 
     public void setCnpj(String cnpj){
 
-        this.cnpj =cnpj.trim();
+        this.cnpj =cnpj.trim().replaceAll("\\D", "");
     }
 
     public String getRazaoSocial() {

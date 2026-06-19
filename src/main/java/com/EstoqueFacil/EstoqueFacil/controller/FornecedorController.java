@@ -21,11 +21,11 @@ public class FornecedorController {
     private FornecedorService fornecedorService;
 
     @PostMapping
-    public ResponseEntity<Fornecedor> CriarFornecedor(@Valid @RequestBody Fornecedor fornecedor) {
+    public String CriarFornecedor(@ModelAttribute Fornecedor fornecedor) {
 
-        Fornecedor fornecedorSalvo = fornecedorService.cadastrarFornecedor(fornecedor);
+        fornecedorService.cadastrarFornecedor(fornecedor);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(fornecedorSalvo);
+        return "redirect:/cadastrar-fornecedor";
     }
 
     @GetMapping

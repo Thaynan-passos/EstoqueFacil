@@ -8,9 +8,6 @@ import jakarta.validation.constraints.PositiveOrZero;
 @Table(name="requisicao_produto")
 public class RequisicaoProduto {
 
-
-
-
     @EmbeddedId
     private RequisicaoProdutoId id;
 

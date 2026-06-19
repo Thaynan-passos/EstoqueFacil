@@ -26,7 +26,7 @@ public class RequisicaoController {
     }
 
 
-    @GetMapping
+    @GetMapping("/minhas")
     public ResponseEntity<?> listarRequisicao() {
 
         return ResponseEntity.ok(requisicaoService.buscarTodasRequisicoes());

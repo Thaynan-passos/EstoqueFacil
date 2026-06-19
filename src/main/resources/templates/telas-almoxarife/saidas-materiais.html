@@ -175,42 +175,46 @@
 
 <section>
 
-    <form>
+    <form th:action="@{/saida-materiais}" method="post">
 
         <div class="form-grid">
 
             <div class="form-group">
                 <label>Produto</label>
-                <select>
-                    <option>Selecione...</option>
+                <select name="loteId" required>
+                    <option value="" disabled selected>Selecione...</option>
+
+                    <option th:each="l : ${lotes}"
+                            th:value="${l.idLote}"
+                            th:text="${l.produto.nomeProduto}">
+                    </option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Quantidade</label>
-                <input type="number">
+                <input type="number" name="quantidade" required>
             </div>
 
             <div class="form-group">
                 <label>Solicitante</label>
-                <input type="text">
+                <input type="text" name="solicitante" required>
             </div>
 
             <div class="form-group">
                 <label>Setor</label>
-                <input type="text">
+                <input type="text" name="setor" required>
             </div>
 
             <div class="form-group full-width">
                 <label>Observações</label>
-                <textarea></textarea>
+                <textarea name="observacoes"></textarea>
             </div>
 
         </div>
 
         <div class="botoes-acao">
-            <button class="btn-cancelar" type="button">Cancelar</button>
-            <button class="btn-salvar" type="submit">Registrar Saída</button>
+            <button type="submit" class="btn-salvar">Registrar Saída</button>
         </div>
 
     </form>

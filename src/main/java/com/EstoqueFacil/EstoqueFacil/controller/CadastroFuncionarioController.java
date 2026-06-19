@@ -10,7 +10,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/cadastro")
-public class CadastroController {
+public class CadastroFuncionarioController {
 
     @Autowired
     private FuncionarioService funcionarioService;

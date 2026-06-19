@@ -46,7 +46,7 @@ public class Produto {
     @NotNull(message = "É necessário escrever a classificação do produto.")
     private ClassificacaoProduto classificacao;
 
-    public int getIdProduto() {
+    public Integer getIdProduto() {
         return idProduto;
     }
 

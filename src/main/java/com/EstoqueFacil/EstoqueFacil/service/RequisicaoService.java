@@ -1,11 +1,15 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
 
-import com.EstoqueFacil.EstoqueFacil.model.Status;
+import com.EstoqueFacil.EstoqueFacil.model.*;
+import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
 import com.EstoqueFacil.EstoqueFacil.repository.RequisicaoRepository;
 import exceptions.ErroDePreenchimentoInvalidoException;
-import com.EstoqueFacil.EstoqueFacil.model.Requisicao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,9 +19,12 @@ import java.util.NoSuchElementException;
 public class RequisicaoService {
 
     private final RequisicaoRepository requisicaoRepository;
+    private final ProdutoRepository produtoRepository;
 
-    public RequisicaoService(RequisicaoRepository requisicaoRepository) {
+    public RequisicaoService(RequisicaoRepository requisicaoRepository,
+                             ProdutoRepository produtoRepository) {
         this.requisicaoRepository = requisicaoRepository;
+        this.produtoRepository = produtoRepository;
     }
 
     public void validarDataRequisicao(LocalDate date) {
@@ -27,10 +34,32 @@ public class RequisicaoService {
         }
     }
 
-    public Requisicao cadastrarRequisicao(Requisicao requisicaoModel) {
-        validarRequisicao(requisicaoModel);
-        requisicaoModel.setStatus(Status.PENDENTE);
-        return requisicaoRepository.save(requisicaoModel);
+    public Requisicao cadastrarRequisicao(Requisicao requisicao) {
+
+        validarRequisicao(requisicao);
+
+        requisicao.setStatus(Status.PENDENTE);
+
+        if (requisicao.getProdutos() != null) {
+
+            for (RequisicaoProduto rp : requisicao.getProdutos()) {
+
+                if (rp.getProduto() == null || rp.getProduto().getIdProduto() == null) {
+                    throw new NoSuchElementException("Produto inválido na requisição");
+                }
+
+                rp.setRequisicao(requisicao);
+                Integer produtoId = rp.getProduto().getIdProduto();
+
+                Produto produto = produtoRepository.findById(produtoId)
+                        .orElseThrow(() -> new NoSuchElementException("Produto não encontrado"));
+
+                rp.setProduto(produto);
+                rp.setProduto(produto);
+            }
+        }
+
+        return requisicaoRepository.save(requisicao);
     }
 
     public Requisicao buscarPorId(Integer id){
@@ -45,8 +74,6 @@ public class RequisicaoService {
     public List<Requisicao> buscarTodasRequisicoes() {
         return requisicaoRepository.findAll();
     }
-
-
 
     public long totalRequisicoes() {
         return requisicaoRepository.count();
@@ -69,7 +96,11 @@ public class RequisicaoService {
         return requisicaoRepository.findByStatus(Status.NEGADO);
     }
 
-    public List<Requisicao> buscarUltimas(int limite) {
+    public List<Requisicao> buscarHistorico() {
+        return requisicaoRepository.findByStatusNot(Status.PENDENTE);
+    }
+
+    public List<Requisicao> buscarUltimas() {
         return requisicaoRepository.findTopByOrderByDataRequisicaoDesc();
     }
 

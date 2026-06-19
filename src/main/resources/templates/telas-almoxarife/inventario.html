@@ -245,43 +245,27 @@
                 <th>Status</th>
             </tr>
             </thead>
-
             <tbody>
+            <tr th:each="p : ${produtos}">
 
-            <tr>
-                <td>001</td>
-                <td>Mouse Dell</td>
-                <td>Informática</td>
-                <td>50</td>
-                <td>Disponível</td>
+                <td th:text="${p.idProduto}"></td>
+
+                <td th:text="${p.nomeProduto}"></td>
+
+                <td th:text="${p.classificacao}"></td>
+
+                <td>
+        <span style="color:#999;">
+            (sem controle de estoque ainda)
+        </span>
+                </td>
+
+                <td>
+                    <span>Indefinido</span>
+                </td>
+
             </tr>
-
-            <tr>
-                <td>002</td>
-                <td>Teclado Mecânico</td>
-                <td>Informática</td>
-                <td>20</td>
-                <td>Disponível</td>
-            </tr>
-
-            <tr>
-                <td>003</td>
-                <td>Cadeira Ergonômica</td>
-                <td>Mobiliário</td>
-                <td>3</td>
-                <td>Estoque Baixo</td>
-            </tr>
-
-            <tr>
-                <td>004</td>
-                <td>Monitor LG</td>
-                <td>Informática</td>
-                <td>15</td>
-                <td>Disponível</td>
-            </tr>
-
             </tbody>
-
         </table>
 
     </div>

@@ -34,7 +34,7 @@ public class Requisicao {
     @NotNull
     private Setor setor;
 
-    @OneToMany(mappedBy = "requisicao")
+    @OneToMany(mappedBy = "requisicao", cascade = CascadeType.ALL)
     private List<RequisicaoProduto> produtos;
 
     public int getIdRequisicao() {

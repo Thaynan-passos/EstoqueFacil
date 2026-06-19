@@ -238,42 +238,17 @@
             </thead>
 
             <tbody>
+            <tr th:each="m : ${movimentacoes}">
 
-            <tr>
-                <td>Mouse Dell</td>
-                <td>Entrada</td>
-                <td>50</td>
-                <td>17/06/2026</td>
+                <td th:text="${m.descricao}"></td>
+
+                <td>
+                    <span th:text="${m.status}"></span>
+                </td>
+
+                <td th:text="${#temporals.format(m.dataMovimentacao, 'dd/MM/yyyy')}"></td>
+
             </tr>
-
-            <tr>
-                <td>Cadeira Ergonômica</td>
-                <td>Saída</td>
-                <td>10</td>
-                <td>17/06/2026</td>
-            </tr>
-
-            <tr>
-                <td>Notebook Lenovo</td>
-                <td>Entrada</td>
-                <td>15</td>
-                <td>16/06/2026</td>
-            </tr>
-
-            <tr>
-                <td>Teclado Mecânico</td>
-                <td>Saída</td>
-                <td>8</td>
-                <td>16/06/2026</td>
-            </tr>
-
-            <tr>
-                <td>Monitor 24"</td>
-                <td>Entrada</td>
-                <td>20</td>
-                <td>15/06/2026</td>
-            </tr>
-
             </tbody>
 
         </table>

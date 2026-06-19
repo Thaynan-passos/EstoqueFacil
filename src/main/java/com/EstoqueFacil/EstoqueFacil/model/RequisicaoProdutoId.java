@@ -1,6 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.model;
 
-import jakarta.persistence.Column;
+
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
@@ -9,10 +9,8 @@ import java.util.Objects;
 @Embeddable
 public class RequisicaoProdutoId implements Serializable {
 
-    @Column(name = "fk_id_requisicao")
     private Integer requisicaoId;
 
-    @Column(name = "fk_id_produto")
     private Integer produtoId;
 
     public Integer getRequisicaoId() {
@@ -30,7 +28,8 @@ public class RequisicaoProdutoId implements Serializable {
     public void setProdutoId(Integer produtoId) {
         this.produtoId = produtoId;
     }
-    
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -323,7 +323,9 @@
 
               <td th:text="${req.solicitante.setor}"></td>
 
-              <td th:text="${req.produto.nomeProduto}"></td>
+          <tr th:each="rp : ${req.produtos}">
+              <td th:text="${rp.produto.nomeProduto}"></td>
+          </tr>
 
               <td>
                   <span class="descricao" th:text="${req.produto.nomeProduto}"></span>

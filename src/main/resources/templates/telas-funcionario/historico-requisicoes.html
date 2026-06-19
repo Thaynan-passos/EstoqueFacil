@@ -190,22 +190,22 @@
         if (req.status === "APROVADO") statusClass = "status-aprovado";
         if (req.status === "REJEITADO") statusClass = "status-desaprovado";
 
-        
-        const produtoNome = req.produtos?.[0]?.produto?.nome || "N/A";
+
+        const produtoNome = req.produtos?.[0]?.produto?.nomeProduto || "N/A";
         const quantidade = req.produtos?.[0]?.quantidadeSolicitada || 0;
 
         const row = `
-            <tr>
-                <td>REQ-${req.idRequisicao}</td>
-                <td>${produtoNome}</td>
-                <td>${req.dataRequisicao}</td>
-                <td>${quantidade}</td>
-                <td><span class="${statusClass}">${req.status}</span></td>
-            </tr>
-        `;
+    <tr>
+        <td>REQ-${req.id}</td>
+        <td>${produtoNome}</td>
+        <td>${req.dataRequisicao}</td>
+        <td>${quantidade}</td>
+        <td><span class="${statusClass}">${req.status}</span></td>
+    </tr>
+`;
 
-        tbody.innerHTML += row;
-    });
-});</script>
+        tbody.innerHTML += row;});
+});
+</script>
 </body>
 </html>

@@ -54,9 +54,6 @@ public class CadastroProdutoController {
         return "redirect:/cadastrar-produto";
     }
 
-    // =========================
-    // MAPEAMENTO STRING -> ENUM
-    // =========================
     private ClassificacaoProduto mapClassificacao(String categoria) {
 
         if (categoria == null) {

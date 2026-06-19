@@ -1,8 +1,13 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
+import com.EstoqueFacil.EstoqueFacil.model.Lote;
+import com.EstoqueFacil.EstoqueFacil.model.Produto;
+import com.EstoqueFacil.EstoqueFacil.repository.LoteRepository;
 import com.EstoqueFacil.EstoqueFacil.repository.MovimentacaoRepository;
+import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import com.EstoqueFacil.EstoqueFacil.model.Movimentacao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,15 +19,37 @@ public class MovimentacaoService {
 
     private final MovimentacaoRepository movimentacaoRepository;
 
+    @Autowired
+    private LoteRepository loteRepository;
+
     public MovimentacaoService(MovimentacaoRepository movimentacaoRepository) {
         this.movimentacaoRepository = movimentacaoRepository;
     }
 
-    public static void validarID(int id){
-        if (id <= 0) {
-            throw new IllegalArgumentException("ID inválido");
+    public void registrarSaida(Integer loteId,
+                               Integer quantidade,
+                               String solicitante,
+                               String setor,
+                               String observacoes) {
+
+        Lote lote = loteRepository.findById(loteId)
+                .orElseThrow(() -> new NoSuchElementException("Lote não encontrado"));
+
+        if (quantidade <= 0) {
+            throw new IllegalArgumentException("Quantidade inválida");
         }
+
+        if (lote.getQuantidade() < quantidade) {
+            throw new IllegalStateException("Estoque insuficiente no lote");
+        }
+
+        lote.setQuantidade(
+                lote.getQuantidade() - quantidade
+        );
+
+        loteRepository.save(lote);
     }
+
 
     public void validarDataMovimentacao(LocalDate dataMovimentacao) {
         if (dataMovimentacao.isAfter(LocalDate.now())) {
@@ -33,6 +60,20 @@ public class MovimentacaoService {
     public Movimentacao cadastrarMovimentacao(Movimentacao movimentacaoModel) {
         validarMovimentacao(movimentacaoModel);
         return movimentacaoRepository.save(movimentacaoModel);
+    }
+
+    public void registrarEntrada(Integer loteId, Integer quantidade) {
+
+        Lote lote = loteRepository.findById(loteId)
+                .orElseThrow(() -> new NoSuchElementException("Lote não encontrado"));
+
+        if (quantidade <= 0) {
+            throw new IllegalArgumentException("Quantidade inválida");
+        }
+
+        lote.setQuantidade(lote.getQuantidade() + quantidade);
+
+        loteRepository.save(lote);
     }
 
     public Movimentacao buscarPorId(Integer id){

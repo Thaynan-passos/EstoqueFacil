@@ -195,7 +195,7 @@
 
       <a th:href="@{/entrada-materiais}" class="menu-btn">Entrada de Materiais</a>
 
-      <a th:href="@{/saida-materiais}" class="menu-btn">Saída de Materiais</a>
+      <a th:href="@{/saidas-materiais}" class="menu-btn">Saída de Materiais</a>
 
       <a th:href="@{/inventario}" class="menu-btn">Inventário do almoxarifado</a>
       <a th:href="@{/cadastrar-produto}" class="menu-btn">
@@ -217,12 +217,12 @@
 
               <div class="form-group full-width">
                   <label>Nome do Produto</label>
-                  <input type="text" name="nome" required>
+                  <input type="text" name="nomeProduto" required>
               </div>
 
               <div class="form-group">
                   <label>Código de Barras</label>
-                  <input type="text" name="codigoProduto" required>
+                  <input type="text" name="codigoBarras" required>
               </div>
 
               <div class="form-group">
@@ -237,7 +237,7 @@
 
               <div class="form-group">
                   <label>Classificação</label>
-                  <select name="classificacaoProduto" required>
+                  <select name="classificacao" required>
                       <option value="CONSUMO">Eletrônico</option>
                       <option value="REPARO">Reparo</option>
                       <option value="LIMPEZA">Limpeza</option>
@@ -256,3 +256,4 @@
 
 </body>
 </html>
+

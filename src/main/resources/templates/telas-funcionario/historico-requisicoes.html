@@ -175,7 +175,7 @@
 
 <script>document.addEventListener("DOMContentLoaded", async () => {
 
-    const response = await fetch("/requisicao");
+    const response = await fetch("/requisicao/minhas");
     const requisicoes = await response.json();
 
     const tbody = document.getElementById("tbody-requisicoes");
@@ -188,7 +188,7 @@
 
         if (req.status === "PENDENTE") statusClass = "status-pendente";
         if (req.status === "APROVADO") statusClass = "status-aprovado";
-        if (req.status === "REJEITADO") statusClass = "status-desaprovado";
+        if (req.status === "NEGADO") statusClass = "status-desaprovado";
 
 
         const produtoNome = req.produtos?.[0]?.produto?.nomeProduto || "N/A";
@@ -196,7 +196,7 @@
 
         const row = `
     <tr>
-        <td>REQ-${req.id}</td>
+        <td>REQ-${req.idRequisicao}</td>
         <td>${produtoNome}</td>
         <td>${req.dataRequisicao}</td>
         <td>${quantidade}</td>
@@ -209,3 +209,4 @@
 </script>
 </body>
 </html>
+

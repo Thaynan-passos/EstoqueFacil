@@ -136,18 +136,18 @@ public class NavegadorAlmoxarifeController {
 
 
 
-        return "telas-almoxarife/saida-materiais";
+        return "telas-almoxarife/saidas-materiais";
     }
 
     @PostMapping("/saidas-materiais")
-    public String registrarSaida(@RequestParam Integer produtoId,
+    public String registrarSaida(@RequestParam Integer loteId,
                                  @RequestParam Integer quantidade,
                                  @RequestParam String solicitante,
                                  @RequestParam String setor,
                                  @RequestParam String observacoes) {
 
         movimentacaoService.registrarSaida(
-                produtoId,
+                loteId,
                 quantidade,
                 solicitante,
                 setor,

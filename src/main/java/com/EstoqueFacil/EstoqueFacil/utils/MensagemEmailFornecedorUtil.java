@@ -1,6 +1,5 @@
 package com.EstoqueFacil.EstoqueFacil.utils;
 
-
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.Authenticator;
@@ -10,20 +9,30 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MensagemEmailFornecedorUtil {
 
+    @Value("${mail.smtp.host}")
+    private String host;
+
+    @Value("${mail.smtp.port}")
+    private String port;
+
+    @Value("${mail.smtp.username}")
+    private String remetente;
+
+    @Value("${mail.smtp.password}")
+    private String senha;
+
     public void enviarConfirmacaoFornecedor(String emailUsuario, String nomeUsuario) {
-        // Configurações do remetente
-        final String remetente = "Estoque.facil.main@gmail.com";
-        final String senha = "eqdlmwjvicwfhnli";
 
         // Propriedades do Servidor SMTP
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
 
@@ -57,4 +66,3 @@ public class MensagemEmailFornecedorUtil {
         }
     }
 }
-

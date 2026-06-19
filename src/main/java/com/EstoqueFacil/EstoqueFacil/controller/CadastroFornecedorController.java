@@ -28,7 +28,7 @@ public class CadastroFornecedorController {
     @GetMapping
     public String telaFornecedor(org.springframework.ui.Model model) {
         model.addAttribute("fornecedores", fornecedorService.buscarTodosFornecedores());
-        return "telas-gerente/fornecedores";
+        return "telas-gerente/cadastrar-fornecedor";
     }
 
     // cadastra fornecedor
@@ -84,6 +84,6 @@ public class CadastroFornecedorController {
         fornecedorService.cadastrarFornecedor(f);
         emailUtil.enviarConfirmacaoFornecedor(f.getEmail(), f.getRazaoSocial());
 
-        return "redirect:/fornecedor";
+        return "redirect:/cadastrar-fornecedor";
     }
 }

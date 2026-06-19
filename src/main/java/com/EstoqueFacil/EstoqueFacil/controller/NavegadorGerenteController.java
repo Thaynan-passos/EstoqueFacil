@@ -1,5 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
+import com.EstoqueFacil.EstoqueFacil.model.Status;
 import com.EstoqueFacil.EstoqueFacil.service.FornecedorService;
 import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
 import com.EstoqueFacil.EstoqueFacil.service.RelatorioService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class NavegadorGerenteController {
@@ -89,5 +91,21 @@ public class NavegadorGerenteController {
         model.addAttribute("historico", requisicaoService.buscarHistorico());
 
         return "telas-gerente/analise-gerente";
+    }
+
+    @GetMapping("/requisicao/aprovar/{id}")
+    public String aprovarRequisicao(@PathVariable int id) {
+        if (!authUtil.isLogado()) return "redirect:/login";
+        if (!authUtil.hasRole("ROLE_GERENTE")) return "redirect:/dashboard-gerente";
+        requisicaoService.atualizarStatus(id, Status.APROVADO);
+        return "redirect:/analise-gerente";
+    }
+
+    @GetMapping("/requisicao/rejeitar/{id}")
+    public String rejeitarRequisicao(@PathVariable int id) {
+        if (!authUtil.isLogado()) return "redirect:/login";
+        if (!authUtil.hasRole("ROLE_GERENTE")) return "redirect:/dashboard-gerente";
+        requisicaoService.atualizarStatus(id, Status.NEGADO);
+        return "redirect:/analise-gerente";
     }
 }

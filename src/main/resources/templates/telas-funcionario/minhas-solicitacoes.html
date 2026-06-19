@@ -290,7 +290,7 @@
 
     document.addEventListener("DOMContentLoaded", async () => {
 
-        const response = await fetch("/requisicao");
+        const response = await fetch("/requisicao/minhas");
         requisicoesCache = await response.json();
 
         renderTabela(requisicoesCache);
@@ -303,14 +303,14 @@
 
         lista.forEach(req => {
 
-            const produto = req.produtos?.[0]?.produto?.nome || "N/A";
+            const produto = req.produtos?.[0]?.produto?.nomeProduto || "N/A";
             const quantidade = req.produtos?.[0]?.quantidadeSolicitada || 0;
 
             let statusClass = "";
 
-            if (req.status === "APROVADA") statusClass = "status-aprovada";
+            if (req.status === "APROVADO") statusClass = "status-aprovada";
             if (req.status === "PENDENTE") statusClass = "status-pendente";
-            if (req.status === "RECUSADA") statusClass = "status-recusada";
+            if (req.status === "NEGADO") statusClass = "status-recusada";
 
             const data = req.dataRequisicao
                 ? new Date(req.dataRequisicao).toLocaleDateString("pt-BR")
@@ -336,7 +336,7 @@
 
         const filtrado = requisicoesCache.filter(req => {
 
-            const produto = req.produtos?.[0]?.produto?.nome || "";
+            const produto = req.produtos?.[0]?.produto?.nomeProduto || "";
 
             return produto.toLowerCase().includes(valor);
         });
@@ -362,3 +362,4 @@
 </script>
 </body>
 </html>
+

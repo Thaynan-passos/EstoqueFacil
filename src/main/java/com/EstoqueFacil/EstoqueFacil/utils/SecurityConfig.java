@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/cadastrar-produto/**").hasRole("ALMOXARIFADO")
                         .requestMatchers("/entrada-materiais/**").hasRole("ALMOXARIFADO")
                         .requestMatchers("/inventario/**").hasRole("ALMOXARIFADO")
-                        .requestMatchers("/saida-materiais/**").hasRole("ALMOXARIFADO")
+                        .requestMatchers("/saidas-materiais/**").hasRole("ALMOXARIFADO")
 
 
                         // FUNCIONÁRIO

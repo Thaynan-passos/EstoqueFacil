@@ -116,6 +116,12 @@ public class RequisicaoService {
         return requisicaoRepository.save(requisicaoNovo);
     }
 
+    public Requisicao atualizarStatus(int id, Status status) {
+        Requisicao requisicao = buscarPorId(id);
+        requisicao.setStatus(status);
+        return requisicaoRepository.save(requisicao);
+    }
+
     public Requisicao deletarRequisicaoPorId(int id){
         if(!requisicaoRepository.existsById(id)) {
             throw new NoSuchElementException("Não existe nenhuma requisição com o id " + id);

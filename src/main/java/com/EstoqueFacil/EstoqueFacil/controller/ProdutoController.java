@@ -12,7 +12,7 @@ import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
 
 
 @RestController
-@RequestMapping("api//produto")
+@RequestMapping("api/produto")
 public class ProdutoController {
 
     @Autowired

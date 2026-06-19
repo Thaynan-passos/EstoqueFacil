@@ -1,5 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
+import com.EstoqueFacil.EstoqueFacil.utils.MensagemEmailFornecedorUtil;
+import com.EstoqueFacil.EstoqueFacil.utils.MensagemEmailFuncionarioUtil;
 import jakarta.validation.Valid;
 import com.EstoqueFacil.EstoqueFacil.model.Fornecedor;
 import com.EstoqueFacil.EstoqueFacil.service.FornecedorService;
@@ -20,12 +22,15 @@ public class FornecedorController {
     @Autowired
     private FornecedorService fornecedorService;
 
+    @Autowired
+    private MensagemEmailFornecedorUtil emailUtil;
+
     @PostMapping
-    public String CriarFornecedor(@ModelAttribute Fornecedor fornecedor) {
+    public ResponseEntity<?> CriarFornecedor(@RequestBody Fornecedor fornecedor) {
 
         fornecedorService.cadastrarFornecedor(fornecedor);
 
-        return "redirect:/cadastrar-fornecedor";
+        return ResponseEntity.status(HttpStatus.OK).body(fornecedorService.cadastrarFornecedor(fornecedor));
     }
 
     @GetMapping

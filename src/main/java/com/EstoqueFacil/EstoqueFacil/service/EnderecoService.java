@@ -20,11 +20,6 @@ public class EnderecoService {
         this.enderecoRepository =  enderecoRepository;
     }
 
-    public static void validarID(int id){
-        if (id <= 0) {
-            throw new IllegalArgumentException("ID inválido");
-        }
-    }
 
     public static void estadoValidar(String estado) {
 
@@ -36,10 +31,14 @@ public class EnderecoService {
 
     public static void cepValidar(String cep){
 
+
+
         //exatos 8 dígitos
         if(!cep.trim().matches("^\\d{5}-\\d{3}$|^\\d{8}$")){
             throw new ErroDePreenchimentoInvalidoException("\nO CEP deve conter exatamente 8 números");
         }
+
+
     }
 
     public static void bairroValidar(String bairro){

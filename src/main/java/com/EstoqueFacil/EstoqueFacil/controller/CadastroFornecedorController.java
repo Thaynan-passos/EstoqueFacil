@@ -1,7 +1,8 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
 import com.EstoqueFacil.EstoqueFacil.model.*;
-import com.EstoqueFacil.EstoqueFacil.service.FuncionarioService;
+import com.EstoqueFacil.EstoqueFacil.service.FornecedorService;
+import com.EstoqueFacil.EstoqueFacil.utils.MensagemEmailFornecedorUtil;
 import com.EstoqueFacil.EstoqueFacil.utils.MensagemEmailFuncionarioUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,29 +11,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/cadastro")
-public class CadastroFuncionarioController {
+@RequestMapping("/cadastrar")
+public class CadastroFornecedorController {
+
+    private final FornecedorService fornecedorService;
+
 
     @Autowired
-    private FuncionarioService funcionarioService;
+    private MensagemEmailFornecedorUtil emailUtil;
 
-    @Autowired
-    private MensagemEmailFuncionarioUtil emailUtil;
-
-    // abre a tela
-    @GetMapping
-    public String telaCadastro() {
-        return "telas-gerente/cadastro-funcionario";
+    public CadastroFornecedorController(FornecedorService fornecedorService) {
+        this.fornecedorService = fornecedorService;
     }
 
-    // salva funcionário
-    @PostMapping("/funcionario")
-    public String cadastrarFuncionario(
+    // abre tela
+    @GetMapping
+    public String telaFornecedor(org.springframework.ui.Model model) {
+        model.addAttribute("fornecedores", fornecedorService.buscarTodosFornecedores());
+        return "telas-gerente/fornecedores";
+    }
+
+    // cadastra fornecedor
+    @PostMapping("/fornecimento")
+    public String cadastrarFornecedor(
             @RequestParam String nome,
-            @RequestParam String cpf,
+            @RequestParam String cnpj,
             @RequestParam String email,
-            @RequestParam String senha,
-            @RequestParam (required = true) Cargo cargo,
             @RequestParam String telefone,
             @RequestParam String cep,
             @RequestParam String rua,
@@ -43,22 +47,15 @@ public class CadastroFuncionarioController {
     ) {
 
         // =========================
-        // FUNCIONÁRIO
+        // FORNECEDOR
         // =========================
-        Funcionario f = new Funcionario();
-        f.setNome(nome);
-        f.setCpf(cpf);
+        Fornecedor f = new Fornecedor();
+        f.setRazaoSocial(nome);
+        f.setCnpj(cnpj);
         f.setEmail(email);
-        f.setSenhaHash(senha);
-        f.setCargo(cargo);
-        f.setNivelAcesso(0);
-
-        if (cargo == null) {
-            throw new RuntimeException("Cargo obrigatório");
-        }
 
         // =========================
-        // ENDEREÇO (OBRIGATÓRIO)
+        // ENDEREÇO
         // =========================
         Endereco end = new Endereco();
         end.setCep(cep);
@@ -71,7 +68,7 @@ public class CadastroFuncionarioController {
         f.setEndereco(end);
 
         // =========================
-        // TELEFONE (OBRIGATÓRIO)
+        // TELEFONE
         // =========================
         Telefone tel = new Telefone();
         tel.setTelefone(telefone);
@@ -83,10 +80,10 @@ public class CadastroFuncionarioController {
         // SALVAR
         // =========================
 
-        emailUtil.enviarConfirmacao(f.getEmail(), f.getNome());
+        emailUtil.enviarConfirmacaoFornecedor(f.getEmail(), f.getRazaoSocial());
 
-        funcionarioService.cadastrarFuncionario(f, senha);
+        fornecedorService.cadastrarFornecedor(f);
 
-        return "redirect:/cadastro-funcionario";
+        return "redirect:/fornecedor";
     }
 }

@@ -177,7 +177,7 @@
         <div class="box">
             <h2>Cadastrar Fornecedor</h2>
 
-            <form method="post" th:action="@{/fornecedor}">
+            <form method="post" th:action="@{/cadastrar/fornecimento}">
 
                 <label>Nome:</label>
                 <input type="text" name="nome" required>
@@ -190,6 +190,70 @@
 
                 <label>Email:</label>
                 <input type="email" name="email">
+
+                <div class="form-grid">
+
+                    <div class="form-group full-width">
+                        <label for="endereco_rua">Rua</label>
+                        <input type="text" id="endereco_rua" name="rua" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bairro">Bairro</label>
+                        <input type="text" id="bairro" name="bairro" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cidade">Cidade</label>
+                        <input type="text" id="cidade" name="cidade" required>
+                    </div>
+                  <div>
+                    <label for="numeroCasa">Número</label>
+                    <input type="text" id="numeroCasa" name="numero"
+                           placeholder="Ex: 123 ou S/N" required>
+                </div>
+
+                    <div class="form-group">
+                        <label for="estado">Estado (UF)</label>
+                        <select id="estado" name="estado" required>
+                            <option value="" disabled selected>Selecione o estado...</option>
+
+                            <option value="AC">AC</option>
+                            <option value="AL">AL</option>
+                            <option value="AP">AP</option>
+                            <option value="AM">AM</option>
+                            <option value="BA">BA</option>
+                            <option value="CE">CE</option>
+                            <option value="DF">DF</option>
+                            <option value="ES">ES</option>
+                            <option value="GO">GO</option>
+                            <option value="MA">MA</option>
+                            <option value="MT">MT</option>
+                            <option value="MS">MS</option>
+                            <option value="MG">MG</option>
+                            <option value="PA">PA</option>
+                            <option value="PB">PB</option>
+                            <option value="PR">PR</option>
+                            <option value="PE">PE</option>
+                            <option value="PI">PI</option>
+                            <option value="RJ">RJ</option>
+                            <option value="RN">RN</option>
+                            <option value="RS">RS</option>
+                            <option value="RO">RO</option>
+                            <option value="RR">RR</option>
+                            <option value="SC">SC</option>
+                            <option value="SP">SP</option>
+                            <option value="SE">SE</option>
+                            <option value="TO">TO</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cep">CEP</label>
+                        <input type="text" id="cep" name="cep" required>
+                    </div>
+
+                </div>
 
                 <button type="submit">Salvar Fornecedor</button>
             </form>
@@ -205,20 +269,14 @@
                     <th>ID</th>
                     <th>Nome</th>
                     <th>CNPJ</th>
-                    <th>Status</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr th:each="f : ${fornecedores}">
-                    <td th:text="${f.id}"></td>
-                    <td th:text="${f.nome}"></td>
+                    <td th:text="${f.idFornecedor}"></td>
+                    <td th:text="${f.razaoSocial}"></td>
                     <td th:text="${f.cnpj}"></td>
-                    <td>
-                            <span th:classappend="${f.ativo} ? 'badge ativo' : 'badge inativo'"
-                                  th:text="${f.ativo} ? 'ATIVO' : 'INATIVO'">
-                            </span>
-                    </td>
                 </tr>
                 </tbody>
             </table>

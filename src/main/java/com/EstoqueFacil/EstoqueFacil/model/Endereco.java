@@ -27,8 +27,7 @@ public class Endereco {
     @NotBlank (message="É necessário indicar a cidade.")
     private String cidade;
 
-    @Column(name="numero", length = 20, nullable = false)
-    @NotBlank  (message="O numero de casa deve ser preenchido.")
+    @Column(name="numero", length = 20, nullable =false)
     private String numeroCasa;
 
     @Column(name="rua",length = 45,nullable = false)
@@ -58,7 +57,10 @@ public class Endereco {
     }
 
     public void setCep(String cep) {
-        this.cep = cep.trim();
+
+        cep = cep.trim();
+        this.cep = cep.replace("-", "");
+
     }
 
     public String getEstado() {

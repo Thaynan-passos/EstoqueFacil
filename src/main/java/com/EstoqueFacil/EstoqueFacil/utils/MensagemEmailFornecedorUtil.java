@@ -10,7 +10,9 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MensagemEmailFornecedorUtil {
 
     public void enviarConfirmacaoFornecedor(String emailUsuario, String nomeUsuario) {

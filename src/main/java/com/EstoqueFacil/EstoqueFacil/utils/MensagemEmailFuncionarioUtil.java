@@ -9,7 +9,9 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.InternetAddress;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MensagemEmailFuncionarioUtil {
 
     public void enviarConfirmacao(String emailUsuario, String nomeUsuario) {

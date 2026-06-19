@@ -1,261 +1,71 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Almoxarife</title>
-
+    <title>Dashboard Almoxarife - Estoque Fácil</title>
     <style>
-
-        body {
-            color: #ffffff;
-            margin: 0;
-            background-color: #f4f6f9;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        header {
-            margin-left: 275px;
-            width: calc(100% - 275px);
-            height: 85px;
-            background-color: #ffffff;
-            border-bottom: 1px solid #dcdcdc;
-            display: flex;
-            align-items: center;
-            padding-left: 35px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-
-        #titulo-header {
-            color: #1f1f1f;
-            font-size: 28px;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        #painel {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 275px;
-            height: 100vh;
-            background: linear-gradient(180deg, #0a4da3 0%, #032049 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 45px;
-            box-shadow: 2px 0 8px rgba(0,0,0,0.25);
-        }
-
-        #titulo1 {
-            color: white;
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            color: rgba(255,255,255,0.85);
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-            letter-spacing: 1px;
-            margin-bottom: 35px;
-            display: block;
-        }
-
-        .menu-btn {
-            width: 210px;
-            height: 42px;
-            margin-bottom: 12px;
-            border-radius: 4px;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            padding-left: 18px;
-            box-sizing: border-box;
-            transition: background-color 0.2s;
-        }
-
-        .menu-btn:hover {
-            background-color: rgba(255,255,255,0.12);
-        }
-
-        .menu-btn.active {
-            background-color: rgba(255,255,255,0.20);
-        }
-
-        section {
-            margin-left: 305px;
-            margin-top: 30px;
-            margin-right: 35px;
-            margin-bottom: 30px;
-            color: #333;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(4,1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 6px;
-            padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-        }
-
-        .card h3 {
-            color: #666;
-            margin: 0;
-            font-size: 15px;
-        }
-
-        .card span {
-            display: block;
-            margin-top: 15px;
-            color: #0a4da3;
-            font-size: 36px;
-            font-weight: bold;
-        }
-
-        .tabela-box {
-            background-color: #ffffff;
-            border-radius: 6px;
-            padding: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .tabela-box h2 {
-            color: #1f1f1f;
-            margin-top: 0;
-            margin-bottom: 25px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background-color: #0a4da3;
-            color: white;
-        }
-
-        th {
-            padding: 15px;
-            text-align: left;
-        }
-
-        td {
-            padding: 15px;
-            color: #444;
-            border-bottom: 1px solid #ececec;
-        }
-
-        tbody tr:hover {
-            background-color: #f7f9fc;
-        }
-
+        body { color: #333; margin: 0; background-color: #f4f6f9; font-family: Arial, Helvetica, sans-serif; }
+        #painel { position: fixed; top: 0; left: 0; width: 275px; height: 100vh; background: linear-gradient(180deg, #0a4da3 0%, #032049 100%); display: flex; flex-direction: column; align-items: center; padding-top: 45px; box-shadow: 2px 0 8px rgba(0,0,0,0.25); }
+        #titulo1 { color: white; font-size: 30px; margin-bottom: 8px; }
+        .subtitle { color: rgba(255,255,255,0.85); font-size: 16px; font-weight: bold; text-align: center; letter-spacing: 1px; margin-bottom: 35px; display: block; }
+        .menu-btn { width: 210px; height: 42px; margin-bottom: 12px; border-radius: 4px; color: white; text-decoration: none; font-size: 14px; font-weight: bold; display: flex; align-items: center; padding-left: 18px; box-sizing: border-box; transition: background-color 0.2s; }
+        .menu-btn:hover { background-color: rgba(255,255,255,0.12); }
+        .menu-btn.active { background-color: rgba(255,255,255,0.20); }
+        header { margin-left: 275px; width: calc(100% - 275px); height: 85px; background-color: #ffffff; border-bottom: 1px solid #dcdcdc; display: flex; align-items: center; padding-left: 35px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+        #titulo-header { color: #1f1f1f; font-size: 28px; font-weight: bold; margin: 0; }
+        section { margin-left: 305px; margin-top: 30px; margin-right: 35px; background-color: #f4f6f9; }
+        .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .card { background: #ffffff; border-radius: 6px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .card h3 { color: #666; margin: 0; font-size: 15px; }
+        .card span { display: block; margin-top: 15px; color: #0a4da3; font-size: 36px; font-weight: bold; }
+        .tabela-box { background-color: #ffffff; border-radius: 6px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .tabela-box h2 { color: #1f1f1f; margin-top: 0; margin-bottom: 25px; }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background-color: #0a4da3; color: white; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ececec; }
     </style>
-
 </head>
 <body>
 
-<div id="painel">
-
-    <h1 id="titulo1">Estoque Fácil</h1>
-
-    <span class="subtitle">
-        Painel Almoxarife
-    </span>
-    <a th:href="@{/dashboard-almoxarife}" class="menu-btn">Dashboard do almoxarifado</a>
-
-    <a th:href="@{/controle-estoque}" class="menu-btn">Controle de Estoque</a>
-
-    <a th:href="@{/entrada-materiais}" class="menu-btn">Entrada de Materiais</a>
-
-    <a th:href="@{/saida-materiais}" class="menu-btn">Saída de Materiais</a>
-
-    <a th:href="@{/inventario}" class="menu-btn">Inventário do almoxarifado</a>
-    <a th:href="@{/cadastrar-produto}" class="menu-btn">
-        Cadastrar um Produto
-    </a>
-
-</div>
-
-<header>
-    <h1 id="titulo-header">Dashboard Almoxarife</h1>
-</header>
-
-<section>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>Total de Produtos</h3>
-            <span>152</span>
-        </div>
-
-        <div class="card">
-            <h3>Entradas Hoje</h3>
-            <span>18</span>
-        </div>
-
-        <div class="card">
-            <h3>Saídas Hoje</h3>
-            <span>11</span>
-        </div>
-
-        <div class="card">
-            <h3>Itens em Falta</h3>
-            <span>5</span>
-        </div>
-
+    <div id="painel">
+        <h1 id="titulo1">Estoque Fácil</h1>
+        <span class="subtitle">Painel Almoxarife</span>
+        <a th:href="@{/dashboard-almoxarife}" class="menu-btn active">Dashboard</a>
+        <a th:href="@{/controle-estoque}" class="menu-btn">Controle de Estoque</a>
+        <a th:href="@{/entrada-materiais}" class="menu-btn">Entrada de Materiais</a>
+        <a th:href="@{/saida-materiais}" class="menu-btn">Saída de Materiais</a>
+        <a th:href="@{/inventario}" class="menu-btn">Inventário</a>
+        <a th:href="@{/cadastrar-produto}" class="menu-btn">Cadastrar Produto</a>
     </div>
 
-    <div class="tabela-box">
+    <header>
+        <h1 id="titulo-header">Dashboard Almoxarife</h1>
+    </header>
 
-        <h2>Últimas Movimentações</h2>
+    <section>
+        <div class="cards">
+            <div class="card"><h3>Total de Produtos</h3><span>152</span></div>
+            <div class="card"><h3>Entradas Hoje</h3><span>18</span></div>
+            <div class="card"><h3>Saídas Hoje</h3><span>11</span></div>
+            <div class="card"><h3>Itens em Falta</h3><span>5</span></div>
+        </div>
 
-        <table>
-
-            <thead>
-            <tr>
-                <th>Produto</th>
-                <th>Movimentação</th>
-                <th>Quantidade</th>
-                <th>Data</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr th:each="m : ${movimentacoes}">
-
-                <td th:text="${m.descricao}"></td>
-
-                <td>
-                    <span th:text="${m.status}"></span>
-                </td>
-
-                <td th:text="${#temporals.format(m.dataMovimentacao, 'dd/MM/yyyy')}"></td>
-
-            </tr>
-            </tbody>
-
-        </table>
-
-    </div>
-
-</section>
+        <div class="tabela-box">
+            <h2>Últimas Movimentações</h2>
+            <table>
+                <thead>
+                    <tr><th>Produto</th><th>Movimentação</th><th>Data</th></tr>
+                </thead>
+                <tbody>
+                    <tr th:each="m : ${movimentacoes}">
+                        <td th:text="${m.descricao}"></td>
+                        <td th:text="${m.status}"></td>
+                        <td th:text="${#temporals.format(m.dataMovimentacao, 'dd/MM/yyyy')}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
 </body>
 </html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Histórico de Solicitações</title>
+</head>
+<body>
+    <div id="painel">
+        <h1>Estoque Fácil</h1><span>Painel Administrativo</span>
+        <button class="menu-btn">DashBoard</button>
+        <button class="menu-btn">Produtos solicitados</button>
+        <button class="menu-btn active">Histórico</button>
+    </div>
+    <main>
+        <header>
+            <h1>Histórico de Solicitações</h1>
+            <p>Histórico completo de tudo que foi processado</p>
+        </header>
+        <section>
+            <table id="tabela-historico">
+                <thead><tr><th>Código</th><th>Produto</th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr><td>011</td><td>Teclado Mecânico</td><td><span class="badge b-aprovado">Aprovado</span></td></tr>
+                    <tr><td>023</td><td>Controle</td><td><span class="badge b-rejeitado">Rejeitado</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

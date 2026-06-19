@@ -1,195 +1,63 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
 <head>
-		<meta charset="UTF-8">
-		<title>Controle de Estoque - Estoque Fácil</title>
-		<style>
-
-				body { color: #222; margin: 0; background-color: #f4f6f9; font-family: Arial, Helvetica, sans-serif; }
-
-				header { margin-left: 275px; width: calc(100% - 275px); height: 85px; background-color: #ffffff; border-bottom: 1px solid #dcdcdc; display:flex; align-items:center; padding-left:35px; box-shadow:0 2px 6px rgba(0,0,0,0.05);}
-
-				#painel { position: fixed; top:0; left:0; width:275px; height:100vh; background: linear-gradient(180deg,#0a4da3 0%,#032049 100%); display:flex; flex-direction:column; align-items:center; padding-top:45px; box-shadow:2px 0 8px rgba(0,0,0,0.25); }
-
-				#titulo1 { color: white; font-size: 28px; margin-bottom:8px; }
-				span.subtitle { color: rgba(255,255,255,0.9); font-size:14px; font-weight:bold; text-align:center; margin-bottom:30px; display:block }
-
-				.menu-btn { width:210px; height:42px; margin-bottom:12px; border:none; border-radius:4px; background-color:transparent; color:white; font-size:14px; font-weight:bold; text-align:left; padding-left:18px; cursor:pointer; }
-				.menu-btn:hover { background-color: rgba(255,255,255,0.08); }
-				.menu-btn.active { background-color: rgba(255,255,255,0.18); }
-
-				section { margin-left:305px; margin-top:30px; margin-right:35px; background-color:#ffffff; border-radius:6px; padding:25px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:30px; }
-
-				.area-filtros { display:flex; gap:12px; margin-bottom:18px; align-items:center }
-				.input-filtro { padding:10px; border:1px solid #d0d0d0; border-radius:4px; width:320px; font-size:13px }
-				.select-filtro { padding:10px; border:1px solid #d0d0d0; border-radius:4px; font-size:13px }
-				.btn-filtrar { height:38px; border:1px solid #d0d0d0; border-radius:4px; background-color:#0a4da3; color:white; font-weight:bold; padding:0 14px; cursor:pointer }
-
-				.topo-tabela { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px }
-				.topo-tabela h2 { color:#222; font-size:20px; margin:0 }
-
-				table { width:100%; border-collapse:collapse; table-layout:fixed }
-				thead { background-color:#f1f3f5 }
-				th { text-align:left; padding:12px; font-weight:bold; color:#333; border-bottom:2px solid #e6e6e6 }
-				td { padding:12px; color:#444; border-bottom:1px solid #f0f0f0 }
-
-				.qtd-badge { display:inline-block; padding:6px 10px; border-radius:6px; font-weight:bold; }
-				.qtd-ok { background:#e6f7ea; color:#19692a }
-				.qtd-baixa { background:#fff0f0; color:#8b1c1c }
-
-				.acoes button { margin-right:6px; border:none; padding:8px 10px; border-radius:4px; cursor:pointer; font-weight:bold }
-				.btn-add { background:#0a4da3; color:white }
-				.btn-sub { background:#dc3545; color:white }
-				.btn-edit { background:#6c757d; color:white }
-
-		</style>
+    <meta charset="UTF-8">
+    <title>Controle de Estoque - Estoque Fácil</title>
+    <style>
+        body { color: #333; margin: 0; background-color: #f4f6f9; font-family: Arial, Helvetica, sans-serif; }
+        #painel { position: fixed; top: 0; left: 0; width: 275px; height: 100vh; background: linear-gradient(180deg, #0a4da3 0%, #032049 100%); display: flex; flex-direction: column; align-items: center; padding-top: 45px; box-shadow: 2px 0 8px rgba(0,0,0,0.25); }
+        #titulo1 { color: white; font-size: 30px; margin-bottom: 8px; }
+        span.subtitle { color: rgba(255,255,255,0.85); font-size: 16px; font-weight: bold; text-align: center; letter-spacing: 1px; margin-bottom: 35px; display: block; }
+        .menu-btn { width: 210px; height: 42px; margin-bottom: 12px; border-radius: 4px; color: white; font-size: 14px; font-weight: bold; display: flex; align-items: center; padding-left: 18px; cursor: pointer; transition: background-color 0.2s; text-decoration: none; }
+        .menu-btn:hover { background-color: rgba(255,255,255,0.12); }
+        .menu-btn.active { background-color: rgba(255,255,255,0.20); }
+        header { margin-left: 275px; width: calc(100% - 275px); height: 85px; background-color: #ffffff; border-bottom: 1px solid #dcdcdc; display: flex; align-items: center; padding-left: 35px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+        #titulo-header { color: #1f1f1f; font-size: 28px; font-weight: bold; margin: 0; }
+        section { margin-left: 305px; margin-top: 30px; margin-right: 35px; background-color: #ffffff; border-radius: 6px; padding: 35px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        thead { background-color: #0a4da3; color: white; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ececec; }
+        #filtro { padding: 12px; width: 100%; border: 1px solid #d0d0d0; border-radius: 4px; background: #fafafa; }
+    </style>
 </head>
 <body>
 
-	<div id="painel">
-		<h1 id="titulo1">Estoque Fácil</h1>
-		<span class="subtitle">Painel Almoxarife</span>
-		<a th:href="@{/dashboard-almoxarife}" class="menu-btn">Dashboard do almoxarifado</a>
+    <div id="painel">
+        <h1 id="titulo1">Estoque Fácil</h1>
+        <span class="subtitle">Painel Almoxarife</span>
+        <a th:href="@{/dashboard-almoxarife}" class="menu-btn">Dashboard</a>
+        <a th:href="@{/controle-estoque}" class="menu-btn active">Controle de Estoque</a>
+        <a th:href="@{/entrada-materiais}" class="menu-btn">Entrada de Materiais</a>
+        <a th:href="@{/saida-materiais}" class="menu-btn">Saída de Materiais</a>
+        <a th:href="@{/inventario}" class="menu-btn">Inventário</a>
+        <a th:href="@{/cadastrar-produto}" class="menu-btn">Cadastrar Produto</a>
+    </div>
 
-		<a th:href="@{/controle-estoque}" class="menu-btn">Controle de Estoque</a>
+    <header>
+        <h1 id="titulo-header">Estoque Geral</h1>
+    </header>
 
-		<a th:href="@{/entrada-materiais}" class="menu-btn">Entrada de Materiais</a>
+    <section>
+        <input type="text" id="filtro" placeholder="Buscar produto..." onkeyup="filtrar()">
+        <table id="tabela-estoque">
+            <thead>
+                <tr><th>Produto</th><th>Qtd</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Mouse Dell</td><td>45</td><td>Normal</td></tr>
+                <tr><td>Papel A4</td><td>5</td><td>Baixo</td></tr>
+            </tbody>
+        </table>
+    </section>
 
-		<a th:href="@{/saida-materiais}" class="menu-btn">Saída de Materiais</a>
-
-		<a th:href="@{/inventario}" class="menu-btn">Inventário do almoxarifado</a>
-		<a th:href="@{/cadastrar-produto}" class="menu-btn">
-			Cadastrar um Produto
-		</a>
-	</div>
-
-	<header>
-		<div>
-			<h1 id="historico">Controle de Estoque</h1>
-			<p>Monitore quantidades, registre entradas/saídas e identifique itens com estoque baixo</p>
-		</div>
-	</header>
-
-	<section>
-		<div class="area-filtros">
-			<input type="text" id="busca" class="input-filtro" placeholder="Buscar por código, produto ou categoria...">
-			<select id="categoria" class="select-filtro">
-				<option value="">Todas as Categorias</option>
-				<option value="materiais">Materiais</option>
-				<option value="equipamentos">Equipamentos</option>
-			</select>
-			<button class="btn-filtrar" onclick="filtrar()">Filtrar</button>
-			<div style="margin-left:auto"><button class="btn-filtrar" onclick="adicionarExemplo()">Adicionar Exemplo</button></div>
-		</div>
-
-		<div class="topo-tabela">
-			<h2>Itens em Estoque</h2>
-		</div>
-
-		<table>
-			<thead>
-				<tr>
-					<th style="width:8%">Código</th>
-					<th style="width:34%">Produto</th>
-					<th style="width:18%">Categoria</th>
-					<th style="width:10%">Local</th>
-					<th style="width:10%">Qtd</th>
-					<th style="width:10%">Mín</th>
-					<th style="width:10%">Ações</th>
-				</tr>
-			</thead>
-			<tbody id="corpo-estoque">
-				<tr class="linha-tabela">
-					<td>PRD-001</td>
-					<td>Parafuso 3x10mm (pacote 100)</td>
-					<td>Materiais</td>
-					<td>Armário A</td>
-					<td><span class="qtd-badge qtd-ok">120</span></td>
-					<td>20</td>
-					<td class="acoes">
-						<button class="btn-add" onclick="alterarQtd(this, 10)">+10</button>
-						<button class="btn-sub" onclick="alterarQtd(this, -10)">-10</button>
-						<button class="btn-edit" onclick="editarItem(this)">Editar</button>
-					</td>
-				</tr>
-				<tr class="linha-tabela">
-					<td>PRD-002</td>
-					<td>Óleo Lubrificante 500ml</td>
-					<td>Equipamentos</td>
-					<td>Estante B</td>
-					<td><span class="qtd-badge qtd-baixa">4</span></td>
-					<td>10</td>
-					<td class="acoes">
-						<button class="btn-add" onclick="alterarQtd(this, 5)">+5</button>
-						<button class="btn-sub" onclick="alterarQtd(this, -1)">-1</button>
-						<button class="btn-edit" onclick="editarItem(this)">Editar</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</section>
-
-	<script>
-		function alterarQtd(botao, delta) {
-			const linha = botao.closest('tr');
-			const celulaQtd = linha.querySelectorAll('td')[4];
-			const badge = celulaQtd.querySelector('.qtd-badge');
-			let qtd = parseInt(badge.innerText.replace(/[^0-9-]/g, '')) || 0;
-			qtd = qtd + delta;
-			if (qtd < 0) qtd = 0;
-			const minima = parseInt(linha.querySelectorAll('td')[5].innerText) || 0;
-			badge.innerText = qtd;
-			if (qtd <= minima) {
-				badge.classList.remove('qtd-ok');
-				badge.classList.add('qtd-baixa');
-			} else {
-				badge.classList.remove('qtd-baixa');
-				badge.classList.add('qtd-ok');
-			}
-		}
-
-		function editarItem(botao) {
-			const linha = botao.closest('tr');
-			const codigo = linha.querySelectorAll('td')[0].innerText;
-			alert('Abrir edição: ' + codigo + '\n(Implementar formulário de edição no backend)');
-		}
-
-		function filtrar() {
-			const termo = document.getElementById('busca').value.toLowerCase();
-			const categoria = document.getElementById('categoria').value;
-			const trs = document.querySelectorAll('#corpo-estoque tr');
-			trs.forEach(tr => {
-				const codigo = tr.children[0].innerText.toLowerCase();
-				const produto = tr.children[1].innerText.toLowerCase();
-				const cat = tr.children[2].innerText.toLowerCase();
-				let mostrar = true;
-				if (termo && !(codigo.includes(termo) || produto.includes(termo))) mostrar = false;
-				if (categoria && categoria !== '' && cat !== categoria.toLowerCase()) mostrar = false;
-				tr.style.display = mostrar ? '' : 'none';
-			});
-		}
-
-		function adicionarExemplo() {
-			const tbody = document.getElementById('corpo-estoque');
-			const nova = document.createElement('tr');
-			nova.className = 'linha-tabela';
-			nova.innerHTML = `
-				<td>PRD-00X</td>
-				<td>Item Exemplo</td>
-				<td>Materiais</td>
-				<td>Estante C</td>
-				<td><span class="qtd-badge qtd-ok">50</span></td>
-				<td>5</td>
-				<td class="acoes">
-					<button class="btn-add" onclick="alterarQtd(this, 5)">+5</button>
-					<button class="btn-sub" onclick="alterarQtd(this, -5)">-5</button>
-					<button class="btn-edit" onclick="editarItem(this)">Editar</button>
-				</td>
-			`;
-			tbody.appendChild(nova);
-		}
-	</script>
-
+    <script>
+        function filtrar() {
+            let v = document.getElementById("filtro").value.toLowerCase();
+            let trs = document.getElementById("tabela-estoque").getElementsByTagName("tr");
+            for (let i = 1; i < trs.length; i++) {
+                trs[i].style.display = trs[i].innerText.toLowerCase().includes(v) ? "" : "none";
+            }
+        }
+    </script>
 </body>
 </html>
-

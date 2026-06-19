@@ -26,10 +26,26 @@ public class NavegadorGerenteController {
     @Autowired
     private AuthUtil authUtil;
 
+    @Autowired
+    private ProdutoService produtoService;
 
     @GetMapping("/dashboard-gerente")
-    public String dashboardGerente() {
+    public String dashboardGerente(Model model) {
         if (!authUtil.isLogado()) return "redirect:/login";
+
+        model.addAttribute("totalProdutos",
+                    produtoService.buscarTodosProdutos().size());
+
+        model.addAttribute("totalRequisicoes",
+                    requisicaoService.buscarTodasRequisicoes().size());
+
+        model.addAttribute("totalFuncionarios", 0);
+        model.addAttribute("estoqueBaixo", 0);
+
+        model.addAttribute("atividades", java.util.List.of(
+                            "Sistema iniciado",
+                            "Dashboard carregado"));
+
         return "telas-gerente/dashboard-gerente";
     }
 

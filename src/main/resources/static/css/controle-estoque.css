@@ -1,0 +1,192 @@
+body {
+    color: #222;
+    margin: 0;
+    background-color: #f4f6f9;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    margin-left: 275px;
+    width: calc(100% - 275px);
+    height: 85px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dcdcdc;
+    display: flex;
+    align-items: center;
+    padding-left: 35px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+#painel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 275px;
+    height: 100vh;
+    background: linear-gradient(180deg, #0a4da3 0%, #032049 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 45px;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.25);
+}
+
+#titulo1 {
+    color: white;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+span.subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+    display: block
+}
+
+.menu-btn {
+    width: 210px;
+    height: 42px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: transparent;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 18px;
+    cursor: pointer;
+}
+
+.menu-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.menu-btn.active {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+section {
+    margin-left: 305px;
+    margin-top: 30px;
+    margin-right: 35px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+.area-filtros {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    align-items: center
+}
+
+.input-filtro {
+    padding: 10px;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    width: 320px;
+    font-size: 13px
+}
+
+.select-filtro {
+    padding: 10px;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    font-size: 13px
+}
+
+.btn-filtrar {
+    height: 38px;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    background-color: #0a4da3;
+    color: white;
+    font-weight: bold;
+    padding: 0 14px;
+    cursor: pointer
+}
+
+.topo-tabela {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px
+}
+
+.topo-tabela h2 {
+    color: #222;
+    font-size: 20px;
+    margin: 0
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed
+}
+
+thead {
+    background-color: #f1f3f5
+}
+
+th {
+    text-align: left;
+    padding: 12px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #e6e6e6
+}
+
+td {
+    padding: 12px;
+    color: #444;
+    border-bottom: 1px solid #f0f0f0
+}
+
+.qtd-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.qtd-ok {
+    background: #e6f7ea;
+    color: #19692a
+}
+
+.qtd-baixa {
+    background: #fff0f0;
+    color: #8b1c1c
+}
+
+.acoes button {
+    margin-right: 6px;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold
+}
+
+.btn-add {
+    background: #0a4da3;
+    color: white
+}
+
+.btn-sub {
+    background: #dc3545;
+    color: white
+}
+
+.btn-edit {
+    background: #6c757d;
+    color: white
+}

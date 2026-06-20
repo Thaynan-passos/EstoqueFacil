@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/minhas-solicitacoes/**").hasRole("FINANCEIRO")
 
                         // LOGIN E PÁGINAS PÚBLICAS
-                        .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/login", "/css/**", "/js/**", "/static/**").permitAll()
 
 
                         .anyRequest().authenticated()

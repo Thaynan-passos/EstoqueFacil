@@ -23,8 +23,6 @@ public class FuncionarioController {
 
         Funcionario funcionarioNovo = funcionarioService.cadastrarFuncionario(funcionario, funcionario.getSenhaHash());
 
-        
-
         return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioNovo);
     }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Saída de Materiais</title>
@@ -44,7 +44,7 @@
 
                     <option th:each="l : ${lotes}"
                             th:value="${l.idLote}"
-                            th:text="${l.produto.nomeProduto}">
+                            th:text="${l.produto.nomeProdutoProduto}">
                     </option>
                 </select>
             </div>

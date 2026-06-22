@@ -1,14 +1,15 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
-import com.EstoqueFacil.EstoqueFacil.repository.FuncionarioRepository;
+import java.util.List;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
+import com.EstoqueFacil.EstoqueFacil.repository.FuncionarioRepository;
 
 @Service
 public class AuthService implements UserDetailsService {
@@ -22,11 +23,11 @@ public class AuthService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String cpf) {
 
-        Funcionario f = repository.findByCpf(cpf)
+        Funcionario f = repository.findByCpf(cpf.replaceAll("\\D", ""))
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
         return new org.springframework.security.core.userdetails.User(
-                f.getEmail(),
+                f.getCpf(),
                 f.getSenhaHash(),
                 List.of(new SimpleGrantedAuthority("ROLE_" + f.getCargo().name()))
         );

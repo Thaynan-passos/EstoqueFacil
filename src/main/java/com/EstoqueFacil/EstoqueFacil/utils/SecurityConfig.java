@@ -1,6 +1,5 @@
 package com.EstoqueFacil.EstoqueFacil.utils;
 
-import com.EstoqueFacil.EstoqueFacil.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +7,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.EstoqueFacil.EstoqueFacil.service.AuthService;
 
 @Configuration
 public class SecurityConfig {
@@ -29,7 +30,7 @@ public class SecurityConfig {
                         // GERENTE
                         .requestMatchers("/dashboard-gerente/**").hasRole("GERENTE")
                         .requestMatchers("/relatorio-financeiro/**").hasRole("GERENTE")
-                        .requestMatchers("/cadastro-funcionario/**").hasRole("GERENTE")
+                        .requestMatchers("/cadastro/**").hasRole("GERENTE")
                         .requestMatchers("/analise-gerente/**").hasRole("GERENTE")
 
                         // ALMOXARIFE
@@ -40,16 +41,14 @@ public class SecurityConfig {
                         .requestMatchers("/inventario/**").hasRole("ALMOXARIFADO")
                         .requestMatchers("/saidas-materiais/**").hasRole("ALMOXARIFADO")
 
-
                         // FUNCIONÁRIO
                         .requestMatchers("/dashboard-funcionario/**").hasRole("FINANCEIRO")
                         .requestMatchers("/requisicoes/**").hasRole("FINANCEIRO")
                         .requestMatchers("/historico-requisicoes/**").hasRole("FINANCEIRO")
                         .requestMatchers("/minhas-solicitacoes/**").hasRole("FINANCEIRO")
 
-                        // LOGIN E PÁGINAS PÚBLICAS
-                        .requestMatchers("/login", "/css/**", "/js/**", "/static/**").permitAll()
-
+                        // PÚBLICAS
+                        .requestMatchers("/", "/login", "/setup", "/css/**", "/js/**", "/images/**", "/static/**", "/favicon.ico").permitAll()
 
                         .anyRequest().authenticated()
                 )

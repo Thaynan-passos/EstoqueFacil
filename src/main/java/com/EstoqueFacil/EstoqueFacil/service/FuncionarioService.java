@@ -1,16 +1,18 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-import com.EstoqueFacil.EstoqueFacil.repository.FuncionarioRepository;
-import exceptions.CampoPreenchimento;
-import exceptions.ErroDePreenchimentoInvalidoException;
-import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
-import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
+import com.EstoqueFacil.EstoqueFacil.repository.FuncionarioRepository;
+
+import exceptions.CampoPreenchimento;
+import exceptions.ErroDePreenchimentoInvalidoException;
+import jakarta.transaction.Transactional;
 
 @Service
 public class FuncionarioService {
@@ -120,5 +122,9 @@ public class FuncionarioService {
         if(funcionarioRepository.existsByEmail(funcionario.getEmail())){
             throw new CampoPreenchimento("Este Email já está cadastrado");
         }
+    }
+
+    public boolean gerenteExiste() {
+        return funcionarioRepository.existsByCargo(com.EstoqueFacil.EstoqueFacil.model.Cargo.GERENTE);
     }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Dashboard Funcionário</title>
 
-    <link rel="stylesheet" href="/static/css/dashboard.css" th:href="@{/css/dashboar.css}"/>
+    <link rel="stylesheet" th:href="@{/dashboard.css}"/>
 
 </head>
 
@@ -88,7 +88,7 @@
 
                 <td>
         <span th:if="${#lists.size(r.produtos) > 0}"
-              th:text="${r.produtos[0].produto.nome}">
+              th:text="${r.produtos[0].produto.nomeProduto}">
         </span>
                 </td>
 

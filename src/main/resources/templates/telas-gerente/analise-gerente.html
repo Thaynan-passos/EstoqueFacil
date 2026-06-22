@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Análise de Solicitações - Estoque Fácil</title>
 
-   <link rel="stylesheet" href="/static/css/analise-gerente.css" th:href="@{/css/analise-gerente.css}"/>
+   <link rel="stylesheet" th:href="@{/analise-gerente.css}"/>
 </head>
 <body>
 
@@ -76,16 +76,16 @@
           <tbody id="corpo-pendentes">
           <tr class="linha-tabela" th:each="req : ${pendentes}">
 
-              <td th:text="${req.id}"></td>
+              <td th:text="${req.idRequisicao}"></td>
 
               <td th:text="${req.solicitante.nome}"></td>
 
               <td th:text="${req.solicitante.setor}"></td>
 
-              <td th:text="${rp.produto.nomeProduto}"></td>
+              <td th:text="${rp.produto.nomeProdutoProduto}"></td>
 
               <td>
-                  <span class="descricao" th:text="${req.produto.nomeProduto}"></span>
+                  <span class="descricao" th:text="${req.produtos.nomeProduto}"></span>
               </td>
 
               <td th:text="${#temporals.format(req.dataRequisicao, 'dd/MM/yyyy')}"></td>
@@ -96,14 +96,14 @@
                   <span class="status-pendente">Pendente</span>
               </td>
             <td>
-              <a th:href="@{'/requisicao/aprovar/' + ${req.id}}"
+              <a th:href="@{'/requisicao/aprovar/' + ${req.idRequisicao}}"
                  class="btn-acao btn-aprovar">
                   Aprovar
               </a>
               <br>
                 <br>
 
-                <a th:href="@{'/requisicao/rejeitar/' + ${req.id}}"
+                <a th:href="@{'/requisicao/rejeitar/' + ${req.idRequisicao}}"
                    class="btn-acao btn-rejeitar">
                     Rejeitar
                 </a>
@@ -133,16 +133,16 @@
           <tbody id="corpo-historico">
           <tr class="linha-tabela" th:each="req : ${historico}">
 
-              <td th:text="${req.id}"></td>
+              <td th:text="${req.idRequisicao}"></td>
 
               <td th:text="${req.solicitante.nome}"></td>
 
               <td th:text="${req.solicitante.setor}"></td>
 
-              <td th:text="${req.produto.nomeProduto}"></td>
+              <td th:text="${req.produtos.nomeProduto}"></td>
 
               <td>
-                  <span class="descricao" th:text="${req.produto.nomeProduto}"></span>
+                  <span class="descricao" th:text="${req.produtos.nomeProduto}"></span>
               </td>
 
               <td th:text="${#temporals.format(req.dataRequisicao, 'dd/MM/yyyy')}"></td>

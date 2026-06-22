@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Inicial - Estoque Fácil</title>
+    <link rel="stylesheet" th:href="@{/login.css}"/>
+</head>
+<body>
+    <div class="planoFundo">
+        <section class="conteiner" id="header">
+            <form th:action="@{/setup}" method="post">
+
+                <h1 class="h1">Criar Gerente</h1>
+                <h2 id="EstoqueFacil">Estoque Fácil - Setup Inicial</h2>
+
+                <p class="login">Crie a conta do gerente para começar</p>
+
+                <p th:if="${erro}" th:text="${erro}" style="color:red;"></p>
+
+                <label>Nome Completo:</label>
+                <input type="text" name="nome" required>
+
+                <label>CPF:</label>
+                <input type="text" name="cpf" placeholder="000.000.000-00" maxlength="14" required>
+
+                <label>Email:</label>
+                <input type="email" name="email" required>
+
+                <label>Senha:</label>
+                <input type="password" name="senha" minlength="6" required>
+
+                <label>Confirmar Senha:</label>
+                <input type="password" name="confirmarSenha" minlength="6" required>
+
+                <div class="botoes">
+                    <button type="submit" class="btn-entrar">Criar Gerente</button>
+                </div>
+
+            </form>
+        </section>
+    </div>
+</body>
+</html>

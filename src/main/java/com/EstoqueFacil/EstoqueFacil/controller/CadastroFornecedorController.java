@@ -51,14 +51,14 @@ public class CadastroFornecedorController {
         // =========================
         Fornecedor f = new Fornecedor();
         f.setRazaoSocial(nome);
-        f.setCnpj(cnpj);
+        f.setCnpj(cnpj.replaceAll("\\D", ""));
         f.setEmail(email);
 
         // =========================
         // ENDEREÇO
         // =========================
         Endereco end = new Endereco();
-        end.setCep(cep);
+        end.setCep(cep.replace("-", ""));
         end.setRua(rua);
         end.setNumeroCasa(numero);
         end.setBairro(bairro);

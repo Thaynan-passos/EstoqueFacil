@@ -47,7 +47,7 @@ public class CadastroFuncionarioController {
         // =========================
         Funcionario f = new Funcionario();
         f.setNome(nome);
-        f.setCpf(cpf);
+        f.setCpf(cpf.replaceAll("\\D", ""));
         f.setEmail(email);
         f.setSenhaHash(senha);
         f.setCargo(cargo);
@@ -61,7 +61,7 @@ public class CadastroFuncionarioController {
         // ENDEREÇO (OBRIGATÓRIO)
         // =========================
         Endereco end = new Endereco();
-        end.setCep(cep);
+        end.setCep(cep.replace("-", ""));
         end.setRua(rua);
         end.setNumeroCasa(numero);
         end.setBairro(bairro);

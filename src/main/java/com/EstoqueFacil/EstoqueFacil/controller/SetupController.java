@@ -7,6 +7,7 @@ import com.EstoqueFacil.EstoqueFacil.model.Telefone;
 import com.EstoqueFacil.EstoqueFacil.service.EnderecoService;
 import com.EstoqueFacil.EstoqueFacil.service.FuncionarioService;
 import com.EstoqueFacil.EstoqueFacil.service.TelefoneService;
+import com.EstoqueFacil.EstoqueFacil.utils.MensagemEmailFuncionarioUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/setup")
+@RequestMapping("/atualizar-senha")
 public class SetupController {
 
     @Autowired
@@ -33,6 +34,9 @@ public class SetupController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MensagemEmailFuncionarioUtil emailFuncionarioUtil;
 
     @GetMapping
     public String setup(Model model) {
@@ -92,7 +96,9 @@ public class SetupController {
             gerente.setEndereco(endereco);
             gerente.setTelefone(List.of(telefone));
 
+
             funcionarioService.cadastrarFuncionario(gerente, senha);
+            emailFuncionarioUtil.enviarConfirmacao(email, nome);
 
             return "redirect:/login";
 

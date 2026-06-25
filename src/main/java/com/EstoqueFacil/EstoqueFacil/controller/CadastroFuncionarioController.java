@@ -51,7 +51,7 @@ public class CadastroFuncionarioController {
         f.setEmail(email);
         f.setSenhaHash(senha);
         f.setCargo(cargo);
-        f.setNivelAcesso(0);
+        
 
         if (cargo == null) {
             throw new RuntimeException("Cargo obrigatório");

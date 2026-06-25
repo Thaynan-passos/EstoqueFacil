@@ -17,7 +17,8 @@ public interface RequisicaoRepository extends JpaRepository<Requisicao,Integer> 
   Optional<Requisicao> findByDataRequisicao(LocalDate dataRequisicao);
     boolean existsById(Integer id);
     List<Requisicao> findById(int id);
-    Requisicao deleteById(int id);
+    //Requisicao deleteById(int id);
+    void deleteById(int id);
     List<Requisicao> findAll();
     boolean existsByDataRequisicao(LocalDate dataRequisicao);
     Requisicao deleteByDataRequisicao(LocalDate dataRequisicao);
@@ -25,7 +26,10 @@ public interface RequisicaoRepository extends JpaRepository<Requisicao,Integer> 
     List<Requisicao> findTopByOrderByDataRequisicaoDesc();
     List<Requisicao> findByStatus(Status status);
     List<Requisicao> findByStatusNot(Status status);
-
+List<Requisicao> findByFuncionarioIdFuncionario(int idFuncionario);
+  long countByFuncionarioIdFuncionarioAndStatus(int idFuncionario, Status status);
+  long countByFuncionarioIdFuncionario(int idFuncionario);
+  List<Requisicao> findTop5ByFuncionarioIdFuncionarioOrderByDataRequisicaoDesc(int idFuncionario);
 
 
 }

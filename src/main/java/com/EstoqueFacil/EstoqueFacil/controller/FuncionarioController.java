@@ -39,7 +39,7 @@ public class FuncionarioController {
     }
 
     @PutMapping("/atualizar")
-    public ResponseEntity<Funcionario> atualizarFuncionarioPorCpf(@Valid String cpf, @Valid @RequestBody Funcionario funcionario) {
+    public ResponseEntity<Funcionario> atualizarFuncionarioPorCpf(@RequestParam String cpf, @Valid @RequestBody Funcionario funcionario) {
 
         return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.atualizarFuncionarioPorCpf(cpf, funcionario));
     }

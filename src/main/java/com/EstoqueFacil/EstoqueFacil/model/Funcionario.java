@@ -1,6 +1,5 @@
 package com.EstoqueFacil.EstoqueFacil.model;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
@@ -9,49 +8,43 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @Entity
-@Table (name="funcionario")
+@Table(name = "funcionario")
 public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idFuncionario;
 
-    @Column(name="cpf", length = 11, nullable = false, unique = true)
-    @NotBlank (message = "É necessário digitar o seu cpf.")
-    @CPF (message = "O formato do cpf está equivocado")
+    @Column(name = "cpf", length = 11, nullable = false, unique = true)
+    @NotBlank(message = "É necessário digitar o seu cpf.")
+    @CPF(message = "O formato do cpf está equivocado")
     private String cpf;
 
-    @Column(name="nome", length = 45, nullable = false)
+    @Column(name = "nome", length = 45, nullable = false)
     @NotBlank(message = "É necessário pôr o seu nome.")
     private String nome;
 
-    @Column(name="email",    unique = true,length = 45, nullable = false)
+    @Column(name = "email", unique = true, length = 45, nullable = false)
     @NotBlank(message = "O email deve ser preenchido.")
-    @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
-            message = "Por favor, insira um e-mail válido")
+    @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Por favor, insira um e-mail válido")
     private String email;
 
-    @Column(name="senha_hash", nullable = false)
+    @Column(name = "senha_hash", nullable = false)
     @NotBlank(message = "A senha não pode ser vazia.")
     private String senhaHash;
 
-    @Column(name="nivel_acesso", nullable = false)
-    @NotNull (message = "Não pode ficar nulo.")
+    @Column(name = "nivel_acesso", nullable = false)
+    @NotNull(message = "Não pode ficar nulo.")
     @PositiveOrZero(message = "O nivel de acesso deve ser 0 ou mais")
     private int nivelAcesso;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="cargo", nullable = false)
-    @NotNull (message = "É necessário indicar o cargo.")
+    @Column(name = "cargo", nullable = false)
+    @NotNull(message = "É necessário indicar o cargo.")
     private Cargo cargo;
 
-
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "funcionario_telefone",
-            joinColumns = @JoinColumn(name = "fk_id_funcionario"),
-            inverseJoinColumns = @JoinColumn(name = "fk_id_telefone")
-    )
+    @JoinTable(name = "funcionario_telefone", joinColumns = @JoinColumn(name = "fk_id_funcionario"), inverseJoinColumns = @JoinColumn(name = "fk_id_telefone"))
     @NotNull(message = "Não pode ficar nulo.")
     @Valid
     private List<Telefone> telefone;
@@ -75,8 +68,6 @@ public class Funcionario {
     }
 
     public void setCpf(String cpf) {
-
-        cpf = cpf.trim();
         this.cpf = cpf.trim().replaceAll("\\D", "");
     }
 
@@ -103,7 +94,7 @@ public class Funcionario {
     public void setSenhaHash(String senhaHash) {
         this.senhaHash = senhaHash;
     }
-    
+
     public int getNivelAcesso() {
         return nivelAcesso;
     }
@@ -131,6 +122,7 @@ public class Funcionario {
     public Endereco getEndereco() {
         return endereco;
     }
+
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }

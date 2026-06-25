@@ -12,7 +12,7 @@ public class Telefone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idTelefone;
 
-    @Column(name="telefone", unique = true,nullable = false, length = 11)
+    @Column(name="telefone", nullable = false, length = 11)
     @NotBlank(message = "É necessário pôr o seu telefone.")
     private String telefone;
 

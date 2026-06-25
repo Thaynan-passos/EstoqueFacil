@@ -235,14 +235,23 @@ CREATE TABLE IF NOT EXISTS estoquefacil.requisicao (
   data_requisicao DATE NOT NULL,
   status ENUM('PENDENTE', 'APROVADO', 'NEGADO') NOT NULL,
   motivo VARCHAR(45) NOT NULL,
+
   fk_id_setor INT NOT NULL,
+  fk_id_funcionario INT NOT NULL,
+
   PRIMARY KEY (id_requisicao),
+
   INDEX fk_requisicao_setor_idx (fk_id_setor ASC),
+  INDEX fk_requisicao_funcionario_idx (fk_id_funcionario ASC),
+
   CONSTRAINT fk_requisicao_setor
     FOREIGN KEY (fk_id_setor)
-    REFERENCES estoquefacil.setor (id_setor)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES estoquefacil.setor (id_setor),
+
+  CONSTRAINT fk_requisicao_funcionario
+    FOREIGN KEY (fk_id_funcionario)
+    REFERENCES estoquefacil.funcionario (id_funcionario)
+)
 ENGINE = InnoDB;
 
 

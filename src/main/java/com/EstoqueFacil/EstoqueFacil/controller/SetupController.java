@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/atualizar-senha")
+@RequestMapping("/setup")
 public class SetupController {
 
     @Autowired

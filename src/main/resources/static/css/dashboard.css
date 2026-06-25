@@ -262,3 +262,21 @@ section {
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
+.logout-form {
+    width: 85%;
+    margin-top: auto;
+    margin-bottom: 30px;
+}
+
+.logout-btn {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    background: #dc3545;
+    color: white;
+    font-size: 16px;
+}
+
+.logout-btn:hover {
+    background: #b02a37;
+}

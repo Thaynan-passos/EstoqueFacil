@@ -1,0 +1,39 @@
+services:
+
+  db:
+    image: mysql:8.0
+    container_name: estoquefacil-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    image: eclipse-temurin:21-jre
+    container_name: estoquefacil-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./EstoqueFacil.jar:/app/EstoqueFacil.jar
+      - ./.env.properties:/app/.env.properties
+    working_dir: /app
+    command: java -jar EstoqueFacil.jar
+
+volumes:
+  db_data:

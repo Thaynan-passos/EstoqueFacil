@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS estoquefacil.endereco (
   cidade VARCHAR(45) NOT NULL,
   numero VARCHAR(20) NOT NULL,
   PRIMARY KEY (id_endereco),
-  UNIQUE INDEX cep_unique (cep ASC))
 ENGINE = InnoDB;
 
 
@@ -44,7 +43,7 @@ ENGINE = InnoDB;
 -- Table estoquefacil.dependente
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS estoquefacil.dependente (
-  id_dependente INT NOT NULL,
+  id_dependente INT AUTO_INCREMENT,
   nome VARCHAR(45) NOT NULL,
   sexo ENUM('MASCULINO', 'FEMININO', 'NAO_BINARIO', 'OUTRO') NULL,
   fk_id_funcionario INT NOT NULL,
@@ -68,7 +67,7 @@ CREATE TABLE IF NOT EXISTS estoquefacil.fornecedor (
   email VARCHAR(45) NOT NULL,
   fk_endereco_fornecedor INT NOT NULL,
   UNIQUE INDEX nome_unique (razao_social ASC),
-  INDEX email_idx (email ASC),
+  UNIQUE INDEX email_unique (email ASC),
   INDEX fk_endereco_fornecedor (fk_endereco_fornecedor ASC),
   UNIQUE INDEX cnpj_unique (cnpj ASC),
   PRIMARY KEY (id_fornecedor),
@@ -319,7 +318,7 @@ CREATE TABLE IF NOT EXISTS estoquefacil.funcionario_setor (
   data_inicio DATE NOT NULL,
   fk_id_funcionario INT NOT NULL,
   fk_id_setor INT NOT NULL,
-  PRIMARY KEY (data_inicio),
+  PRIMARY KEY (fk_id_funcionario, fk_id_setor, data_inicio),
   INDEX funcionario_setor_funcionario_idx (fk_id_funcionario ASC),
   INDEX funcionario_setor_setor_idx (fk_id_setor ASC),
   CONSTRAINT fk_funcionario_setor_funcionario

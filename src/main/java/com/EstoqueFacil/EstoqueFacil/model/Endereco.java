@@ -15,7 +15,7 @@ public class Endereco {
     @NotBlank  (message="É necessário indicar o bairro.")
     private String bairro;
 
-    @Column(name="cep",unique = true, length = 8, nullable = false)
+    @Column(name="cep", length = 8, nullable = false)
     @NotBlank  (message="O cep deve ser preenchido.")
     private String cep;
 

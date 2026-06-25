@@ -42,8 +42,9 @@ public class SetorController {
     }
 
     @DeleteMapping("/deletar")
-    public ResponseEntity<?> deletarSetorPorId(@RequestParam Integer idSetor){
+    public ResponseEntity<String> deletarSetorPorId(@RequestParam Integer idSetor){
 
-        return ResponseEntity.status(HttpStatus.OK).body(setorService.deletarSetorPorId(idSetor));
+        setorService.deletarSetorPorId(idSetor);
+        return ResponseEntity.ok("Setor deletado com sucesso.");
     }
 }

@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 public class ValidarRequisicao {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public static ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 

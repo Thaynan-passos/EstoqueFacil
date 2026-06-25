@@ -7,6 +7,7 @@ import com.EstoqueFacil.EstoqueFacil.service.RelatorioService;
 import com.EstoqueFacil.EstoqueFacil.service.RequisicaoService;
 import com.EstoqueFacil.EstoqueFacil.utils.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.EstoqueFacil.EstoqueFacil.service.FuncionarioService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,9 @@ public class NavegadorGerenteController {
     @Autowired
     private ProdutoService produtoService;
 
+    @Autowired
+    private FuncionarioService funcionarioService;
+
     @GetMapping("/dashboard-gerente")
     public String dashboardGerente(Model model) {
         if (!authUtil.isLogado()) return "redirect:/login";
@@ -41,7 +45,8 @@ public class NavegadorGerenteController {
         model.addAttribute("totalRequisicoes",
                     requisicaoService.buscarTodasRequisicoes().size());
 
-        model.addAttribute("totalFuncionarios", 0);
+        model.addAttribute("totalFuncionarios",
+                funcionarioService.buscarTodosFuncionarios().size());
         model.addAttribute("estoqueBaixo", 0);
 
         model.addAttribute("atividades", java.util.List.of(

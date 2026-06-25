@@ -29,12 +29,12 @@ public class FornecedorService {
 
     public Fornecedor buscarPorCnpj(String cnpj) {
 
-        return fornecedorRepository.findByCnpj(cnpj).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário encontrado"));
+        return fornecedorRepository.findByCnpj(cnpj).orElseThrow(() -> new NoSuchElementException("Nenhum fornecedor foi encontrado"));
     }
 
     public Fornecedor buscarPorEmail(String email) {
 
-        return fornecedorRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário foi encontrado"));
+        return fornecedorRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Nenhum fornecedor foi encontrado"));
     }
 
     public List<Fornecedor> buscarTodosFornecedores() {
@@ -61,7 +61,7 @@ public class FornecedorService {
     public Fornecedor deletarPorCnpj(String cnpj) {
 
         if (!fornecedorRepository.existsByCnpj(cnpj)) {
-            throw new NoSuchElementException("Nenhum funcionário encontrado");
+            throw new NoSuchElementException("Nenhum fornecedor foi encontrado");
         }
         return fornecedorRepository.deleteByCnpj(cnpj);
 

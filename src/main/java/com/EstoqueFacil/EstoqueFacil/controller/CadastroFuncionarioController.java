@@ -86,8 +86,13 @@ public class CadastroFuncionarioController {
 
 
         funcionarioService.cadastrarFuncionario(f, senha);
-        emailUtil.enviarConfirmacao(f.getEmail(), f.getNome());
+        try {
+            emailUtil.enviarConfirmacao(f.getEmail(), f.getNome());
+        } catch (Exception e) {
+            System.err.println("Email não enviado: " + e.getMessage());
+        }
+        return "redirect:/cadastro";
 
-        return "redirect:/cadastro-funcionario";
+
     }
 }

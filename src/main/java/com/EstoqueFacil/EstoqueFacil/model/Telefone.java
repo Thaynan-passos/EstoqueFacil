@@ -34,9 +34,9 @@ public class Telefone {
     }
 
     public void setTelefone(String telefone) {
-
-        TelefoneService.numeroTelefoneValidar(telefone);
-        this.telefone = telefone;
+        String limpo = telefone.replaceAll("[^0-9]", "");
+        TelefoneService.numeroTelefoneValidar(limpo);
+        this.telefone = limpo;
     }
 
     public String getTipoTelefone() {

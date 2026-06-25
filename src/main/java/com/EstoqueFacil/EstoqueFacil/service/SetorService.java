@@ -1,10 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-import com.EstoqueFacil.EstoqueFacil.repository.SetorRepository;
-
 import com.EstoqueFacil.EstoqueFacil.model.Setor;
-
-
+import com.EstoqueFacil.EstoqueFacil.repository.SetorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,40 +16,38 @@ public class SetorService {
         this.setorRepository = setorRepository;
     }
 
-    public Setor cadastrarSetor(Setor setorModel){
-
-        return setorRepository.save(setorModel);
+    public Setor cadastrarSetor(Setor setor) {
+        return setorRepository.save(setor);
     }
 
     public Setor buscarPorId(int id) {
-
-        return setorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum telefone foi encontrado"));
+        return setorRepository.findById(id)
+                .orElseThrow(() ->
+                        new NoSuchElementException("Nenhum setor foi encontrado com ID: " + id)
+                );
     }
 
-
     public List<Setor> buscarTodosSetores() {
-
-        return this.setorRepository.findAll();
+        return setorRepository.findAll();
     }
 
     public Setor atualizarSetorPorId(int id, Setor dadosAtualizado) {
 
-       Setor setorNovo = buscarPorId(id);
+        Setor setor = buscarPorId(id);
 
+        setor.setCapacidade(dadosAtualizado.getCapacidade());
+        setor.setOrcamentoMensal(dadosAtualizado.getOrcamentoMensal());
+        setor.setNomeSetor(dadosAtualizado.getNomeSetor());
 
-
-       setorNovo.setCapacidade(dadosAtualizado.getCapacidade());
-       setorNovo.setOrcamentoMensal(dadosAtualizado.getOrcamentoMensal());
-       setorNovo.setNomeSetor(dadosAtualizado.getNomeSetor());
-
-       return setorRepository.save(setorNovo);
+        return setorRepository.save(setor);
     }
 
-    public Setor deletarSetorPorId(int id){
+    public void deletarSetorPorId(int id) {
 
-        if(!setorRepository.existsById(id)){
-            throw new NoSuchElementException("Não foi encontrado nenhum setor");
+        if (!setorRepository.existsById(id)) {
+            throw new NoSuchElementException("Não foi encontrado nenhum setor com ID: " + id);
         }
-        return setorRepository.deleteById(id);
+
+        setorRepository.deleteById(id);
     }
 }

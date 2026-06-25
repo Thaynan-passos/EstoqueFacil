@@ -90,7 +90,6 @@ public class SetupController {
             gerente.setNome(nome);
             gerente.setCpf(cpf.replaceAll("\\D", ""));
             gerente.setEmail(email);
-            gerente.setSenhaHash(passwordEncoder.encode(senha));
             gerente.setNivelAcesso(10);
             gerente.setCargo(Cargo.GERENTE);
             gerente.setEndereco(endereco);

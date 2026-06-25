@@ -48,8 +48,8 @@ public class CadastroProdutoController {
         }
 
         return switch (categoria.toLowerCase()) {
-            case "carro" -> ClassificacaoProduto.REPARO;
-            case "comida" -> ClassificacaoProduto.CONSUMO;
+            case "manutencao" -> ClassificacaoProduto.REPARO;
+            case "consumo" -> ClassificacaoProduto.CONSUMO;
             case "limpeza" -> ClassificacaoProduto.LIMPEZA;
             default -> throw new IllegalArgumentException("Categoria inválida: " + categoria);
         };

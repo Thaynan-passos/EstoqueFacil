@@ -30,7 +30,7 @@ public class RequisicaoService {
     public void validarDataRequisicao(LocalDate date) {
 
         if(date.isAfter(LocalDate.now())){
-            throw new ErroDePreenchimentoInvalidoException("A data deve ser posterior a hoje");
+            throw new ErroDePreenchimentoInvalidoException("A data não pode ser uma data futura");
         }
     }
 
@@ -55,7 +55,7 @@ public class RequisicaoService {
                         .orElseThrow(() -> new NoSuchElementException("Produto não encontrado"));
 
                 rp.setProduto(produto);
-                rp.setProduto(produto);
+
             }
         }
 

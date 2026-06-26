@@ -1,10 +1,16 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
+import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
+import com.EstoqueFacil.EstoqueFacil.model.FuncionarioSetor;
+import com.EstoqueFacil.EstoqueFacil.service.FuncionarioService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import com.EstoqueFacil.EstoqueFacil.model.Requisicao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.EstoqueFacil.EstoqueFacil.service.RequisicaoService;
 
@@ -16,13 +22,22 @@ public class RequisicaoController {
 
     @Autowired
     RequisicaoService requisicaoService;
-
+    @Autowired
+    FuncionarioService funcionarioService;
 
     @PostMapping
-    public ResponseEntity<?> criarListaRequisicao(@Valid @RequestBody Requisicao requisicaoModel) {
+    public ResponseEntity<?> cadastrar(@RequestBody Requisicao requisicao) {
 
-    Requisicao novaRequisicao = requisicaoService.cadastrarRequisicao(requisicaoModel);
-    return ResponseEntity.status(HttpStatus.CREATED).body(novaRequisicao);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String cpf = authentication.getName();
+
+        Funcionario funcionario = funcionarioService.buscarPorCpf(cpf);
+
+        System.out.println("Funcionário da sessão: " + funcionario);
+        requisicaoService.cadastrarRequisicao(requisicao, funcionario);
+
+        return ResponseEntity.ok().build();
     }
 
 
@@ -30,6 +45,11 @@ public class RequisicaoController {
     public ResponseEntity<?> listarRequisicao() {
 
         return ResponseEntity.ok(requisicaoService.buscarTodasRequisicoes());
+    }
+
+    @GetMapping("/historico")
+    public ResponseEntity<?> listarHistorico() {
+        return ResponseEntity.ok(requisicaoService.buscarHistorico());
     }
 
     @GetMapping("/data")

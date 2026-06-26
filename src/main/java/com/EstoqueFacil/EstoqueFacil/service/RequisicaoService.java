@@ -2,18 +2,17 @@ package com.EstoqueFacil.EstoqueFacil.service;
 
 
 import com.EstoqueFacil.EstoqueFacil.model.*;
+
 import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
 import com.EstoqueFacil.EstoqueFacil.repository.RequisicaoRepository;
 import exceptions.ErroDePreenchimentoInvalidoException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
+
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+
 
 @Service
 public class RequisicaoService {
@@ -29,12 +28,12 @@ public class RequisicaoService {
 
     public void validarDataRequisicao(LocalDate date) {
 
-        if(date.isAfter(LocalDate.now())){
+        if (date.isAfter(LocalDate.now())) {
             throw new ErroDePreenchimentoInvalidoException("A data não pode ser uma data futura");
         }
     }
 
-    public Requisicao cadastrarRequisicao(Requisicao requisicao) {
+    public Requisicao cadastrarRequisicao(Requisicao requisicao, Funcionario funcionario) {
 
         validarRequisicao(requisicao);
 
@@ -58,15 +57,17 @@ public class RequisicaoService {
 
             }
         }
-
+        System.out.println("Funcionário recebido: " + funcionario);
+        requisicao.setFuncionario(funcionario);
+        System.out.println("Funcionário na requisição: " + requisicao.getFuncionario());
         return requisicaoRepository.save(requisicao);
     }
 
-    public Requisicao buscarPorId(Integer id){
+    public Requisicao buscarPorId(Integer id) {
         return requisicaoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhuma requisição foi encontrada"));
     }
 
-    public Requisicao buscarPorDataRequisicao(LocalDate dataRequisicao){
+    public Requisicao buscarPorDataRequisicao(LocalDate dataRequisicao) {
 
         return requisicaoRepository.findByDataRequisicao(dataRequisicao).orElseThrow(() -> new NoSuchElementException("Nenhuma requisiçao foi encontrada"));
     }
@@ -122,15 +123,15 @@ public class RequisicaoService {
         return requisicaoRepository.save(requisicao);
     }
 
-    public Requisicao deletarRequisicaoPorId(int id){
-        if(!requisicaoRepository.existsById(id)) {
+    public Requisicao deletarRequisicaoPorId(int id) {
+        if (!requisicaoRepository.existsById(id)) {
             throw new NoSuchElementException("Não existe nenhuma requisição com o id " + id);
         }
         return requisicaoRepository.deleteById(id);
     }
 
-    public Requisicao deletarRequisicaoPorData(LocalDate dataRequisicao){
-        if(!requisicaoRepository.existsByDataRequisicao(dataRequisicao)) {
+    public Requisicao deletarRequisicaoPorData(LocalDate dataRequisicao) {
+        if (!requisicaoRepository.existsByDataRequisicao(dataRequisicao)) {
             throw new NoSuchElementException("Não existe nenhuma requisição com essa data");
         }
         return requisicaoRepository.deleteByDataRequisicao(dataRequisicao);

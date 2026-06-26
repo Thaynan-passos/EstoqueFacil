@@ -8,7 +8,7 @@
 <body>
   <div id="painel">
     <h1 id="titulo1">Estoque Fácil</h1>
-    <span class="subtitle">Área do Funcionário</span>
+    <span class="subtitle">Área do Financeiro</span>
       <a th:href="@{/dashboard-funcionario}" class="menu-btn">
           Dashboard financeiro
       </a>
@@ -31,7 +31,7 @@
       </div>
   </header>
   <section>
-      <form id="form-requisicao"  th:action="@{/requisicao}" th:object="${requisicao}" method="POST">
+      <form id="form-requisicao"  th:action="@{/requisicao}" th:object="${requisicao}" method="post">
           <div class="form-grid">
               <div class="form-group full-width">
                   <label for="produto">Produto Desejado</label>
@@ -86,9 +86,6 @@
               dataRequisicao: new Date().toISOString().split("T")[0],
               status: "PENDENTE",
               motivo: justificativa,
-              setor: {
-                  idSetor: 1
-              },
               produtos: [
                   {
                       produto: {
@@ -101,6 +98,7 @@
 
           const response = await fetch("/requisicao", {
               method: "POST",
+              credentials: "same-origin",
               headers: {
                   "Content-Type": "application/json"
               },

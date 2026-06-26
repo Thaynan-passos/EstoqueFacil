@@ -42,9 +42,7 @@ public class CadastroFuncionarioController {
             @RequestParam String estado
     ) {
 
-        // =========================
-        // FUNCIONÁRIO
-        // =========================
+
         Funcionario f = new Funcionario();
         f.setNome(nome);
         f.setCpf(cpf.replaceAll("\\D", ""));
@@ -57,9 +55,6 @@ public class CadastroFuncionarioController {
             throw new RuntimeException("Cargo obrigatório");
         }
 
-        // =========================
-        // ENDEREÇO (OBRIGATÓRIO)
-        // =========================
         Endereco end = new Endereco();
         end.setCep(cep.replace("-", ""));
         end.setRua(rua);
@@ -70,19 +65,11 @@ public class CadastroFuncionarioController {
 
         f.setEndereco(end);
 
-        // =========================
-        // TELEFONE (OBRIGATÓRIO)
-        // =========================
         Telefone tel = new Telefone();
         tel.setTelefone(telefone);
         tel.setTipoTelefone("PRINCIPAL");
 
         f.setTelefone(List.of(tel));
-
-        // =========================
-        // SALVAR
-        // =========================
-
 
 
         funcionarioService.cadastrarFuncionario(f, senha);

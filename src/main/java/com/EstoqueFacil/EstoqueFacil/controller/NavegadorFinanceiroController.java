@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.EstoqueFacil.EstoqueFacil.repository.SetorRepository;
 
 @Controller
 public class NavegadorFinanceiroController {
@@ -20,6 +21,10 @@ public class NavegadorFinanceiroController {
 
     @Autowired
     private AuthUtil authUtil;
+
+
+    @Autowired
+    private SetorRepository setorRepository;
 
     @GetMapping("/dashboard-funcionario")
     public String dashboardFuncionario(Model model) {
@@ -55,6 +60,7 @@ public class NavegadorFinanceiroController {
             return "redirect:/dashboard-funcionario";
 
         model.addAttribute("produtos", produtoService.buscarTodosProdutos());
+        model.addAttribute("setores", setorRepository.findAll()); // ADICIONADO
         model.addAttribute("requisicao", new Requisicao());
         return "telas-funcionario/requisicoes";
     }

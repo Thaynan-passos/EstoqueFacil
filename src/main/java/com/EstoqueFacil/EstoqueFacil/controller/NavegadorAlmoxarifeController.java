@@ -1,8 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
-import com.EstoqueFacil.EstoqueFacil.model.Movimentacao;
-import com.EstoqueFacil.EstoqueFacil.model.Produto;
-import com.EstoqueFacil.EstoqueFacil.model.Status;
+import com.EstoqueFacil.EstoqueFacil.model.*;
 import com.EstoqueFacil.EstoqueFacil.repository.LoteRepository;
 import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
 import com.EstoqueFacil.EstoqueFacil.service.LoteService;
@@ -18,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -156,7 +156,6 @@ public class NavegadorAlmoxarifeController {
 
         return "redirect:/saidas-materiais";
     }
-
     @GetMapping("/inventario")
     public String inventario(Model model) {
 
@@ -166,8 +165,49 @@ public class NavegadorAlmoxarifeController {
         if (!authUtil.hasRole("ROLE_ALMOXARIFADO"))
             return "redirect:/dashboard-almoxarife";
 
-        model.addAttribute("produtos", produtoRepository.findAll());
+        // Agrupa os lotes por produto e soma quantidades
+        List<Lote> lotes = loteRepository.findAll();
+
+        Map<Integer, InventarioItem> mapaInventario = new LinkedHashMap<>();
+        for (Lote lote : lotes) {
+            Produto p = lote.getProduto();
+            mapaInventario.merge(
+                    p.getIdProduto(),
+                    new InventarioItem(p, lote.getQuantidade()),
+                    (existing, novo) -> {
+                        existing.quantidadeTotal += novo.quantidadeTotal;
+                        return existing;
+                    }
+            );
+        }
+
+        // Produtos sem nenhum lote também aparecem
+        List<Produto> todosProdutos = produtoRepository.findAll();
+        for (Produto p : todosProdutos) {
+            mapaInventario.putIfAbsent(p.getIdProduto(), new InventarioItem(p, 0));
+        }
+
+        List<String> categorias = Arrays.stream(ClassificacaoProduto.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+
+        model.addAttribute("inventario", new ArrayList<>(mapaInventario.values()));
+        model.addAttribute("categorias", categorias);
 
         return "telas-almoxarife/inventario";
+    }
+
+    // DTO simples para o inventário (classe interna estática)
+    public static class InventarioItem {
+        public Produto produto;
+        public int quantidadeTotal;
+
+        public InventarioItem(Produto produto, int quantidadeTotal) {
+            this.produto = produto;
+            this.quantidadeTotal = quantidadeTotal;
+        }
+
+        public Produto getProduto() { return produto; }
+        public int getQuantidadeTotal() { return quantidadeTotal; }
     }
 }

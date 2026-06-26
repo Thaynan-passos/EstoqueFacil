@@ -45,6 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/dashboard-funcionario/**").hasRole("FINANCEIRO")
                         .requestMatchers("/requisicoes/**").hasRole("FINANCEIRO")
                         .requestMatchers("/historico-requisicoes/**").hasRole("FINANCEIRO")
+                        .requestMatchers("/requisicao/historico/**").hasRole("FINANCEIRO")
                         .requestMatchers("/minhas-solicitacoes/**").hasRole("FINANCEIRO")
 
                         // PÚBLICAS

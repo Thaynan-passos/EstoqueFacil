@@ -17,8 +17,8 @@ public interface RequisicaoRepository extends JpaRepository<Requisicao,Integer> 
   Optional<Requisicao> findByDataRequisicao(LocalDate dataRequisicao);
     boolean existsById(Integer id);
     List<Requisicao> findById(int id);
-    //Requisicao deleteById(int id);
-    void deleteById(int id);
+    Requisicao deleteById(int id);
+    //void deleteById(int id);
     List<Requisicao> findAll();
     boolean existsByDataRequisicao(LocalDate dataRequisicao);
     Requisicao deleteByDataRequisicao(LocalDate dataRequisicao);

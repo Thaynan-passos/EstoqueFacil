@@ -32,11 +32,6 @@ public class FornecedorService {
         return fornecedorRepository.findByCnpj(cnpj).orElseThrow(() -> new NoSuchElementException("Nenhum fornecedor foi encontrado"));
     }
 
-    public Fornecedor buscarPorEmail(String email) {
-
-        return fornecedorRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Nenhum fornecedor foi encontrado"));
-    }
-
     public List<Fornecedor> buscarTodosFornecedores() {
 
         return this.fornecedorRepository.findAll();

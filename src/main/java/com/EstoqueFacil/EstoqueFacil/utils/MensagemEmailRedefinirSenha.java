@@ -27,7 +27,7 @@ public class MensagemEmailRedefinirSenha {
         @Value("${mail.smtp.password}")
         private String senha;
 
-        public void enviarConfirmacao(String emailUsuario, String nomeUsuario) {
+        public void enviarConfirmacaoRedefinirSenha(String emailUsuario, String nomeUsuario) {
 
             // Propriedades do Servidor SMTP
             Properties props = new Properties();

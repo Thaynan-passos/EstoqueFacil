@@ -7,27 +7,22 @@ import java.time.LocalDate;
 @Table(name = "funcionario_setor")
 public class FuncionarioSetor {
 
-    @Id
-    @Column(name = "data_inicio")
-    private LocalDate dataInicio;
+    @EmbeddedId
+    private FuncionarioSetorId id;
 
     @ManyToOne
-    @JoinColumn(name = "fk_id_funcionario", nullable = false)
+    @MapsId("idFuncionario")
+    @JoinColumn(name = "fk_id_funcionario")
     private Funcionario funcionario;
 
     @ManyToOne
-    @JoinColumn(name = "fk_id_setor", nullable = false)
+    @MapsId("idSetor")
+    @JoinColumn(name = "fk_id_setor")
     private Setor setor;
 
 
 
-    public LocalDate getDataInicio() {
-        return dataInicio;
-    }
 
-    public void setDataInicio(LocalDate dataInicio) {
-        this.dataInicio = dataInicio;
-    }
 
     public Funcionario getFuncionario() {
         return funcionario;

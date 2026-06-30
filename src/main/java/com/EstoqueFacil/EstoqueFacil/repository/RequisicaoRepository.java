@@ -14,7 +14,6 @@ import java.util.Optional;
 public interface RequisicaoRepository extends JpaRepository<Requisicao, Integer> {
 
   Optional<Requisicao> findByDataRequisicao(LocalDate dataRequisicao);
-  boolean existsByDataRequisicao(LocalDate dataRequisicao);
   long countByStatus(Status status);
 
   @Query("SELECT DISTINCT r FROM Requisicao r " +
@@ -26,9 +25,4 @@ public interface RequisicaoRepository extends JpaRepository<Requisicao, Integer>
 
   List<Requisicao> findByStatus(Status status);
   List<Requisicao> findByStatusNot(Status status);
-
-  List<Requisicao> findByFuncionarioIdFuncionario(int idFuncionario);
-  long countByFuncionarioIdFuncionarioAndStatus(int idFuncionario, Status status);
-  long countByFuncionarioIdFuncionario(int idFuncionario);
-  List<Requisicao> findTop5ByFuncionarioIdFuncionarioOrderByDataRequisicaoDesc(int idFuncionario);
 }

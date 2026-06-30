@@ -27,7 +27,7 @@ public class Endereco {
     @NotBlank (message="É necessário indicar a cidade.")
     private String cidade;
 
-    @Column(name="numero", length = 20, nullable =false)
+    @Column(name="numero", length = 20, nullable =true)
     private String numeroCasa;
 
     @Column(name="rua",length = 45,nullable = false)

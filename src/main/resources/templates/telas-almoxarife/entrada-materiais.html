@@ -31,20 +31,6 @@
       <form th:action="@{/entrada}" method="post">
 
           <div class="form-grid">
-
-              <div class="form-group full-width">
-                  <label>Lote</label>
-                  <select name="loteId" required>
-                      <option value="" disabled selected>Selecione o lote...</option>
-
-                      <option th:each="lote : ${lotes}"
-                              th:value="${lote.idLote}"
-                              th:text="${lote.codigo}">
-                      </option>
-
-                  </select>
-              </div>
-
               <div class="form-group">
                   <label>Quantidade</label>
                   <input type="number" name="quantidade" min="1" required>

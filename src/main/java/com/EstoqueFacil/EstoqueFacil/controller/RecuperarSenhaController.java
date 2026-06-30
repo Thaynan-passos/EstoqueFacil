@@ -1,5 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
+import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
 import com.EstoqueFacil.EstoqueFacil.service.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,16 +22,15 @@ public class RecuperarSenhaController {
 
     @PostMapping("/recuperar-senha")
     public String redefinirSenha(
-            @RequestParam String cpf,
             @RequestParam String email,
             @RequestParam String novaSenha,
             @RequestParam String confirmarSenha,
             Model model) {
 
         try {
-            String cpfLimpo = cpf.replaceAll("\\D", "");
 
-            funcionarioService.redefinirSenha(cpfLimpo, email, novaSenha, confirmarSenha);
+
+            funcionarioService.redefinirSenha(email, novaSenha, confirmarSenha);
 
             model.addAttribute("sucesso", "Senha redefinida com sucesso! Você já pode fazer login.");
             return "recuperar-senha";

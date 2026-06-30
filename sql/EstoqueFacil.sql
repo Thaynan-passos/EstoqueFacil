@@ -11,8 +11,9 @@ CREATE TABLE IF NOT EXISTS estoquefacil.endereco (
   estado VARCHAR(2) NOT NULL,
   cep VARCHAR(8) NOT NULL,
   cidade VARCHAR(45) NOT NULL,
-  numero VARCHAR(20) NOT NULL,
+  numero VARCHAR(20) NULL,
   PRIMARY KEY (id_endereco),
+)
 ENGINE = InnoDB;
 
 
@@ -37,25 +38,6 @@ CREATE TABLE IF NOT EXISTS estoquefacil.funcionario (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table estoquefacil.dependente
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS estoquefacil.dependente (
-  id_dependente INT AUTO_INCREMENT,
-  nome VARCHAR(45) NOT NULL,
-  sexo ENUM('MASCULINO', 'FEMININO', 'NAO_BINARIO', 'OUTRO') NULL,
-  fk_id_funcionario INT NOT NULL,
-  PRIMARY KEY (id_dependente, fk_id_funcionario),
-  INDEX fk_dependente_funcionario1_idx (fk_id_funcionario ASC),
-  CONSTRAINT fk_dependente_funcionario1
-    FOREIGN KEY (fk_id_funcionario)
-    REFERENCES estoquefacil.funcionario (id_funcionario)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table estoquefacil.fornecedor
@@ -156,7 +138,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS estoquefacil.relatorio (
   id_relatorio INT NOT NULL AUTO_INCREMENT,
   data_emissao DATE NOT NULL,
-  descricao VARCHAR(45) NOT NULL,
+  descricao VARCHAR(500) NOT NULL,
   valor_total_entradas DECIMAL(10,2) NOT NULL,
   valor_total_saidas DECIMAL(10,2) NOT NULL,
   data_inicio DATE NOT NULL,
@@ -208,7 +190,7 @@ CREATE TABLE IF NOT EXISTS estoquefacil.movimentacao (
   id_movimentacao INT NOT NULL AUTO_INCREMENT,
   status ENUM('PENDENTE', 'APROVADO', 'NEGADO') NOT NULL,
   data_movimentacao DATE NOT NULL,
-  descricao VARCHAR(45) NULL,
+  descricao VARCHAR(500) NULL,
   fk_id_funcionario_aprovador INT NOT NULL,
   fk_id_funcionario_executor INT NOT NULL,
   PRIMARY KEY (id_movimentacao),
@@ -234,7 +216,7 @@ CREATE TABLE IF NOT EXISTS estoquefacil.requisicao (
   id_requisicao INT NOT NULL AUTO_INCREMENT,
   data_requisicao DATE NOT NULL,
   status ENUM('PENDENTE', 'APROVADO', 'NEGADO') NOT NULL,
-  motivo VARCHAR(45) NOT NULL,
+  motivo VARCHAR(150) NOT NULL,
 
   fk_id_setor INT NOT NULL,
   fk_id_funcionario INT NOT NULL,

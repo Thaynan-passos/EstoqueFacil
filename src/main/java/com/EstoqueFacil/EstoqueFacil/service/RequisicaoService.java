@@ -1,6 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
 import com.EstoqueFacil.EstoqueFacil.model.*;
+import com.EstoqueFacil.EstoqueFacil.repository.FuncionarioSetorRepository;
 import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
 import com.EstoqueFacil.EstoqueFacil.repository.RequisicaoRepository;
 import exceptions.ErroDePreenchimentoInvalidoException;
@@ -17,11 +18,13 @@ public class RequisicaoService {
 
     private final RequisicaoRepository requisicaoRepository;
     private final ProdutoRepository produtoRepository;
+    private final FuncionarioSetorRepository funcionarioSetorRepository;
 
     public RequisicaoService(RequisicaoRepository requisicaoRepository,
-                             ProdutoRepository produtoRepository) {
+                             ProdutoRepository produtoRepository, FuncionarioSetorRepository funcionarioSetorRepository) {
         this.requisicaoRepository = requisicaoRepository;
         this.produtoRepository = produtoRepository;
+        this.funcionarioSetorRepository = funcionarioSetorRepository;
     }
 
     public void validarDataRequisicao(LocalDate data) {
@@ -62,8 +65,19 @@ public class RequisicaoService {
                     "Funcionário inválido.");
         }
 
-        requisicao.setFuncionario(funcionario);
+
         requisicao.setStatus(Status.PENDENTE);
+
+        requisicao.setFuncionario(funcionario);
+
+        FuncionarioSetor funcionarioSetor = funcionarioSetorRepository
+                .findByFuncionario(funcionario)
+                .orElseThrow(() ->
+                        new RuntimeException("Funcionário não possui um setor cadastrado."));
+
+
+        // Associa o setor automaticamente
+        requisicao.setSetor(funcionarioSetor.getSetor());
 
         if (requisicao.getProdutos() == null ||
                 requisicao.getProdutos().isEmpty()) {

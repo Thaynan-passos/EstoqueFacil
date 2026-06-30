@@ -73,11 +73,6 @@ public class FuncionarioService {
         return funcionarioRepository.findByCpf(cpf).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário encontrado"));
     }
 
-    public Funcionario buscarPorEmail(String email) {
-
-        return funcionarioRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário foi encontrado"));
-    }
-
     public List<Funcionario> buscarTodosFuncionarios() {
 
         return this.funcionarioRepository.findAll();
@@ -98,13 +93,13 @@ public class FuncionarioService {
 
         return funcionarioRepository.save(funcionarioAtualizado);
     }
-    public Funcionario redefinirSenha(String cpf, String email, String novaSenha, String confirmarSenha) {
+    public Funcionario redefinirSenha( String email, String novaSenha, String confirmarSenha) {
 
-        Funcionario funcionario = funcionarioRepository.findByCpf(cpf)
-                .orElseThrow(() -> new NoSuchElementException("CPF ou email não conferem"));
+        Funcionario funcionario = funcionarioRepository.findByEmail(email)
+                .orElseThrow(() -> new NoSuchElementException("email não conferem"));
 
         if (!funcionario.getEmail().equalsIgnoreCase(email)) {
-            throw new NoSuchElementException("CPF ou email não conferem");
+            throw new NoSuchElementException("Os emails não conferem");
         }
 
         if (!novaSenha.equals(confirmarSenha)) {
@@ -141,9 +136,5 @@ public class FuncionarioService {
         if(funcionarioRepository.existsByEmail(funcionario.getEmail())){
             throw new CampoPreenchimento("Este Email já está cadastrado");
         }
-    }
-
-    public boolean gerenteExiste() {
-        return funcionarioRepository.existsByCargo(com.EstoqueFacil.EstoqueFacil.model.Cargo.GERENTE);
     }
 }

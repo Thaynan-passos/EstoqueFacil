@@ -41,16 +41,6 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="setor">Setor</label>
-                <select id="setor" name="setor" required>
-                    <option value="" disabled selected>Selecione o setor...</option>
-                    <option th:each="s : ${setores}"
-                            th:value="${s.idSetor}"
-                            th:text="${s.nomeSetor}">
-                    </option>
-                </select>
-            </div>
-            <div class="form-group">
                 <label for="quantidade">Quantidade</label>
                 <input type="number" id="quantidade" name="quantidade" min="1" placeholder="Ex: 2" required>
             </div>

@@ -53,7 +53,7 @@ public class MensagemEmailFuncionarioUtil {
 
             // O conteúdo da mensagem
             String corpoEmail = nomeUsuario + ",\n\n"
-                    + "Este é um e-mail automático para confirmar que seu cadastro foi concluído.";
+                    + "Este é um e-mail automático para confirmar que seu cadastro foi concluído. É recomendável que você modifique/atualize a sua senha!";
             message.setText(corpoEmail);
 
             //  Enviar o e-mail

@@ -32,13 +32,12 @@
   </header>
 
   <section>
-      <form th:action="@{/produto/cadastrar-admin}" method="post">
-
+      <form th:action="@{/produto/cadastrar}" method="post">
           <div class="form-grid">
 
               <div class="form-group full-width">
                   <label>Nome do Produto</label>
-                  <input type="text" name="nomeProduto" required>
+                  <input type="text" name="nome" required>
               </div>
 
               <div class="form-group">
@@ -58,10 +57,10 @@
 
               <div class="form-group">
                   <label>Classificação</label>
-                  <select name="classificacao" required>
-                      <option value="CONSUMO">Eletrônico</option>
-                      <option value="REPARO">Reparo</option>
-                      <option value="LIMPEZA">Limpeza</option>
+                  <select name="categoria" required>
+                      <option value="consumo">Consumo</option>
+                      <option value="manutencao">Reparo/Manutenção</option>
+                      <option value="limpeza">Limpeza</option>
                   </select>
               </div>
 
@@ -71,7 +70,6 @@
               <button type="reset" class="btn-cancelar">Cancelar</button>
               <button type="submit" class="btn-salvar">Cadastrar Produto</button>
           </div>
-
       </form>
   </section>
 

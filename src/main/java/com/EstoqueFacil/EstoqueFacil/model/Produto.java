@@ -9,6 +9,9 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -27,9 +30,8 @@ public class Produto {
     @NotBlank (message="O código de barras deve ser preenchido.")
     private String codigoProduto;
 
-    @Column(name="garantia", nullable = false)
-    @NotNull (message="Não pode ser nulo.")
     @PositiveOrZero(message = "A garantia não pode ser negativa")
+    @Column(name = "garantia", nullable = false)
     private int garantia;
 
     @Column(name="data_cadastro", nullable = false)
@@ -54,11 +56,11 @@ public class Produto {
         this.idProduto = idProduto;
     }
 
-    public String getNomeProduto() {
+    public String getNome() {
         return nome;
     }
 
-    public void setNomeProduto(String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
@@ -100,5 +102,39 @@ public class Produto {
 
     public void setClassificacao(ClassificacaoProduto classificacao) {
         this.classificacao = classificacao;
+    }
+    @OneToMany(
+            mappedBy = "produto",
+            fetch = FetchType.LAZY
+    )
+    private List<RequisicaoProduto> requisicoes = new ArrayList<>();
+    public List<RequisicaoProduto> getRequisicoes() {
+        return requisicoes;
+    }
+
+    public void setRequisicoes(List<RequisicaoProduto> requisicoes) {
+        this.requisicoes = requisicoes;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Produto)) return false;
+        Produto produto = (Produto) o;
+        return idProduto == produto.idProduto;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProduto);
+    }
+    public Produto() {
+    }
+    public Produto(String nome,
+                   String codigoBarras,
+                   BigDecimal valorUnitario) {
+
+        this.nome = nome;
+        this.codigoProduto = codigoBarras;
+        this.valorUnitario = valorUnitario;
     }
 }

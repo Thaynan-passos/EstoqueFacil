@@ -1,18 +1,16 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-
 import com.EstoqueFacil.EstoqueFacil.model.*;
-
 import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
 import com.EstoqueFacil.EstoqueFacil.repository.RequisicaoRepository;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
-
+import java.util.Set;
 
 @Service
 public class RequisicaoService {
@@ -26,50 +24,102 @@ public class RequisicaoService {
         this.produtoRepository = produtoRepository;
     }
 
-    public void validarDataRequisicao(LocalDate date) {
+    public void validarDataRequisicao(LocalDate data) {
 
-        if (date.isAfter(LocalDate.now())) {
-            throw new ErroDePreenchimentoInvalidoException("A data não pode ser uma data futura");
+        if (data == null) {
+            throw new ErroDePreenchimentoInvalidoException(
+                    "A data da requisição é obrigatória.");
+        }
+
+        if (data.isAfter(LocalDate.now())) {
+            throw new ErroDePreenchimentoInvalidoException(
+                    "A data não pode ser futura.");
         }
     }
 
-    public Requisicao cadastrarRequisicao(Requisicao requisicao, Funcionario funcionario) {
+    public void validarRequisicao(Requisicao requisicao) {
+
+        if (requisicao == null) {
+            throw new ErroDePreenchimentoInvalidoException(
+                    "Requisição inválida.");
+        }
+
+        validarDataRequisicao(requisicao.getDataRequisicao());
+
+        if (requisicao.getSetor() == null) {
+            throw new ErroDePreenchimentoInvalidoException(
+                    "O setor é obrigatório.");
+        }
+    }
+
+    public Requisicao cadastrarRequisicao(Requisicao requisicao,
+                                          Funcionario funcionario) {
 
         validarRequisicao(requisicao);
 
+        if (funcionario == null) {
+            throw new ErroDePreenchimentoInvalidoException(
+                    "Funcionário inválido.");
+        }
+
+        requisicao.setFuncionario(funcionario);
         requisicao.setStatus(Status.PENDENTE);
 
-        if (requisicao.getProdutos() != null) {
+        if (requisicao.getProdutos() == null ||
+                requisicao.getProdutos().isEmpty()) {
 
-            for (RequisicaoProduto rp : requisicao.getProdutos()) {
-
-                if (rp.getProduto() == null || rp.getProduto().getIdProduto() == null) {
-                    throw new NoSuchElementException("Produto inválido na requisição");
-                }
-
-                rp.setRequisicao(requisicao);
-                Integer produtoId = rp.getProduto().getIdProduto();
-
-                Produto produto = produtoRepository.findById(produtoId)
-                        .orElseThrow(() -> new NoSuchElementException("Produto não encontrado"));
-
-                rp.setProduto(produto);
-
-            }
+            throw new ErroDePreenchimentoInvalidoException(
+                    "A requisição deve possuir pelo menos um produto.");
         }
-        System.out.println("Funcionário recebido: " + funcionario);
-        requisicao.setFuncionario(funcionario);
-        System.out.println("Funcionário na requisição: " + requisicao.getFuncionario());
+
+        Set<Integer> produtosAdicionados = new HashSet<>();
+
+        for (RequisicaoProduto rp : requisicao.getProdutos()) {
+
+            if (rp.getQuantidadeSolicitada() <= 0) {
+                throw new ErroDePreenchimentoInvalidoException(
+                        "A quantidade deve ser maior que zero.");
+            }
+
+            if (rp.getProduto() == null ||
+                    rp.getProduto().getIdProduto() == null) {
+
+                throw new NoSuchElementException(
+                        "Produto inválido na requisição.");
+            }
+
+            Integer produtoId = rp.getProduto().getIdProduto();
+
+            if (!produtosAdicionados.add(produtoId)) {
+                throw new ErroDePreenchimentoInvalidoException(
+                        "Existem produtos repetidos na requisição.");
+            }
+
+            Produto produto = produtoRepository.findById(produtoId)
+                    .orElseThrow(() ->
+                            new NoSuchElementException(
+                                    "Produto não encontrado."));
+
+            rp.setProduto(produto);
+            rp.setRequisicao(requisicao);
+        }
+
         return requisicaoRepository.save(requisicao);
     }
 
     public Requisicao buscarPorId(Integer id) {
-        return requisicaoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhuma requisição foi encontrada"));
+        return requisicaoRepository.findById(id)
+                .orElseThrow(() ->
+                        new NoSuchElementException(
+                                "Nenhuma requisição foi encontrada."));
     }
 
     public Requisicao buscarPorDataRequisicao(LocalDate dataRequisicao) {
 
-        return requisicaoRepository.findByDataRequisicao(dataRequisicao).orElseThrow(() -> new NoSuchElementException("Nenhuma requisiçao foi encontrada"));
+        return requisicaoRepository.findByDataRequisicao(dataRequisicao)
+                .orElseThrow(() ->
+                        new NoSuchElementException(
+                                "Nenhuma requisição foi encontrada."));
     }
 
     public List<Requisicao> buscarTodasRequisicoes() {
@@ -79,7 +129,6 @@ public class RequisicaoService {
     public long totalRequisicoes() {
         return requisicaoRepository.count();
     }
-
 
     public long totalPorStatus(Status status) {
         return requisicaoRepository.countByStatus(status);
@@ -102,46 +151,42 @@ public class RequisicaoService {
     }
 
     public List<Requisicao> buscarUltimas() {
-        return requisicaoRepository.findTopByOrderByDataRequisicaoDesc();
+        return requisicaoRepository.findTop5ByOrderByDataRequisicaoDesc();
     }
 
+    public Requisicao atualizarPorId(int id,
+                                     Requisicao dadosAtualizados) {
 
-    public Requisicao atualizarPorId(int id, Requisicao dadosAtualizados) {
+        Requisicao requisicao = buscarPorId(id);
 
-        Requisicao requisicaoNovo = buscarPorId(id);
+        validarDataRequisicao(dadosAtualizados.getDataRequisicao());
 
-        requisicaoNovo.setDataRequisicao(dadosAtualizados.getDataRequisicao());
-        requisicaoNovo.setMotivo(dadosAtualizados.getMotivo());
-        requisicaoNovo.setStatus(dadosAtualizados.getStatus());
+        requisicao.setDataRequisicao(dadosAtualizados.getDataRequisicao());
+        requisicao.setMotivo(dadosAtualizados.getMotivo());
+        requisicao.setStatus(dadosAtualizados.getStatus());
 
-        return requisicaoRepository.save(requisicaoNovo);
+        return requisicaoRepository.save(requisicao);
     }
 
     public Requisicao atualizarStatus(int id, Status status) {
+
         Requisicao requisicao = buscarPorId(id);
+
         requisicao.setStatus(status);
+
         return requisicaoRepository.save(requisicao);
     }
 
     public Requisicao deletarRequisicaoPorId(int id) {
-        if (!requisicaoRepository.existsById(id)) {
-            throw new NoSuchElementException("Não existe nenhuma requisição com o id " + id);
-        }
-        return requisicaoRepository.deleteById(id);
+        Requisicao requisicao = buscarPorId(id); // já lança exceção se não existir
+        requisicaoRepository.deleteById(id);
+        return requisicao;
     }
 
     public Requisicao deletarRequisicaoPorData(LocalDate dataRequisicao) {
-        if (!requisicaoRepository.existsByDataRequisicao(dataRequisicao)) {
-            throw new NoSuchElementException("Não existe nenhuma requisição com essa data");
-        }
-        return requisicaoRepository.deleteByDataRequisicao(dataRequisicao);
-
-    }
-
-
-    public void validarRequisicao(Requisicao requisicao) {
-
-        validarDataRequisicao(requisicao.getDataRequisicao());
+        Requisicao requisicao = buscarPorDataRequisicao(dataRequisicao); // já lança exceção se não existir
+        requisicaoRepository.delete(requisicao);
+        return requisicao;
     }
 
 }

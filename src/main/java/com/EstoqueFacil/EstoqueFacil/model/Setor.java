@@ -16,7 +16,7 @@ public class Setor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idSetor;
+    private Integer idSetor;
 
     @Column(name="nome", nullable = false, length = 45)
     @NotBlank(message = "É necessário pôr o nome do setor.")
@@ -44,11 +44,11 @@ public class Setor {
     private Endereco endereco;
 
 
-    public int getIdSetor() {
+    public Integer getIdSetor() {
         return idSetor;
     }
 
-    public void setIdSetor(int idSetor) {
+    public void setIdSetor(Integer idSetor) {
         this.idSetor = idSetor;
     }
 

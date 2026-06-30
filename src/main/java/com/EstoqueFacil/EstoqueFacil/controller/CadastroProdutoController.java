@@ -30,7 +30,7 @@ public class CadastroProdutoController {
     ) {
 
         Produto produto = new Produto();
-        produto.setNomeProduto(nome);
+        produto.setNome(nome);
         produto.setCodigoBarras(codigoBarras);
         produto.setGarantia(garantia);
         produto.setDataCadastro(LocalDate.now());

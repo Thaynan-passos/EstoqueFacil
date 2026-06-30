@@ -9,6 +9,8 @@ import java.util.Objects;
 @Embeddable
 public class RequisicaoProdutoId implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private Integer requisicaoId;
 
     private Integer produtoId;
@@ -30,6 +32,14 @@ public class RequisicaoProdutoId implements Serializable {
     }
 
 
+
+    public RequisicaoProdutoId() {
+    }
+
+    public RequisicaoProdutoId(Integer requisicaoId, Integer produtoId) {
+        this.requisicaoId = requisicaoId;
+        this.produtoId = produtoId;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

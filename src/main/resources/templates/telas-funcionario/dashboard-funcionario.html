@@ -92,9 +92,9 @@
                 <td th:text="${r.idRequisicao}"></td>
 
                 <td>
-        <span th:if="${#lists.size(r.produtos) > 0}"
-              th:text="${r.produtos[0].produto.nomeProduto}">
-        </span>
+    <span th:if="${#lists.size(r.produtos) > 0}"
+          th:text="${r.produtos[0].produto.nome}">
+    </span>
                 </td>
 
                 <td>

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class Requisicao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idRequisicao;
+    private Integer idRequisicao;
 
     @Column(name = "data_requisicao", nullable = false)
     @NotNull(message = "Não pode ficar nulo.")
@@ -24,7 +25,7 @@ public class Requisicao {
     @NotNull(message = "Não pode ficar nulo.")
     private Status status;
 
-    @Column(name = "motivo", nullable = false, length = 45)
+    @Column(name = "motivo", nullable = false, length = 500)
     @NotBlank(message = "É necessário ter o motivo")
     private String motivo;
 
@@ -38,14 +39,18 @@ public class Requisicao {
     @NotNull
     private Funcionario funcionario;
 
-    @OneToMany(mappedBy = "requisicao", cascade = CascadeType.ALL)
-    private List<RequisicaoProduto> produtos;
+    @OneToMany(
+            mappedBy = "requisicao",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<RequisicaoProduto> produtos = new ArrayList<>();
 
-    public int getIdRequisicao() {
+    public Integer getIdRequisicao() {
         return idRequisicao;
     }
 
-    public void setIdRequisicao(int idRequisicao) {
+    public void setIdRequisicao(Integer idRequisicao) {
         this.idRequisicao = idRequisicao;
     }
 

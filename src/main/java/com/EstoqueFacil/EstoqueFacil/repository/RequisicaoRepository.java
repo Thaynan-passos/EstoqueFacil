@@ -1,36 +1,34 @@
 package com.EstoqueFacil.EstoqueFacil.repository;
 
-
 import com.EstoqueFacil.EstoqueFacil.model.Requisicao;
 import com.EstoqueFacil.EstoqueFacil.model.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RequisicaoRepository extends JpaRepository<Requisicao,Integer> {
+public interface RequisicaoRepository extends JpaRepository<Requisicao, Integer> {
 
   Optional<Requisicao> findByDataRequisicao(LocalDate dataRequisicao);
-    boolean existsById(Integer id);
-    List<Requisicao> findById(int id);
-    Requisicao deleteById(int id);
-    //void deleteById(int id);
-    List<Requisicao> findAll();
-    boolean existsByDataRequisicao(LocalDate dataRequisicao);
-    Requisicao deleteByDataRequisicao(LocalDate dataRequisicao);
-    long countByStatus(Status status);
-    List<Requisicao> findTopByOrderByDataRequisicaoDesc();
-    List<Requisicao> findByStatus(Status status);
-    List<Requisicao> findByStatusNot(Status status);
-List<Requisicao> findByFuncionarioIdFuncionario(int idFuncionario);
+  boolean existsByDataRequisicao(LocalDate dataRequisicao);
+  long countByStatus(Status status);
+
+  @Query("SELECT DISTINCT r FROM Requisicao r " +
+          "LEFT JOIN FETCH r.produtos rp " +
+          "LEFT JOIN FETCH rp.produto " +
+          "ORDER BY r.dataRequisicao DESC " +
+          "LIMIT 5")
+  List<Requisicao> findTop5ByOrderByDataRequisicaoDesc();
+
+  List<Requisicao> findByStatus(Status status);
+  List<Requisicao> findByStatusNot(Status status);
+
+  List<Requisicao> findByFuncionarioIdFuncionario(int idFuncionario);
   long countByFuncionarioIdFuncionarioAndStatus(int idFuncionario, Status status);
   long countByFuncionarioIdFuncionario(int idFuncionario);
   List<Requisicao> findTop5ByFuncionarioIdFuncionarioOrderByDataRequisicaoDesc(int idFuncionario);
-
-
 }
-

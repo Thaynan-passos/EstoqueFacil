@@ -6,114 +6,117 @@
     <link rel="stylesheet" href="/static/css/requisicoes.css" th:href="@{/css/requisicoes.css}"/>
 </head>
 <body>
-  <div id="painel">
+<div id="painel">
     <h1 id="titulo1">Estoque Fácil</h1>
     <span class="subtitle">Área do Financeiro</span>
-      <a th:href="@{/dashboard-funcionario}" class="menu-btn">
-          Dashboard financeiro
-      </a>
+    <a th:href="@{/dashboard-funcionario}" class="menu-btn">
+        Dashboard financeiro
+    </a>
+    <a th:href="@{/requisicoes}" class="menu-btn">
+        Pedir uma nova Requisição
+    </a>
+    <a th:href="@{/historico-requisicoes}" class="menu-btn">
+        Histórico de requisições
+    </a>
+    <a th:href="@{/minhas-solicitacoes}" class="menu-btn">
+        Minhas Solicitações
+    </a>
+</div>
+<header>
+    <div>
+        <h1 id="titulo-header">Nova Requisição de Material</h1>
+    </div>
+</header>
+<section>
+    <form id="form-requisicao" th:action="@{/requisicao}" th:object="${requisicao}" method="post">
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label for="produto">Produto Desejado</label>
+                <select id="produto" name="produto" required>
+                    <option value="" disabled selected>Busque e selecione o produto...</option>
+                    <option th:each="p : ${produtos}"
+                            th:value="${p.idProduto}"
+                            th:text="${p.nome}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="setor">Setor</label>
+                <select id="setor" name="setor" required>
+                    <option value="" disabled selected>Selecione o setor...</option>
+                    <option th:each="s : ${setores}"
+                            th:value="${s.idSetor}"
+                            th:text="${s.nomeSetor}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantidade">Quantidade</label>
+                <input type="number" id="quantidade" name="quantidade" min="1" placeholder="Ex: 2" required>
+            </div>
+            <div class="form-group">
+                <label for="urgencia">Nível de Urgência</label>
+                <select id="urgencia" name="urgencia" required>
+                    <option value="baixa">Baixa (Rotina)</option>
+                    <option value="media">Média</option>
+                    <option value="alta">Alta (Impacta o trabalho)</option>
+                </select>
+            </div>
+            <div class="form-group full-width">
+                <label for="justificativa">Justificativa da Solicitação</label>
+                <textarea id="justificativa" name="justificativa" placeholder="Explique brevemente o motivo pelo qual você precisa deste material." required></textarea>
+            </div>
+        </div>
+        <div class="botoes-acao">
+            <button type="reset" class="btn-cancelar">Limpar Campos</button>
+            <button type="submit" class="btn-salvar">Enviar Solicitação</button>
+        </div>
+    </form>
+</section>
 
-      <a th:href="@{/requisicoes}" class="menu-btn">
-          Pedir uma nova Requisição
-      </a>
+<div id="popup-sucesso" class="popup-escondido">
+    <div class="popup-conteudo">
+        <span class="fechar-popup" onclick="fecharPopup()">&times;</span>
+        <p>Requisição enviada, aguarde o retorno da gerência.</p>
+    </div>
+</div>
 
-      <a th:href="@{/historico-requisicoes}" class="menu-btn">
-          Histórico de requisições
-      </a>
+<script>
+    document.getElementById("form-requisicao").addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-      <a th:href="@{/minhas-solicitacoes}" class="menu-btn">
-          Minhas Solicitações
-      </a>
-  </div>
-  <header>
-      <div>
-          <h1 id="titulo-header">Nova Requisição de Material</h1>
-      </div>
-  </header>
-  <section>
-      <form id="form-requisicao"  th:action="@{/requisicao}" th:object="${requisicao}" method="post">
-          <div class="form-grid">
-              <div class="form-group full-width">
-                  <label for="produto">Produto Desejado</label>
-                  <select id="produto" name="produto" required>
-                      <option value="" disabled selected>Busque e selecione o produto...</option>
-                      <option th:each="p : ${produtos}"
-                              th:value="${p.idProduto}"
-                              th:text="${p.nomeProduto}">
-                      </option>
-                  </select>
-              </div>
-              <div class="form-group">
-                  <label for="quantidade">Quantidade</label>
-                  <input type="number" id="quantidade" name="quantidade" min="1" placeholder="Ex: 2" required>
-              </div>
-              <div class="form-group">
-                  <label for="urgencia">Nível de Urgência</label>
-                  <select id="urgencia" name="urgencia" required>
-                      <option value="baixa">Baixa (Rotina)</option>
-                      <option value="media">Média</option>
-                      <option value="alta">Alta (Impacta o trabalho)</option>
-                  </select>
-              </div>
-              <div class="form-group full-width">
-                  <label for="justificativa">Justificativa da Solicitação</label>
-                  <textarea id="justificativa" name="justificativa" placeholder="Explique brevemente o motivo pelo qual você precisa deste material." required></textarea>
-              </div>
-          </div>
-          <div class="botoes-acao">
-              <button type="reset" class="btn-cancelar">Limpar Campos</button>
-              <button type="submit" class="btn-salvar">Enviar Solicitação</button>
-          </div>
-      </form>
-  </section>
+        const produtoId = parseInt(document.getElementById("produto").value);
+        const quantidade = parseInt(document.getElementById("quantidade").value);
+        const justificativa = document.getElementById("justificativa").value;
+        const setorId = parseInt(document.getElementById("setor").value);
 
-  <div id="popup-sucesso" class="popup-escondido">
-      <div class="popup-conteudo">
-          <span class="fechar-popup" onclick="fecharPopup()">&times;</span>
-          <p>Requisição enviada, aguarde o retorno da gerência.</p>
-      </div>
-  </div>
+        const requisicao = {
+            dataRequisicao: new Date().toISOString().split("T")[0],
+            motivo: justificativa,
+            setor: { idSetor: setorId },
+            produtos: [
+                {
+                    produto: { idProduto: produtoId },
+                    quantidadeSolicitada: quantidade
+                }
+            ]
+        };
 
-  <script>
-      document.getElementById("form-requisicao").addEventListener("submit", async (e) => {
-          e.preventDefault();
+        const response = await fetch("/requisicao", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requisicao)
+        });
 
-          const produtoId = document.getElementById("produto").value;
-          const quantidade = document.getElementById("quantidade").value;
-          const justificativa = document.getElementById("justificativa").value;
-
-          const requisicao = {
-              dataRequisicao: new Date().toISOString().split("T")[0],
-              status: "PENDENTE",
-              motivo: justificativa,
-              produtos: [
-                  {
-                      produto: {
-                          idProduto: produtoId
-                      },
-                      quantidadeSolicitada: quantidade
-                  }
-              ]
-          };
-
-          const response = await fetch("/requisicao", {
-              method: "POST",
-              credentials: "same-origin",
-              headers: {
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify(requisicao)
-          });
-
-          if (response.ok) {
-              document.getElementById("popup-sucesso").className = "popup-visivel";
-              e.target.reset();
-          } else {
-              alert("Erro ao enviar requisição");
-          }
-      });
-
-  </script>
+        if (response.ok) {
+            document.getElementById("popup-sucesso").className = "popup-visivel";
+            e.target.reset();
+        } else {
+            const erro = await response.text();
+            alert("Erro ao enviar requisição: " + erro);
+        }
+    });
+</script>
 </body>
 </html>
-

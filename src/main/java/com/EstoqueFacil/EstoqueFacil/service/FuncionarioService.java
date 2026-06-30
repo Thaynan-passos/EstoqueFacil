@@ -98,6 +98,25 @@ public class FuncionarioService {
 
         return funcionarioRepository.save(funcionarioAtualizado);
     }
+    public Funcionario redefinirSenha(String cpf, String email, String novaSenha, String confirmarSenha) {
+
+        Funcionario funcionario = funcionarioRepository.findByCpf(cpf)
+                .orElseThrow(() -> new NoSuchElementException("CPF ou email não conferem"));
+
+        if (!funcionario.getEmail().equalsIgnoreCase(email)) {
+            throw new NoSuchElementException("CPF ou email não conferem");
+        }
+
+        if (!novaSenha.equals(confirmarSenha)) {
+            throw new ErroDePreenchimentoInvalidoException("As senhas não conferem");
+        }
+
+        senhaValidar(novaSenha);
+
+        funcionario.setSenhaHash(passwordEncoder.encode(novaSenha));
+
+        return funcionarioRepository.save(funcionario);
+    }
 
     @Transactional
     public Funcionario deletarPorCpf(String cpf) {

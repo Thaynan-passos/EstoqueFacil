@@ -44,7 +44,7 @@ public class SetupController {
         if (gerenteExiste) {
             return "redirect:/login";
         }
-        return "setup";
+        return "recuperar-senha";
     }
 
     @PostMapping
@@ -63,12 +63,12 @@ public class SetupController {
 
         if (!senha.equals(confirmarSenha)) {
             model.addAttribute("erro", "Senhas não conferem");
-            return "setup";
+            return "recuperar-senha";
         }
 
         if (senha.length() < 6) {
             model.addAttribute("erro", "Senha deve ter no mínimo 6 caracteres");
-            return "setup";
+            return "recuperar-senha";
         }
 
         try {
@@ -103,7 +103,7 @@ public class SetupController {
 
         } catch (Exception e) {
             model.addAttribute("erro", "Erro ao criar gerente: " + e.getMessage());
-            return "setup";
+            return "recuperar-senha";
         }
     }
 }

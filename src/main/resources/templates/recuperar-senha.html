@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Senha - Estoque Fácil</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+</head>
+<body>
+<div class="planoFundo">
+    <section class="conteiner" id="header">
+        <form th:action="@{/recuperar-senha}" method="post">
+
+            <h1 class="h1">Recuperar Senha</h1>
+            <h2 id="EstoqueFacil">Estoque Fácil</h2>
+
+            <p class="login">Confirme seus dados para redefinir a senha</p>
+
+            <p th:if="${erro}" th:text="${erro}" style="color:red;"></p>
+            <p th:if="${sucesso}" th:text="${sucesso}" style="color:green;"></p>
+
+            <label>CPF:</label>
+            <input type="text" name="cpf" placeholder="000.000.000-00" maxlength="14" required>
+
+            <label>Email cadastrado:</label>
+            <input type="email" name="email" required>
+
+            <label>Nova Senha:</label>
+            <input type="password" name="novaSenha" minlength="8" maxlength="14" required>
+
+            <label>Confirmar Nova Senha:</label>
+            <input type="password" name="confirmarSenha" minlength="8" maxlength="14" required>
+
+            <div class="botoes">
+                <button type="submit" class="btn-entrar">Redefinir Senha</button>
+            </div>
+
+            <p style="margin-top: 15px;">
+                <a th:href="@{/login}">Voltar ao login</a>
+            </p>
+
+        </form>
+    </section>
+</div>
+</body>
+</html>

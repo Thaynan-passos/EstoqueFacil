@@ -192,3 +192,22 @@ input:focus, select:focus, textarea:focus {
 .fechar-popup:hover {
     color: #dc3545;
 }
+
+.mensagem-escondida { display: none; }
+.mensagem-visivel {
+    display: block;
+    margin: 0 0 16px 0;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+.mensagem-sucesso {
+    background-color: #e6f8ed;
+    color: #0f6b2f;
+    border: 1px solid #b7ebc9;
+}
+.mensagem-erro {
+    background-color: #fdecea;
+    color: #7a1b14;
+    border: 1px solid #f5c2c0;
+}

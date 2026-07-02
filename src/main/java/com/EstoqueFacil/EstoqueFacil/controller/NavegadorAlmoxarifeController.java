@@ -1,12 +1,13 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
-import com.EstoqueFacil.EstoqueFacil.model.*;
-import com.EstoqueFacil.EstoqueFacil.repository.LoteRepository;
-import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
-import com.EstoqueFacil.EstoqueFacil.service.LoteService;
-import com.EstoqueFacil.EstoqueFacil.service.MovimentacaoService;
-import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
-import com.EstoqueFacil.EstoqueFacil.utils.AuthUtil;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +16,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.EstoqueFacil.EstoqueFacil.model.ClassificacaoProduto;
+import com.EstoqueFacil.EstoqueFacil.model.Lote;
+import com.EstoqueFacil.EstoqueFacil.model.Movimentacao;
+import com.EstoqueFacil.EstoqueFacil.model.Produto;
+import com.EstoqueFacil.EstoqueFacil.model.Status;
+import com.EstoqueFacil.EstoqueFacil.repository.LoteRepository;
+import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
+import com.EstoqueFacil.EstoqueFacil.service.LoteService;
+import com.EstoqueFacil.EstoqueFacil.service.MovimentacaoService;
+import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
+import com.EstoqueFacil.EstoqueFacil.utils.AuthUtil;
 
 
 @Controller
@@ -41,6 +50,9 @@ public class NavegadorAlmoxarifeController {
     @Autowired
     private AuthUtil authUtil;
 
+    @Autowired
+    private com.EstoqueFacil.EstoqueFacil.service.FornecedorService fornecedorService;
+
     @GetMapping("/dashboard-almoxarife")
     public String dashboardAlmoxarife(Model model) {
 
@@ -57,7 +69,7 @@ public class NavegadorAlmoxarifeController {
     }
 
     @GetMapping("/cadastrar-produto")
-    public String cadastrarProduto() {
+    public String cadastrarProduto(Model model) {
 
         if (!authUtil.isLogado())
             return "redirect:/login";
@@ -65,6 +77,7 @@ public class NavegadorAlmoxarifeController {
         if (!authUtil.hasRole("ROLE_ALMOXARIFADO"))
             return "redirect:/dashboard-almoxarife";
 
+        model.addAttribute("fornecedores", fornecedorService.buscarTodosFornecedores());
         return "telas-almoxarife/cadastrar-produto";
     }
 

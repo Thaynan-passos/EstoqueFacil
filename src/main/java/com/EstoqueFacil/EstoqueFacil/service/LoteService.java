@@ -1,16 +1,18 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
-import com.EstoqueFacil.EstoqueFacil.repository.LoteRepository;
-import exceptions.CampoPreenchimento;
-import exceptions.ErroDePreenchimentoInvalidoException;
-import com.EstoqueFacil.EstoqueFacil.model.Lote;
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.EstoqueFacil.EstoqueFacil.model.Lote;
+import com.EstoqueFacil.EstoqueFacil.repository.LoteRepository;
+
+import exceptions.CampoPreenchimento;
+import exceptions.ErroDePreenchimentoInvalidoException;
+import jakarta.transaction.Transactional;
 
 @Service
 public class LoteService {
@@ -60,7 +62,7 @@ public class LoteService {
         if (numeroLote <= 0) {
             throw new NoSuchElementException("Não foi possível encontrar nenhum lote");
         }
-        return loteRepository.findByNumeroLote(numeroLote);
+        return loteRepository.findByNumeroLote(numeroLote).orElseThrow(() -> new NoSuchElementException("Não foi possível encontrar nenhum lote"));
     }
 
     public Lote atualizarLotePorNumero(int numero, Lote dadosAtualizados) {
@@ -78,7 +80,12 @@ public class LoteService {
         if(!loteRepository.existsByNumeroLote(numeroLote)) {
             throw new NoSuchElementException("Não existe nenhum Lote com esse numero");
         }
-        return loteRepository.deleteByNumeroLote(numeroLote);
+
+        Lote lote = loteRepository.findByNumeroLote(numeroLote).orElseThrow(() -> new NoSuchElementException("Não existe nenhum Lote com esse numero"));
+
+        loteRepository.deleteByNumeroLote(numeroLote);
+
+        return lote;
     }
 
     public void validarLote(Lote lote) {

@@ -29,6 +29,7 @@
 </header>
 <section>
     <form id="form-requisicao" th:action="@{/requisicao}" th:object="${requisicao}" method="post">
+        <div id="mensagem" class="mensagem-escondida"></div>
         <div class="form-grid">
             <div class="form-group full-width">
                 <label for="produto">Produto Desejado</label>
@@ -52,6 +53,13 @@
                     <option value="alta">Alta (Impacta o trabalho)</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="setor">Setor</label>
+                <select id="setor" name="setor" required>
+                    <option value="" disabled selected>Selecione o setor...</option>
+                    <option th:each="s : ${setores}" th:value="${s.idSetor}" th:text="${s.nome}"></option>
+                </select>
+            </div>
             <div class="form-group full-width">
                 <label for="justificativa">Justificativa da Solicitação</label>
                 <textarea id="justificativa" name="justificativa" placeholder="Explique brevemente o motivo pelo qual você precisa deste material." required></textarea>
@@ -72,13 +80,49 @@
 </div>
 
 <script>
+    function fecharPopup() {
+        const p = document.getElementById('popup-sucesso');
+        if (p) p.className = 'popup-escondido';
+    }
+
+    // fechar ao clicar fora do conteúdo
+    document.addEventListener('click', function (e) {
+        const popup = document.getElementById('popup-sucesso');
+        if (!popup) return;
+        if (popup.className !== 'popup-visivel') return;
+        const conteudo = popup.querySelector('.popup-conteudo');
+        if (conteudo && !conteudo.contains(e.target)) {
+            fecharPopup();
+        }
+    });
+
+    // fechar com ESC
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') fecharPopup();
+    });
+
+    // Mensagens de sucesso/erro no formulário
+    function mostrarMensagem(tipo, texto) {
+        const el = document.getElementById('mensagem');
+        if (!el) return;
+        el.textContent = texto;
+        el.className = tipo === 'sucesso' ? 'mensagem-sucesso mensagem-visivel' : 'mensagem-erro mensagem-visivel';
+
+        // auto-hide após 5s
+        clearTimeout(window._mensagemTimeout);
+        window._mensagemTimeout = setTimeout(() => {
+            el.className = 'mensagem-escondida';
+        }, 5000);
+    }
+
     document.getElementById("form-requisicao").addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const produtoId = parseInt(document.getElementById("produto").value);
         const quantidade = parseInt(document.getElementById("quantidade").value);
         const justificativa = document.getElementById("justificativa").value;
-        const setorId = parseInt(document.getElementById("setor").value);
+        const setorEl = document.getElementById("setor");
+        const setorId = setorEl ? parseInt(setorEl.value) : null;
 
         const requisicao = {
             dataRequisicao: new Date().toISOString().split("T")[0],

@@ -1,19 +1,20 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
 
-import com.EstoqueFacil.EstoqueFacil.repository.RelatorioRepository;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfWriter;
-import exceptions.ErroDePreenchimentoInvalidoException;
-import com.EstoqueFacil.EstoqueFacil.model.Relatorio;
-import org.springframework.stereotype.Service;
-import com.lowagie.text.Document;
-
-
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import org.springframework.stereotype.Service;
+
+import com.EstoqueFacil.EstoqueFacil.model.Relatorio;
+import com.EstoqueFacil.EstoqueFacil.repository.RelatorioRepository;
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+
+import exceptions.ErroDePreenchimentoInvalidoException;
 
 
 @Service
@@ -114,11 +115,16 @@ public class RelatorioService {
         return relatorioRepository.save(relatorioNovo);
     }
 
-    public Relatorio deletarLotePorId(int id){
+    public Relatorio deletarRelatorioPorId(int id){
         if(!relatorioRepository.existsById(id)) {
             throw new NoSuchElementException("Não existe nenhum relatório com o id " + id);
         }
-        return relatorioRepository.deleteById(id);
+
+        Relatorio relatorio = relatorioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Não existe nenhum relatório com o id " + id));
+
+        relatorioRepository.deleteById(id);
+
+        return relatorio;
     }
 
     public void validarRelatorio(Relatorio relatorio){

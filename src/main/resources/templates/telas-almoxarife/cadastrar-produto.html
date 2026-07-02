@@ -66,10 +66,41 @@
 
           </div>
 
-          <div class="botoes-acao">
-              <button type="reset" class="btn-cancelar">Cancelar</button>
-              <button type="submit" class="btn-salvar">Cadastrar Produto</button>
-          </div>
+              <h2>Dados do Lote (opcional)</h2>
+              <div class="form-grid">
+                  <div class="form-group">
+                      <label>Número do Lote</label>
+                      <input type="number" name="numeroLote" min="1">
+                  </div>
+                  <div class="form-group">
+                      <label>Data Fabricação</label>
+                      <input type="date" name="dataFabricacao">
+                  </div>
+                  <div class="form-group">
+                      <label>Data Validade</label>
+                      <input type="date" name="dataValidade">
+                  </div>
+                  <div class="form-group">
+                      <label>Quantidade</label>
+                      <input type="number" name="quantidade" min="0">
+                  </div>
+                  <div class="form-group">
+                      <label>Data Fornecimento</label>
+                      <input type="date" name="dataFornecimento">
+                  </div>
+                  <div class="form-group">
+                      <label>Fornecedor</label>
+                      <select name="fornecedorId">
+                          <option value="">-- selecione --</option>
+                          <option th:each="f : ${fornecedores}" th:value="${f.idFornecedor}" th:text="${f.razaoSocial}"></option>
+                      </select>
+                  </div>
+              </div>
+
+              <div class="botoes-acao">
+                  <button type="reset" class="btn-cancelar">Cancelar</button>
+                  <button type="submit" class="btn-salvar">Cadastrar Produto</button>
+              </div>
       </form>
   </section>
 

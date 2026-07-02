@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.EstoqueFacil.EstoqueFacil.model.ClassificacaoProduto;
+import com.EstoqueFacil.EstoqueFacil.model.Fornecedor;
+import com.EstoqueFacil.EstoqueFacil.model.Lote;
 import com.EstoqueFacil.EstoqueFacil.model.Produto;
+import com.EstoqueFacil.EstoqueFacil.repository.FornecedorRepository;
+import com.EstoqueFacil.EstoqueFacil.service.LoteService;
 import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
 
 @Controller
@@ -20,6 +24,12 @@ public class CadastroProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
+    @Autowired
+    private LoteService loteService;
+
+    @Autowired
+    private FornecedorRepository fornecedorRepository;
+
     @PostMapping("/cadastrar")
     public String cadastrarProduto(
             @RequestParam String nome,
@@ -27,7 +37,14 @@ public class CadastroProdutoController {
             @RequestParam int garantia,
             @RequestParam BigDecimal valorUnitario,
             @RequestParam String categoria
-    ) {
+            ,
+            @RequestParam(required = false) Integer numeroLote,
+            @RequestParam(required = false) String dataFabricacao,
+            @RequestParam(required = false) String dataValidade,
+            @RequestParam(required = false) Integer quantidade,
+            @RequestParam(required = false) String dataFornecimento,
+            @RequestParam(required = false) Integer fornecedorId
+        ) {
 
         Produto produto = new Produto();
         produto.setNome(nome);
@@ -38,6 +55,30 @@ public class CadastroProdutoController {
         produto.setClassificacao(mapClassificacao(categoria));
 
         produtoService.cadastrarProduto(produto);
+
+        // Se foram informados dados de lote, criar lote associado ao produto
+        if (numeroLote != null && numeroLote > 0) {
+            Lote lote = new Lote();
+            lote.setNumeroLote(numeroLote);
+            if (dataFabricacao != null && !dataFabricacao.isBlank())
+                lote.setDataFabricacao(LocalDate.parse(dataFabricacao));
+            if (dataValidade != null && !dataValidade.isBlank())
+                lote.setDataValidade(LocalDate.parse(dataValidade));
+            if (dataFornecimento != null && !dataFornecimento.isBlank())
+                lote.setDataFornecimento(LocalDate.parse(dataFornecimento));
+            if (quantidade != null) lote.setQuantidade(quantidade);
+
+            // associar produto salvo
+            Produto produtoSalvo = produtoService.buscarProdutosPorCodigoProduto(codigoBarras);
+            lote.setProduto(produtoSalvo);
+
+            if (fornecedorId != null) {
+                Fornecedor fornecedor = fornecedorRepository.findById(fornecedorId).orElse(null);
+                if (fornecedor != null) lote.setFornecedor(fornecedor);
+            }
+
+            loteService.cadastrarLote(lote);
+        }
 
         return "redirect:/cadastrar-produto";
     }

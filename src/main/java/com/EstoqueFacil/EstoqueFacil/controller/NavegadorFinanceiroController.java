@@ -1,14 +1,16 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
-import com.EstoqueFacil.EstoqueFacil.model.Requisicao;
-import com.EstoqueFacil.EstoqueFacil.model.Status;
-import com.EstoqueFacil.EstoqueFacil.service.*;
-import com.EstoqueFacil.EstoqueFacil.utils.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.EstoqueFacil.EstoqueFacil.model.Requisicao;
+import com.EstoqueFacil.EstoqueFacil.model.Status;
 import com.EstoqueFacil.EstoqueFacil.repository.SetorRepository;
+import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
+import com.EstoqueFacil.EstoqueFacil.service.RequisicaoService;
+import com.EstoqueFacil.EstoqueFacil.utils.AuthUtil;
 
 @Controller
 public class NavegadorFinanceiroController {
@@ -21,6 +23,9 @@ public class NavegadorFinanceiroController {
 
     @Autowired
     private AuthUtil authUtil;
+
+    @Autowired
+    private com.EstoqueFacil.EstoqueFacil.service.LoteService loteService;
 
 
     @Autowired
@@ -46,6 +51,8 @@ public class NavegadorFinanceiroController {
 
         model.addAttribute("ultimas",
                 requisicaoService.buscarUltimas());
+
+        model.addAttribute("totalLotes", loteService.buscarTodosLotes().size());
 
         return "telas-funcionario/dashboard-funcionario";
     }

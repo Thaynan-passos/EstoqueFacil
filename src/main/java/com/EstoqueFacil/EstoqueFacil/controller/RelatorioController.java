@@ -1,17 +1,27 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
-import jakarta.validation.Valid;
-import com.EstoqueFacil.EstoqueFacil.model.Relatorio;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
+import java.time.LocalDate;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.EstoqueFacil.EstoqueFacil.model.Relatorio;
 import com.EstoqueFacil.EstoqueFacil.service.FuncionarioService;
 import com.EstoqueFacil.EstoqueFacil.service.RelatorioService;
 
-import java.time.LocalDate;
-
-import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/relatorio")
@@ -71,6 +81,6 @@ public class RelatorioController {
     @DeleteMapping("/deletar")
     public ResponseEntity<?> deletarRelatorio(@RequestParam int idRelatorio) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(relatorioService.deletarLotePorId(idRelatorio));
+        return ResponseEntity.status(HttpStatus.OK).body(relatorioService.deletarRelatorioPorId(idRelatorio));
     }
 }

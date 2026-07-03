@@ -16,8 +16,6 @@ public class RecuperarSenhaController {
     @Autowired
     private FuncionarioService funcionarioService;
 
-    @Autowired
-    Funcionario funcionario;
 
     @Autowired
     private MensagemEmailRedefinirSenha mensagemEmailRedefinirSenha;
@@ -36,11 +34,22 @@ public class RecuperarSenhaController {
 
         try {
 
-            funcionarioService.redefinirSenha(email, novaSenha, confirmarSenha);
-            mensagemEmailRedefinirSenha.enviarConfirmacaoRedefinirSenha(funcionario.getEmail(), funcionario.getNome());
+            Funcionario funcionario = funcionarioService.redefinirSenha(
+                    email,
+                    novaSenha,
+                    confirmarSenha
+            );
 
+            mensagemEmailRedefinirSenha.enviarConfirmacaoRedefinirSenha(
+                    funcionario.getEmail(),
+                    funcionario.getNome()
+            );
 
-            model.addAttribute("sucesso", "Senha redefinida com sucesso! Você já pode fazer login.");
+            model.addAttribute(
+                    "sucesso",
+                    "Senha redefinida com sucesso! Você já pode fazer login."
+            );
+
             return "recuperar-senha";
 
         } catch (Exception e) {

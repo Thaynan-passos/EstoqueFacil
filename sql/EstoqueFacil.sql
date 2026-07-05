@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS estoquefacil.endereco (
   estado VARCHAR(2) NOT NULL,
   cep VARCHAR(8) NOT NULL,
   cidade VARCHAR(45) NOT NULL,
-  numero VARCHAR(20) NULL,
+  numero VARCHAR(20),
   PRIMARY KEY (id_endereco),
 )
 ENGINE = InnoDB;
@@ -24,7 +24,6 @@ CREATE TABLE IF NOT EXISTS estoquefacil.funcionario (
   id_funcionario INT NOT NULL AUTO_INCREMENT,
   cpf VARCHAR(11) NOT NULL,
   email VARCHAR(45) NOT NULL,
-  nivel_acesso INT NOT NULL,
   nome VARCHAR(45) NOT NULL,
   senha_hash VARCHAR(255) NOT NULL,
   fk_id_endereco INT NOT NULL,
@@ -119,7 +118,6 @@ CREATE TABLE IF NOT EXISTS estoquefacil.setor (
   id_setor INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(45) NOT NULL,
   capacidade INT NOT NULL,
-  orcamento_mensal DECIMAL(10,2) NOT NULL,
   tipo ENUM('SETOR_ALMOXARIFE', 'SETOR_FINANCEIRO', 'SETOR_GERENCIA') NOT NULL,
   fk_endereco_setor INT NOT NULL,
   PRIMARY KEY (id_setor),

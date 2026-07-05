@@ -68,13 +68,6 @@ public class ProdutoService {
         return produtoRepository.deleteByNome(nome);
     }
 
-    public Produto deletarProdutoPorCodigo(String codigo){
-        if (!produtoRepository.existsByCodigoProduto(codigo)) {
-            throw new NoSuchElementException("Nenhum produto encontrado");
-        }
-        return produtoRepository.deleteByCodigoProduto(codigo);
-    }
-
     public void validarProduto(Produto produto){
         validarDataCadastro(produto.getDataCadastro());
 

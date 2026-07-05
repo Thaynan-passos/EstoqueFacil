@@ -34,7 +34,6 @@ public class RequisicaoController {
 
         Funcionario funcionario = funcionarioService.buscarPorCpf(cpf);
 
-        System.out.println("Funcionário da sessão: " + funcionario);
         requisicaoService.cadastrarRequisicao(requisicao, funcionario);
 
         return ResponseEntity.ok().build();

@@ -18,7 +18,6 @@ public interface MovimentacaoRepository extends JpaRepositoryImplementation<Movi
     Movimentacao deleteById(int id);
     boolean existsById(int id);
    Optional<Movimentacao> findByDataMovimentacao(LocalDate dataMovimentacao);
-    boolean existsByDataMovimentacao(LocalDate dataMovimentacao);
 
 }
 

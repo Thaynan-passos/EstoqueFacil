@@ -19,6 +19,8 @@ public class FuncionarioSetorId implements Serializable {
     @Column(name = "data_inicio")
     private LocalDate dataInicio;
 
+    public FuncionarioSetorId() {}
+
     public FuncionarioSetorId(Integer idFuncionario,
                               Integer idSetor,
                               LocalDate dataInicio) {
@@ -49,6 +51,15 @@ public class FuncionarioSetorId implements Serializable {
 
     public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FuncionarioSetorId)) return false;
+        FuncionarioSetorId that = (FuncionarioSetorId) o;
+        return Objects.equals(idFuncionario, that.idFuncionario) &&
+                Objects.equals(idSetor, that.idSetor);
     }
 
     @Override

@@ -1,28 +1,36 @@
 package com.EstoqueFacil.EstoqueFacil.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import jakarta.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "funcionario_setor")
 public class FuncionarioSetor {
 
     @EmbeddedId
-    private FuncionarioSetorId id;
+    private FuncionarioSetorId id = new FuncionarioSetorId();
 
     @ManyToOne
     @MapsId("idFuncionario")
     @JoinColumn(name = "fk_id_funcionario")
+    @NotNull
     private Funcionario funcionario;
 
     @ManyToOne
     @MapsId("idSetor")
     @JoinColumn(name = "fk_id_setor")
+    @NotNull
     private Setor setor;
 
 
+    public FuncionarioSetorId getId() {
+        return id;
+    }
 
-
+    public void setId(FuncionarioSetorId id) {
+        this.id = id;
+    }
 
     public Funcionario getFuncionario() {
         return funcionario;

@@ -36,7 +36,7 @@ public class CadastroFuncionarioController {
             @RequestParam String telefone,
             @RequestParam String cep,
             @RequestParam String rua,
-            @RequestParam String numero,
+            @RequestParam (required = false) String numero,
             @RequestParam String bairro,
             @RequestParam String cidade,
             @RequestParam String estado

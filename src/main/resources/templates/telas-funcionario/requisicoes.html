@@ -53,13 +53,6 @@
                     <option value="alta">Alta (Impacta o trabalho)</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="setor">Setor</label>
-                <select id="setor" name="setor" required>
-                    <option value="" disabled selected>Selecione o setor...</option>
-                    <option th:each="s : ${setores}" th:value="${s.idSetor}" th:text="${s.nome}"></option>
-                </select>
-            </div>
             <div class="form-group full-width">
                 <label for="justificativa">Justificativa da Solicitação</label>
                 <textarea id="justificativa" name="justificativa" placeholder="Explique brevemente o motivo pelo qual você precisa deste material." required></textarea>

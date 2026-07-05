@@ -87,7 +87,7 @@ public class Endereco {
 
     public void setNumeroCasa(String numeroCasa) {
 
-        this.numeroCasa = numeroCasa.trim();
+        this.numeroCasa = numeroCasa;
 
     }
 

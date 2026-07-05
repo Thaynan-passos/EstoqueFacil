@@ -36,7 +36,6 @@ public class SetorService {
         Setor setor = buscarPorId(id);
 
         setor.setCapacidade(dadosAtualizado.getCapacidade());
-        setor.setOrcamentoMensal(dadosAtualizado.getOrcamentoMensal());
         setor.setNomeSetor(dadosAtualizado.getNomeSetor());
 
         return setorRepository.save(setor);

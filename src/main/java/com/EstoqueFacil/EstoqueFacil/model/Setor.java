@@ -8,8 +8,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
 
-import java.math.BigDecimal;
-
 @Entity
 @Table (name="setor")
 public class Setor {
@@ -26,11 +24,6 @@ public class Setor {
     @NotNull (message = "Não pode ficar nulo.")
     @PositiveOrZero
     private int capacidade;
-
-    @Column(name="orcamento_mensal", nullable = false)
-    @NotNull (message = "Não pode ficar nulo.")
-    @PositiveOrZero
-    private BigDecimal orcamentoMensal;
 
     @Enumerated(EnumType.STRING)
     @Column(name="tipo", nullable = false)
@@ -66,14 +59,6 @@ public class Setor {
 
     public void setCapacidade(int capacidade) {
         this.capacidade = capacidade;
-    }
-
-    public BigDecimal getOrcamentoMensal() {
-        return orcamentoMensal;
-    }
-
-    public void setOrcamentoMensal(BigDecimal orcamentoMensal) {
-        this.orcamentoMensal = orcamentoMensal;
     }
 
     public TipoSetor getTipoSetor() {

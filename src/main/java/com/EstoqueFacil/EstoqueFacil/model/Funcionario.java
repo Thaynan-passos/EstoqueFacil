@@ -33,11 +33,6 @@ public class Funcionario {
     @NotBlank(message = "A senha não pode ser vazia.")
     private String senhaHash;
 
-    @Column(name = "nivel_acesso", nullable = false)
-    @NotNull(message = "Não pode ficar nulo.")
-    @PositiveOrZero(message = "O nivel de acesso deve ser 0 ou mais")
-    private int nivelAcesso;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "cargo", nullable = false)
     @NotNull(message = "É necessário indicar o cargo.")
@@ -93,14 +88,6 @@ public class Funcionario {
 
     public void setSenhaHash(String senhaHash) {
         this.senhaHash = senhaHash;
-    }
-
-    public int getNivelAcesso() {
-        return nivelAcesso;
-    }
-
-    public void setNivelAcesso(int nivelAcesso) {
-        this.nivelAcesso = nivelAcesso;
     }
 
     public Cargo getCargo() {

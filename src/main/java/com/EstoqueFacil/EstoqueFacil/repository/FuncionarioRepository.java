@@ -18,7 +18,6 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Intege
     Funcionario deleteByCpf(String cpf);
     boolean existsByCpf(String cpf);
     boolean existsByEmail(String email);
-    boolean existsByCargo(Cargo cargo);
     List<Funcionario> findAll();
 
 

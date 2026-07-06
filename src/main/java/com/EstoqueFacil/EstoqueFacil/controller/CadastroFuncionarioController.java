@@ -1,13 +1,18 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
 import com.EstoqueFacil.EstoqueFacil.model.*;
+import com.EstoqueFacil.EstoqueFacil.repository.FuncionarioSetorRepository;
+import com.EstoqueFacil.EstoqueFacil.repository.SetorRepository;
 import com.EstoqueFacil.EstoqueFacil.service.FuncionarioService;
 import com.EstoqueFacil.EstoqueFacil.utils.MensagemEmailFuncionarioUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/cadastro")
@@ -19,9 +24,16 @@ public class CadastroFuncionarioController {
     @Autowired
     private MensagemEmailFuncionarioUtil emailUtil;
 
+    @Autowired
+    private SetorRepository setorRepository;
+
+    @Autowired
+    private FuncionarioSetorRepository funcionarioSetorRepository;
+
     // abre a tela
     @GetMapping
-    public String telaCadastro() {
+    public String telaCadastro(Model model) {
+        model.addAttribute("setores", setorRepository.findAll());
         return "telas-gerente/cadastro-funcionario";
     }
 
@@ -39,9 +51,9 @@ public class CadastroFuncionarioController {
             @RequestParam (required = false) String numero,
             @RequestParam String bairro,
             @RequestParam String cidade,
-            @RequestParam String estado
+            @RequestParam String estado,
+            @RequestParam Integer idSetor
     ) {
-
 
         Funcionario f = new Funcionario();
         f.setNome(nome);
@@ -49,7 +61,6 @@ public class CadastroFuncionarioController {
         f.setEmail(email);
         f.setSenhaHash(senha);
         f.setCargo(cargo);
-        
 
         if (cargo == null) {
             throw new RuntimeException("Cargo obrigatório");
@@ -71,15 +82,26 @@ public class CadastroFuncionarioController {
 
         f.setTelefone(List.of(tel));
 
+        Funcionario funcionarioSalvo = funcionarioService.cadastrarFuncionario(f, senha);
 
-        funcionarioService.cadastrarFuncionario(f, senha);
+        Setor setor = setorRepository.findById(idSetor)
+                .orElseThrow(() -> new NoSuchElementException("Setor não encontrado."));
+
+        FuncionarioSetor funcionarioSetor = new FuncionarioSetor();
+        funcionarioSetor.setFuncionario(funcionarioSalvo);
+        funcionarioSetor.setSetor(setor);
+        funcionarioSetor.setId(new FuncionarioSetorId(
+                funcionarioSalvo.getIdFuncionario(),
+                setor.getIdSetor(),
+                LocalDate.now()
+        ));
+        funcionarioSetorRepository.save(funcionarioSetor);
+
         try {
             emailUtil.enviarConfirmacao(f.getEmail(), f.getNome());
         } catch (Exception e) {
             System.err.println("Email não enviado: " + e.getMessage());
         }
         return "redirect:/cadastro";
-
-
     }
 }

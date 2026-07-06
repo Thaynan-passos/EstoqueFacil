@@ -8,148 +8,163 @@
 </head>
 <body>
 
-  <div id="painel">
+<div id="painel">
     <h1 id="titulo1">Estoque Fácil</h1>
     <span class="subtitle">Painel Administrativo</span>
-      <a th:href="@{/dashboard-gerente}" class="menu-btn ">
-          Dashboard
-      </a>
+    <a th:href="@{/dashboard-gerente}" class="menu-btn ">
+        Dashboard
+    </a>
 
 
-      <a th:href="@{/analise-gerente}" class="menu-btn ">
-          Análise Gerente
-      </a>
+    <a th:href="@{/analise-gerente}" class="menu-btn ">
+        Análise Gerente
+    </a>
 
-      <a th:href="@{/cadastro-funcionario}" class="menu-btn ">
-          Cadastrar Funcionário
-      </a>
+    <a th:href="@{/cadastro-funcionario}" class="menu-btn ">
+        Cadastrar Funcionário
+    </a>
 
-      <a th:href="@{/relatorio-financeiro}" class="menu-btn">
-          Relatório Financeiro
-      </a>
-      <a th:href="@{/cadastrar-fornecedor}" class="menu-btn">Fornecedores</a>
-  </div>
+    <a th:href="@{/relatorio-financeiro}" class="menu-btn">
+        Relatório Financeiro
+    </a>
+    <a th:href="@{/cadastrar-fornecedor}" class="menu-btn">Fornecedores</a>
+</div>
 
-  <header>
-      <div>
-          <h1 id="titulo-header">Cadastro de Funcionário</h1>
-      </div>
-  </header>
+<header>
+    <div>
+        <h1 id="titulo-header">Cadastro de Funcionário</h1>
+    </div>
+</header>
 
-  <section>
-      <form th:action="@{/cadastro/funcionario}" method="post">
-          <div class="form-grid">
+<section>
+    <form th:action="@{/cadastro/funcionario}" method="post">
+        <div class="form-grid">
 
-              <div class="form-group full-width">
-                  <label for="nome">Nome Completo</label>
-                  <input type="text" id="nome" name="nome"
-                         placeholder="Digite o nome completo do funcionário" required>
-              </div>
+            <div class="form-group full-width">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" name="nome"
+                       placeholder="Digite o nome completo do funcionário" required>
+            </div>
 
-              <div class="form-group">
-                  <label for="cpf">CPF (Login)</label>
-                  <input type="text" id="cpf" name="cpf"
-                         placeholder="000.000.000-00" required>
-                  <span class="dica-campo">Este CPF será utilizado no login.</span>
-              </div>
+            <div class="form-group">
+                <label for="cpf">CPF (Login)</label>
+                <input type="text" id="cpf" name="cpf"
+                       placeholder="000.000.000-00" required>
+                <span class="dica-campo">Este CPF será utilizado no login.</span>
+            </div>
 
-              <div class="form-group">
-                  <label for="senha">Senha de Acesso</label>
-                  <input type="password" id="senha" name="senha"
-                         placeholder="Crie uma senha inicial" required>
-              </div>
+            <div class="form-group">
+                <label for="senha">Senha de Acesso</label>
+                <input type="password" id="senha" name="senha"
+                       placeholder="Crie uma senha inicial" required>
+            </div>
 
-              <div class="form-group">
-                  <label for="email">E-mail Corporativo</label>
-                  <input type="email" id="email" name="email"
-                         placeholder="funcionario@empresa.com" required>
-              </div>
+            <div class="form-group">
+                <label for="email">E-mail Corporativo</label>
+                <input type="email" id="email" name="email"
+                       placeholder="funcionario@empresa.com" required>
+            </div>
 
-              <div class="form-group">
-                  <label for="telefone">Telefone / Celular</label>
-                  <input type="text" id="telefone" name="telefone"
-                         placeholder="(00) 00000-0000">
-              </div>
+            <div class="form-group">
+                <label for="telefone">Telefone / Celular</label>
+                <input type="text" id="telefone" name="telefone"
+                       placeholder="(00) 00000-0000">
+            </div>
 
+            <div class="form-group">
+                <label for="cargo">Perfil de Acesso (Cargo)</label>
+                <select id="cargo" name="cargo" required>
+                    <option value="" disabled selected>Selecione o nível de acesso...</option>
+                    <option value="FINANCEIRO">Financeiro</option>
+                    <option value="ALMOXARIFADO">Almoxarife</option>
+                    <option value="GERENTE">Gerente</option>
+                </select>
+            </div>
 
+            <div class="form-group">
+                <label for="idSetor">Setor</label>
+                <select id="idSetor" name="idSetor" required>
+                    <option value="" disabled selected>Selecione o setor...</option>
+                    <option th:each="setor : ${setores}"
+                            th:value="${setor.idSetor}"
+                            th:text="${setor.nomeSetor}">
+                    </option>
+                </select>
+                <span class="dica-campo">O funcionário já será vinculado a este setor.</span>
+            </div>
 
-              <div class="form-group">
-                  <label for="cargo">Perfil de Acesso (Cargo)</label>
-                  <select id="cargo" name="cargo" required>
-                      <option value="" disabled selected>Selecione o nível de acesso...</option>
-                      <option value="FINANCEIRO">Financeiro</option>
-                      <option value="ALMOXARIFADO">Almoxarife</option>
-                      <option value="GERENTE">Gerente</option>
-                  </select>
-              </div>
+        </div>
 
-          </div>
+        <div class="form-grid">
 
-          <div class="form-grid">
+            <div class="form-group full-width">
+                <label for="endereco_rua">Rua</label>
+                <input type="text" id="endereco_rua" name="rua" required>
+            </div>
 
-              <div class="form-group full-width">
-                  <label for="endereco_rua">Rua</label>
-                  <input type="text" id="endereco_rua" name="rua" required>
-              </div>
+            <div class="form-group">
+                <label for="numero">Número</label>
+                <input type="text" id="numero" name="numero"
+                       placeholder="Nº" required>
+            </div>
 
-              <div class="form-group">
-                  <label for="bairro">Bairro</label>
-                  <input type="text" id="bairro" name="bairro" required>
-              </div>
+            <div class="form-group">
+                <label for="bairro">Bairro</label>
+                <input type="text" id="bairro" name="bairro" required>
+            </div>
 
-              <div class="form-group">
-                  <label for="cidade">Cidade</label>
-                  <input type="text" id="cidade" name="cidade" required>
-              </div>
+            <div class="form-group">
+                <label for="cidade">Cidade</label>
+                <input type="text" id="cidade" name="cidade" required>
+            </div>
 
-              <div class="form-group">
-                  <label for="estado">Estado (UF)</label>
-                  <select id="estado" name="estado" required>
-                      <option value="" disabled selected>Selecione o estado...</option>
+            <div class="form-group">
+                <label for="estado">Estado (UF)</label>
+                <select id="estado" name="estado" required>
+                    <option value="" disabled selected>Selecione o estado...</option>
 
-                      <option value="AC">AC</option>
-                      <option value="AL">AL</option>
-                      <option value="AP">AP</option>
-                      <option value="AM">AM</option>
-                      <option value="BA">BA</option>
-                      <option value="CE">CE</option>
-                      <option value="DF">DF</option>
-                      <option value="ES">ES</option>
-                      <option value="GO">GO</option>
-                      <option value="MA">MA</option>
-                      <option value="MT">MT</option>
-                      <option value="MS">MS</option>
-                      <option value="MG">MG</option>
-                      <option value="PA">PA</option>
-                      <option value="PB">PB</option>
-                      <option value="PR">PR</option>
-                      <option value="PE">PE</option>
-                      <option value="PI">PI</option>
-                      <option value="RJ">RJ</option>
-                      <option value="RN">RN</option>
-                      <option value="RS">RS</option>
-                      <option value="RO">RO</option>
-                      <option value="RR">RR</option>
-                      <option value="SC">SC</option>
-                      <option value="SP">SP</option>
-                      <option value="SE">SE</option>
-                      <option value="TO">TO</option>
-                  </select>
-              </div>
-              <div class="form-group">
-                  <label for="cep">CEP</label>
-                  <input type="text" id="cep" placeholder="00000-000" maxlength="9" name="cep" required>
-              </div>
+                    <option value="AC">AC</option>
+                    <option value="AL">AL</option>
+                    <option value="AP">AP</option>
+                    <option value="AM">AM</option>
+                    <option value="BA">BA</option>
+                    <option value="CE">CE</option>
+                    <option value="DF">DF</option>
+                    <option value="ES">ES</option>
+                    <option value="GO">GO</option>
+                    <option value="MA">MA</option>
+                    <option value="MT">MT</option>
+                    <option value="MS">MS</option>
+                    <option value="MG">MG</option>
+                    <option value="PA">PA</option>
+                    <option value="PB">PB</option>
+                    <option value="PR">PR</option>
+                    <option value="PE">PE</option>
+                    <option value="PI">PI</option>
+                    <option value="RJ">RJ</option>
+                    <option value="RN">RN</option>
+                    <option value="RS">RS</option>
+                    <option value="RO">RO</option>
+                    <option value="RR">RR</option>
+                    <option value="SC">SC</option>
+                    <option value="SP">SP</option>
+                    <option value="SE">SE</option>
+                    <option value="TO">TO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cep">CEP</label>
+                <input type="text" id="cep" placeholder="00000-000" maxlength="9" name="cep" required>
+            </div>
 
-          </div>
+        </div>
 
-          <div class="botoes-acao">
-              <button type="button" class="btn-cancelar">Cancelar</button>
-              <button type="submit" class="btn-salvar">Cadastrar Funcionário</button>
-          </div>
-      </form>
-  </section>
+        <div class="botoes-acao">
+            <button type="button" class="btn-cancelar">Cancelar</button>
+            <button type="submit" class="btn-salvar">Cadastrar Funcionário</button>
+        </div>
+    </form>
+</section>
 
 </body>
 </html>
-

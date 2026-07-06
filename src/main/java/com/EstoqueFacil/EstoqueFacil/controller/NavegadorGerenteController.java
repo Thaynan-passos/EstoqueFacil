@@ -8,7 +8,7 @@ import com.EstoqueFacil.EstoqueFacil.service.RequisicaoService;
 import com.EstoqueFacil.EstoqueFacil.utils.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.EstoqueFacil.EstoqueFacil.service.FuncionarioService;
-
+import com.EstoqueFacil.EstoqueFacil.repository.SetorRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +35,9 @@ public class NavegadorGerenteController {
     @Autowired
     private FuncionarioService funcionarioService;
 
+    @Autowired
+    private SetorRepository setorRepository;
+
     @GetMapping("/dashboard-gerente")
     public String dashboardGerente(Model model) {
         if (!authUtil.isLogado()) return "redirect:/login";
@@ -56,26 +59,18 @@ public class NavegadorGerenteController {
         return "telas-gerente/dashboard-gerente";
     }
 
-    @GetMapping("/cadastrar-fornecedor")
-    public String cadastrarFornecedor(Model model) {
-
-        if (!authUtil.isLogado()) return "redirect:/login";
-        if (!authUtil.hasRole("ROLE_GERENTE")) return "redirect:/dashboard-gerente";
-
-        model.addAttribute("fornecedores",
-                fornecedorService.buscarTodosFornecedores());
-
-        return "telas-gerente/cadastrar-fornecedor";
-    }
-
     @GetMapping("/cadastro-funcionario")
-    public String cadastroFuncionario() {
+    public String cadastroFuncionario(Model model) {
 
         if (!authUtil.isLogado()) return "redirect:/login";
         if (!authUtil.hasRole("ROLE_GERENTE")) return "redirect:/dashboard-gerente";
+
+        model.addAttribute("setores", setorRepository.findAll());
 
         return "telas-gerente/cadastro-funcionario";
     }
+
+
     @GetMapping("/relatorio-financeiro")
     public String relatorioFinanceiro(Model model) {
 

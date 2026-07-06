@@ -91,17 +91,6 @@ public class NavegadorAlmoxarifeController {
         return "redirect:/cadastrar-produto";
     }
 
-    @GetMapping("/controle-estoque")
-    public String controleEstoque() {
-
-        if (!authUtil.isLogado())
-            return "redirect:/login";
-
-        if (!authUtil.hasRole("ROLE_ALMOXARIFADO"))
-            return "redirect:/dashboard-almoxarife";
-
-        return "telas-almoxarife/controle-estoque";
-    }
 
     @GetMapping("/entrada-materiais")
     public String entradaMateriais(Model model) {
@@ -210,7 +199,7 @@ public class NavegadorAlmoxarifeController {
         return "telas-almoxarife/inventario";
     }
 
-    // DTO simples para o inventário (classe interna estática)
+
     public static class InventarioItem {
         public Produto produto;
         public int quantidadeTotal;

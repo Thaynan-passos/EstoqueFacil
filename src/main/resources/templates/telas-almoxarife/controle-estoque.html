@@ -3,156 +3,227 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Controle de Estoque - Estoque Fácil</title>
-	<link rel="stylesheet" href="/static/css/controle-estoque.css" th:href="@{/css/controle-estoque.css}"/>
+
+	<link rel="stylesheet"
+	      href="/static/css/controle-estoque.css"
+	      th:href="@{/css/controle-estoque.css}"/>
 </head>
+
 <body>
 
-	<div id="painel">
-		<h1 id="titulo1">Estoque Fácil</h1>
-		<span class="subtitle">Painel Almoxarife</span>
-		<a th:href="@{/dashboard-almoxarife}" class="menu-btn">Dashboard do almoxarifado</a>
+<div id="painel">
 
-		<a th:href="@{/controle-estoque}" class="menu-btn">Controle de Estoque</a>
+	<h1 id="titulo1">Estoque Fácil</h1>
+	<span class="subtitle">Painel Almoxarife</span>
 
-		<a th:href="@{/entrada-materiais}" class="menu-btn">Entrada de Materiais</a>
+	<a th:href="@{/dashboard-almoxarife}" class="menu-btn">Dashboard do almoxarifado</a>
 
-		<a th:href="@{/saidas-materiais}" class="menu-btn">Saída de Materiais</a>
+	<a th:href="@{/controle-estoque}" class="menu-btn">Controle de Estoque</a>
 
-		<a th:href="@{/inventario}" class="menu-btn">Inventário do almoxarifado</a>
-		<a th:href="@{/cadastrar-produto}" class="menu-btn">
-			Cadastrar um Produto
-		</a>
+	<a th:href="@{/entrada-materiais}" class="menu-btn">Entrada de Materiais</a>
+
+	<a th:href="@{/saidas-materiais}" class="menu-btn">Saída de Materiais</a>
+
+	<a th:href="@{/inventario}" class="menu-btn">Inventário do almoxarifado</a>
+
+	<a th:href="@{/cadastrar-produto}" class="menu-btn">
+		Cadastrar um Produto
+	</a>
+
+</div>
+
+<header>
+
+	<div>
+
+		<h1 id="historico">Controle de Estoque</h1>
+
+		<p>
+			Monitore quantidades, registre entradas e saídas de materiais.
+		</p>
+
 	</div>
 
-	<header>
-		<div>
-			<h1 id="historico">Controle de Estoque</h1>
-			<p>Monitore quantidades, registre entradas/saídas e identifique itens com estoque baixo</p>
-		</div>
-	</header>
+</header>
 
-	<section>
-		<div class="area-filtros">
-			<input type="text" id="busca" class="input-filtro" placeholder="Buscar por código, produto ou categoria...">
-			<select id="categoria" class="select-filtro">
-				<option value="">Todas as Categorias</option>
-				<option value="materiais">Materiais</option>
-				<option value="equipamentos">Equipamentos</option>
-			</select>
-			<button class="btn-filtrar" onclick="filtrar()">Filtrar</button>
-			<div style="margin-left:auto"><button class="btn-filtrar" onclick="adicionarExemplo()">Adicionar Exemplo</button></div>
-		</div>
- 
-		<div class="topo-tabela">
-			<h2>Itens em Estoque</h2>
-		</div>
+<section>
 
-		<table>
-			<thead>
-				<tr>
-					<th style="width:8%">Código</th>
-					<th style="width:34%">Produto</th>
-					<th style="width:18%">Categoria</th>
-					<th style="width:10%">Local</th>
-					<th style="width:10%">Qtd</th>
-					<th style="width:10%">Mín</th>
-					<th style="width:10%">Ações</th>
-				</tr>
-			</thead>
-			<tbody id="corpo-estoque">
-				<tr class="linha-tabela">
-					<td>PRD-001</td>
-					<td>Parafuso 3x10mm (pacote 100)</td>
-					<td>Materiais</td>
-					<td>Armário A</td>
-					<td><span class="qtd-badge qtd-ok">120</span></td>
-					<td>20</td>
-					<td class="acoes">
-						<button class="btn-add" onclick="alterarQtd(this, 10)">+10</button>
-						<button class="btn-sub" onclick="alterarQtd(this, -10)">-10</button>
-						<button class="btn-edit" onclick="editarItem(this)">Editar</button>
-					</td>
-				</tr>
-				<tr class="linha-tabela">
-					<td>PRD-002</td>
-					<td>Óleo Lubrificante 500ml</td>
-					<td>Equipamentos</td>
-					<td>Estante B</td>
-					<td><span class="qtd-badge qtd-baixa">4</span></td>
-					<td>10</td>
-					<td class="acoes">
-						<button class="btn-add" onclick="alterarQtd(this, 5)">+5</button>
-						<button class="btn-sub" onclick="alterarQtd(this, -1)">-1</button>
-						<button class="btn-edit" onclick="editarItem(this)">Editar</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</section>
+	<div class="area-filtros">
 
-	<script>
-		function alterarQtd(botao, delta) {
-			const linha = botao.closest('tr');
-			const celulaQtd = linha.querySelectorAll('td')[4];
-			const badge = celulaQtd.querySelector('.qtd-badge');
-			let qtd = parseInt(badge.innerText.replace(/[^0-9-]/g, '')) || 0;
-			qtd = qtd + delta;
-			if (qtd < 0) qtd = 0;
-			const minima = parseInt(linha.querySelectorAll('td')[5].innerText) || 0;
-			badge.innerText = qtd;
-			if (qtd <= minima) {
-				badge.classList.remove('qtd-ok');
-				badge.classList.add('qtd-baixa');
-			} else {
-				badge.classList.remove('qtd-baixa');
-				badge.classList.add('qtd-ok');
+		<input
+				type="text"
+				id="busca"
+				class="input-filtro"
+				placeholder="Buscar produto...">
+
+		<select id="categoria" class="select-filtro">
+
+			<option value="">Todas Categorias</option>
+
+			<option
+					th:each="categoria : ${categorias}"
+					th:value="${categoria}"
+					th:text="${categoria}">
+			</option>
+
+		</select>
+
+		<button class="btn-filtrar"
+		        onclick="filtrar()">
+			Filtrar
+		</button>
+
+	</div>
+
+	<div class="topo-tabela">
+
+		<h2>Itens em Estoque</h2>
+
+	</div>
+
+	<table>
+
+		<thead>
+
+		<tr>
+
+			<th>Código</th>
+			<th>Produto</th>
+			<th>Categoria</th>
+			<th>Quantidade</th>
+			<th>Status</th>
+			<th>Ações</th>
+
+		</tr>
+
+		</thead>
+
+		<tbody id="corpo-estoque">
+
+		<tr
+				th:each="item : ${inventario}"
+				class="linha-tabela">
+
+			<td th:text="${item.produto.idProduto}"></td>
+
+			<td th:text="${item.produto.nomeProduto}"></td>
+
+			<td th:text="${item.produto.classificacao}"></td>
+
+			<td>
+
+                <span
+						class="qtd-badge"
+
+		                th:classappend="${item.quantidadeTotal == 0} ? ' qtd-baixa' :
+                                        (${item.quantidadeTotal <= 10} ? ' qtd-baixa' : ' qtd-ok')"
+
+		                th:text="${item.quantidadeTotal}">
+                </span>
+
+			</td>
+
+			<td>
+
+                <span
+						th:if="${item.quantidadeTotal == 0}"
+		                style="color:red;font-weight:bold;">
+
+                    Sem estoque
+
+                </span>
+
+				<span
+						th:if="${item.quantidadeTotal > 0 and item.quantidadeTotal <= 10}"
+						style="color:orange;font-weight:bold;">
+
+                    Estoque Baixo
+
+                </span>
+
+				<span
+						th:if="${item.quantidadeTotal > 10}"
+						style="color:green;font-weight:bold;">
+
+                    Disponível
+
+                </span>
+
+			</td>
+
+			<td class="acoes">
+
+				<a
+						class="btn-edit"
+						th:href="@{/controle-estoque/editar/{id}(id=${item.produto.idProduto})}">
+
+					Editar
+
+				</a>
+
+			</td>
+
+		</tr>
+
+		</tbody>
+
+	</table>
+
+</section>
+
+<script>
+
+	function filtrar() {
+
+		let texto =
+				document.getElementById("busca")
+						.value
+						.toLowerCase();
+
+		let categoria =
+				document.getElementById("categoria")
+						.value
+						.toLowerCase();
+
+		let linhas =
+				document.querySelectorAll("#corpo-estoque tr");
+
+		linhas.forEach(function (linha) {
+
+			let codigo =
+					linha.cells[0].innerText.toLowerCase();
+
+			let produto =
+					linha.cells[1].innerText.toLowerCase();
+
+			let cat =
+					linha.cells[2].innerText.toLowerCase();
+
+			let mostrar = true;
+
+			if (texto !== "") {
+
+				mostrar =
+						codigo.includes(texto)
+						|| produto.includes(texto);
+
 			}
-		}
 
-		function editarItem(botao) {
-			const linha = botao.closest('tr');
-			const codigo = linha.querySelectorAll('td')[0].innerText;
-			alert('Abrir edição: ' + codigo + '\n(Implementar formulário de edição no backend)');
-		}
+			if (mostrar && categoria !== "") {
 
-		function filtrar() {
-			const termo = document.getElementById('busca').value.toLowerCase();
-			const categoria = document.getElementById('categoria').value;
-			const trs = document.querySelectorAll('#corpo-estoque tr');
-			trs.forEach(tr => {
-				const codigo = tr.children[0].innerText.toLowerCase();
-				const produto = tr.children[1].innerText.toLowerCase();
-				const cat = tr.children[2].innerText.toLowerCase();
-				let mostrar = true;
-				if (termo && !(codigo.includes(termo) || produto.includes(termo))) mostrar = false;
-				if (categoria && categoria !== '' && cat !== categoria.toLowerCase()) mostrar = false;
-				tr.style.display = mostrar ? '' : 'none';
-			});
-		}
+				mostrar =
+						cat === categoria;
 
-		function adicionarExemplo() {
-			const tbody = document.getElementById('corpo-estoque');
-			const nova = document.createElement('tr');
-			nova.className = 'linha-tabela';
-			nova.innerHTML = `
-				<td>PRD-00X</td>
-				<td>Item Exemplo</td>
-				<td>Materiais</td>
-				<td>Estante C</td>
-				<td><span class="qtd-badge qtd-ok">50</span></td>
-				<td>5</td>
-				<td class="acoes">
-					<button class="btn-add" onclick="alterarQtd(this, 5)">+5</button>
-					<button class="btn-sub" onclick="alterarQtd(this, -5)">-5</button>
-					<button class="btn-edit" onclick="editarItem(this)">Editar</button>
-				</td>
-			`;
-			tbody.appendChild(nova);
-		}
-	</script>
+			}
+
+			linha.style.display =
+					mostrar ? "" : "none";
+
+		});
+
+	}
+
+</script>
 
 </body>
 </html>
-
-
-

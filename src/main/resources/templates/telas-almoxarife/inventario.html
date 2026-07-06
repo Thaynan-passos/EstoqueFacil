@@ -45,6 +45,17 @@
         <select>
             <option>Todos Fornecedores</option>
         </select>
+        <select>
+
+            <option value="">Todas Categorias</option>
+
+            <option
+                    th:each="categoria : ${categorias}"
+                    th:value="${categoria}"
+                    th:text="${categoria}">
+            </option>
+
+        </select>
 
     </div>
 
@@ -62,26 +73,39 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="p : ${produtos}">
 
-                <td th:text="${p.idProduto}"></td>
+        <tr th:each="item : ${inventario}">
 
-                <td th:text="${p.nomeProduto}"></td>
+            <td th:text="${item.produto.idProduto}"></td>
 
-                <td th:text="${p.classificacao}"></td>
+            <td th:text="${item.produto.nomeProduto}"></td>
 
-                <td>
-        <span style="color:#999;">
-            (sem controle de estoque ainda)
+            <td th:text="${item.produto.classificacao}"></td>
+
+            <td th:text="${item.quantidadeTotal}"></td>
+
+            <td>
+
+        <span th:if="${item.quantidadeTotal == 0}"
+              style="color:red;">
+            Sem estoque
         </span>
-                </td>
 
-                <td>
-                    <span>Indefinido</span>
-                </td>
+                <span th:if="${item.quantidadeTotal > 0 and item.quantidadeTotal <= 10}"
+                      style="color:orange;">
+            Baixo estoque
+        </span>
 
-            </tr>
-            </tbody>
+                <span th:if="${item.quantidadeTotal > 10}"
+                      style="color:green;">
+            Disponível
+        </span>
+
+            </td>
+
+        </tr>
+
+        </tbody>
         </table>
 
     </div>

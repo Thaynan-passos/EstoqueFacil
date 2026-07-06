@@ -30,7 +30,11 @@
     <a th:href="@{/cadastrar-produto}" class="menu-btn">
         Cadastrar um Produto
     </a>
-
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit" class="menu-btn logout-btn">
+            Sair
+        </button>
+    </form>
 </div>
 
 <header>

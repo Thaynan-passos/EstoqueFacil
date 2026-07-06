@@ -30,6 +30,13 @@
         Relatório Financeiro
     </a>
     <a th:href="@{/cadastrar-fornecedor}" class="menu-btn">Fornecedores</a>
+
+
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit" class="menu-btn logout-btn">
+            Sair
+        </button>
+    </form>
 </div>
 
 <header>
@@ -44,22 +51,22 @@
 
         <div class="card">
             <h3>Produtos</h3>
-            <span th:text="${totalProdutos}">152</span>
+            <span th:text="${totalProdutos}"></span>
         </div>
 
         <div class="card">
             <h3>Funcionários</h3>
-            <span th:text="${totalFuncionarios}">18</span>
+            <span th:text="${totalFuncionarios}"></span>
         </div>
 
         <div class="card">
             <h3>Requisições</h3>
-            <span th:text="${totalRequisicoes}">27</span>
+            <span th:text="${totalRequisicoes}"></span>
         </div>
 
         <div class="card">
             <h3>Estoque Baixo</h3>
-            <span th:text="${estoqueBaixo}">5</span>
+            <span th:text="${estoqueBaixo}"></span>
         </div>
 
     </div>

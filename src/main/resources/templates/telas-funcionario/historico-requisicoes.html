@@ -27,7 +27,7 @@
   </div>
   <header>
       <div>
-          <h1 id="titulo-header">Minhas Solicitações</h1>
+          <h1 id="titulo-header">Historico de Requisições</h1>
       </div>
   </header>
   <section>
@@ -65,7 +65,7 @@
         if (req.status === "NEGADO") statusClass = "status-desaprovado";
 
 
-        const produtoNome = req.produtos?.[0]?.produto?.nomeProduto || "N/A";
+        const produtoNome = req.produtos?.[0]?.produto?.nome || "N/A";
         const quantidade = req.produtos?.[0]?.quantidadeSolicitada || 0;
 
         const row = `

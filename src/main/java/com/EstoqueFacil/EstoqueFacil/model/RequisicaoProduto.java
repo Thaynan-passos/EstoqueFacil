@@ -1,5 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -17,6 +18,7 @@ public class RequisicaoProduto {
     @MapsId("requisicaoId")
     @JoinColumn(name = "fk_id_requisicao", nullable = false)
     @NotNull(message = "A requisição é obrigatória.")
+    @JsonIgnore
     private Requisicao requisicao;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -89,7 +89,7 @@
 
         lista.forEach(req => {
 
-            const produto = req.produtos?.[0]?.produto?.nomeProduto || "N/A";
+            const produto = req.produtos?.[0]?.produto?.nome || "N/A";
             const quantidade = req.produtos?.[0]?.quantidadeSolicitada || 0;
 
             let statusClass = "";
@@ -122,7 +122,7 @@
 
         const filtrado = requisicoesCache.filter(req => {
 
-            const produto = req.produtos?.[0]?.produto?.nomeProduto || "";
+            const produto = req.produtos?.[0]?.produto?.nome || "";
 
             return produto.toLowerCase().includes(valor);
         });

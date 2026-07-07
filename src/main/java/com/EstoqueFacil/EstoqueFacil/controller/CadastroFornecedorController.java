@@ -12,7 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/cadastrar")
+@RequestMapping("/cadastrar-fornecedor")
 public class CadastroFornecedorController {
 
     private final FornecedorService fornecedorService;

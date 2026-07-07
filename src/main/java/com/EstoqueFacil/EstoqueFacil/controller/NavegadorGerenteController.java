@@ -1,7 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
 import com.EstoqueFacil.EstoqueFacil.model.Status;
-import com.EstoqueFacil.EstoqueFacil.service.FornecedorService;
 import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
 import com.EstoqueFacil.EstoqueFacil.service.RelatorioService;
 import com.EstoqueFacil.EstoqueFacil.service.RequisicaoService;
@@ -22,9 +21,6 @@ public class NavegadorGerenteController {
 
     @Autowired
     RequisicaoService requisicaoService;
-
-    @Autowired
-    FornecedorService fornecedorService;
 
     @Autowired
     private AuthUtil authUtil;

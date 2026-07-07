@@ -84,7 +84,7 @@ public class CadastroFornecedorController {
                     f.getRazaoSocial()
             );
 
-            return "redirect:/cadastrar";
+            return "redirect:/cadastrar-fornecedor";
 
         } catch (DataIntegrityViolationException e) {
             model.addAttribute("erro", "Dados duplicados: CNPJ, email ou CEP já cadastrado.");

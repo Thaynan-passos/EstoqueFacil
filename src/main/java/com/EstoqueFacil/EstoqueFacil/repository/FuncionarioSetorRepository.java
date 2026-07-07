@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface FuncionarioSetorRepository extends JpaRepository<FuncionarioSetor, Integer> {
+public interface FuncionarioSetorRepository extends JpaRepository<FuncionarioSetor, FuncionarioSetorId> {
     Optional<FuncionarioSetor> findByFuncionario(Funcionario funcionario);
 
 }

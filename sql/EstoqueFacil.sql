@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS estoquefacil.endereco (
   cep VARCHAR(8) NOT NULL,
   cidade VARCHAR(45) NOT NULL,
   numero VARCHAR(20),
-  PRIMARY KEY (id_endereco),
+  PRIMARY KEY (id_endereco)
 )
 ENGINE = InnoDB;
 

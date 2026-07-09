@@ -22,24 +22,46 @@ public class RequisicaoController {
 
     @Autowired
     RequisicaoService requisicaoService;
+
     @Autowired
     FuncionarioService funcionarioService;
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody Requisicao requisicao) {
+    public ResponseEntity<?> cadastrar(
+            @RequestBody Requisicao requisicao,
+            Authentication authentication) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        System.out.println("ENTROU NO POST /requisicao");
+
+
+        if (authentication == null) {
+
+            System.out.println("Authentication NULL");
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Usuário não autenticado.");
+        }
+
 
         String cpf = authentication.getName();
 
-        Funcionario funcionario = funcionarioService.buscarPorCpf(cpf);
+        System.out.println("CPF autenticado: " + cpf);
+
+
+        Funcionario funcionario =
+                funcionarioService.buscarPorCpf(cpf);
+
+
+        System.out.println("Funcionário: " + funcionario.getNome());
+
 
         requisicaoService.cadastrarRequisicao(requisicao, funcionario);
 
+
         return ResponseEntity.ok().build();
     }
-
-
     @GetMapping("/minhas")
     public ResponseEntity<?> listarRequisicao() {
 

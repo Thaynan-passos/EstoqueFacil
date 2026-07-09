@@ -1,5 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -47,6 +48,13 @@ public class Produto {
     @Column(name="classificacao", nullable = false)
     @NotNull(message = "É necessário escrever a classificação do produto.")
     private ClassificacaoProduto classificacao;
+
+    @OneToMany(
+            mappedBy = "produto",
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
+    private List<RequisicaoProduto> requisicoes = new ArrayList<>();
 
     public Integer getIdProduto() {
         return idProduto;
@@ -103,11 +111,7 @@ public class Produto {
     public void setClassificacao(ClassificacaoProduto classificacao) {
         this.classificacao = classificacao;
     }
-    @OneToMany(
-            mappedBy = "produto",
-            fetch = FetchType.LAZY
-    )
-    private List<RequisicaoProduto> requisicoes = new ArrayList<>();
+
     public List<RequisicaoProduto> getRequisicoes() {
         return requisicoes;
     }
@@ -115,6 +119,7 @@ public class Produto {
     public void setRequisicoes(List<RequisicaoProduto> requisicoes) {
         this.requisicoes = requisicoes;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

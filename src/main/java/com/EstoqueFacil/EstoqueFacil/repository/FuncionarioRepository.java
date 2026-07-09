@@ -3,6 +3,7 @@ package com.EstoqueFacil.EstoqueFacil.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.EstoqueFacil.EstoqueFacil.model.Movimentacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +20,7 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Intege
     boolean existsByCpf(String cpf);
     boolean existsByEmail(String email);
     List<Funcionario> findAll();
-
+    Optional<Funcionario> findById(int id);
 
 }
 

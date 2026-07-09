@@ -32,6 +32,8 @@ public class SecurityConfig {
                         .requestMatchers("/relatorio-financeiro/**").hasRole("GERENTE")
                         .requestMatchers("/cadastro/**").hasRole("GERENTE")
                         .requestMatchers("/analise-gerente/**").hasRole("GERENTE")
+                        .requestMatchers("/requisicao/aprovar/**").hasRole("GERENTE")
+                        .requestMatchers("/requisicao/rejeitar/**").hasRole("GERENTE")
 
                         // ALMOXARIFE
                         .requestMatchers("/dashboard-almoxarife/**").hasRole("ALMOXARIFADO")
@@ -43,10 +45,11 @@ public class SecurityConfig {
 
                         // FUNCIONÁRIO
                         .requestMatchers("/dashboard-funcionario/**").hasRole("FINANCEIRO")
-                        .requestMatchers("/requisicoes/**").hasRole("FINANCEIRO")
+                        .requestMatchers("/requisicao/**").hasRole("FINANCEIRO")
                         .requestMatchers("/historico-requisicoes/**").hasRole("FINANCEIRO")
                         .requestMatchers("/requisicao/historico/**").hasRole("FINANCEIRO")
                         .requestMatchers("/minhas-solicitacoes/**").hasRole("FINANCEIRO")
+
 
                         // PÚBLICAS
                         .requestMatchers("/", "/login", "/setup", "/css/**", "/js/**", "/images/**", "/static/**", "/favicon.ico").permitAll()

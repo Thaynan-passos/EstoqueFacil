@@ -1,5 +1,6 @@
 package com.EstoqueFacil.EstoqueFacil.model;
 
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -44,6 +45,7 @@ public class Requisicao {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+
     private List<RequisicaoProduto> produtos = new ArrayList<>();
 
     public Integer getIdRequisicao() {

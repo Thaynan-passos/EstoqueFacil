@@ -65,12 +65,18 @@ public class FuncionarioService {
         String senhaCriptografada = passwordEncoder.encode(senhaPura);
         funcionario.setSenhaHash(senhaCriptografada);
 
+        funcionario.setAtivo(true);
         return funcionarioRepository.save(funcionario);
     }
 
     public Funcionario buscarPorCpf(String cpf) {
 
         return funcionarioRepository.findByCpf(cpf).orElseThrow(() -> new NoSuchElementException("Nenhum funcionário encontrado"));
+    }
+
+    public Funcionario buscarPorId(Integer id) {
+        return funcionarioRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Funcionário não encontrado."));
     }
 
     public List<Funcionario> buscarTodosFuncionarios() {

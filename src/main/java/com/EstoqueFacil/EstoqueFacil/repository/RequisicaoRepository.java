@@ -15,14 +15,7 @@ public interface RequisicaoRepository extends JpaRepository<Requisicao, Integer>
 
   Optional<Requisicao> findByDataRequisicao(LocalDate dataRequisicao);
   long countByStatus(Status status);
-
-  @Query("SELECT DISTINCT r FROM Requisicao r " +
-          "LEFT JOIN FETCH r.produtos rp " +
-          "LEFT JOIN FETCH rp.produto " +
-          "ORDER BY r.dataRequisicao DESC " +
-          "LIMIT 5")
   List<Requisicao> findTop5ByOrderByDataRequisicaoDesc();
-
   List<Requisicao> findByStatus(Status status);
   List<Requisicao> findByStatusNot(Status status);
 }

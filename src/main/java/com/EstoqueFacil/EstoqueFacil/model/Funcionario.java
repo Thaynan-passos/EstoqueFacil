@@ -50,6 +50,10 @@ public class Funcionario {
     @Valid
     private Endereco endereco;
 
+    @Column(name = "ativo", nullable = false)
+    private boolean ativo = true;
+
+
     public int getIdFuncionario() {
         return idFuncionario;
     }
@@ -114,4 +118,11 @@ public class Funcionario {
         this.endereco = endereco;
     }
 
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 }

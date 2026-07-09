@@ -24,12 +24,24 @@ public class AuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String cpf) {
 
         Funcionario f = repository.findByCpf(cpf.replaceAll("\\D", ""))
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Usuário não encontrado")
+                );
+
+
+        if (!f.isAtivo()) {
+            throw new UsernameNotFoundException("Funcionário desativado.");
+        }
+
 
         return new org.springframework.security.core.userdetails.User(
                 f.getCpf(),
                 f.getSenhaHash(),
-                List.of(new SimpleGrantedAuthority("ROLE_" + f.getCargo().name()))
+                List.of(
+                        new SimpleGrantedAuthority(
+                                "ROLE_" + f.getCargo().name()
+                        )
+                )
         );
     }
 }

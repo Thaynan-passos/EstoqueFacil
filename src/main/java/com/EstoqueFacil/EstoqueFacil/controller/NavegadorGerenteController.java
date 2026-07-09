@@ -1,6 +1,8 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
+import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
 import com.EstoqueFacil.EstoqueFacil.model.Status;
+import com.EstoqueFacil.EstoqueFacil.repository.FuncionarioRepository;
 import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
 import com.EstoqueFacil.EstoqueFacil.service.RelatorioService;
 import com.EstoqueFacil.EstoqueFacil.service.RequisicaoService;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.NoSuchElementException;
 
 @Controller
 public class NavegadorGerenteController {
@@ -33,6 +38,9 @@ public class NavegadorGerenteController {
 
     @Autowired
     private SetorRepository setorRepository;
+
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
 
     @GetMapping("/dashboard-gerente")
     public String dashboardGerente(Model model) {
@@ -103,5 +111,32 @@ public class NavegadorGerenteController {
         if (!authUtil.hasRole("ROLE_GERENTE")) return "redirect:/dashboard-gerente";
         requisicaoService.atualizarStatus(id, Status.NEGADO);
         return "redirect:/analise-gerente";
+    }
+
+    @GetMapping("/desativar-funcionario")
+    public String telaDesativarFuncionario(Model model) {
+
+        if (!authUtil.isLogado())
+            return "redirect:/login";
+
+        if (!authUtil.hasRole("ROLE_GERENTE"))
+            return "redirect:/dashboard-gerente";
+
+        model.addAttribute("funcionarios", funcionarioRepository.findAll());
+
+        return "telas-gerente/desativar-funcionario";
+    }
+
+    @PostMapping("/desativar-funcionario/{id}")
+    public String alterarStatus(@PathVariable Integer id){
+
+        Funcionario funcionario = funcionarioRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Funcionário não encontrado."));
+
+        funcionario.setAtivo(!funcionario.isAtivo());
+
+        funcionarioRepository.save(funcionario);
+
+        return "redirect:/desativar-funcionario";
     }
 }

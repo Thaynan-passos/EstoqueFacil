@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Produto</title>
+
+    <link rel="stylesheet"
+
+          th:href="@{/css/editar-produto.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Editar Produto</h1>
+
+    <form th:action="@{/controle-estoque/editar}"
+          th:object="${produto}"
+          method="post">
+
+        <input type="hidden" th:field="*{idProduto}">
+
+        <label>Nome</label>
+        <input type="text"
+               th:field="*{nome}"
+               required>
+
+        <label>Código de Barras</label>
+        <input type="text"
+               th:field="*{codigoBarras}"
+               required>
+
+        <label>Garantia (meses)</label>
+        <input type="number"
+               min="0"
+               th:field="*{garantia}"
+               required>
+
+        <label>Valor Unitário</label>
+        <input type="number"
+               step="0.01"
+               min="0"
+               th:field="*{valorUnitario}"
+               required>
+
+        <label>Classificação</label>
+
+        <p th:text="${produto.classificacao}"></p>
+        <br><br>
+
+        <button type="submit">
+            Salvar Alterações
+        </button>
+
+        <a th:href="@{/controle-estoque}">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

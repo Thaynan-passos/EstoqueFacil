@@ -65,7 +65,6 @@ public class RequisicaoService {
                     "Funcionário inválido.");
         }
 
-
         requisicao.setStatus(Status.PENDENTE);
 
         requisicao.setFuncionario(funcionario);
@@ -181,14 +180,13 @@ public class RequisicaoService {
 
         return requisicaoRepository.save(requisicao);
     }
-
-    public Requisicao atualizarStatus(int id, Status status) {
+    public void atualizarStatus(int id, Status status) {
 
         Requisicao requisicao = buscarPorId(id);
 
         requisicao.setStatus(status);
 
-        return requisicaoRepository.save(requisicao);
+        requisicaoRepository.save(requisicao);
     }
 
     public Requisicao deletarRequisicaoPorId(int id) {

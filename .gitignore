@@ -2,8 +2,8 @@
 *.class
 
 #Vai ignorar o .env
-*.env
-*.env.properties
+*env
+*env.properties
 
 #Vai ignorar a pasta Target
 /target/

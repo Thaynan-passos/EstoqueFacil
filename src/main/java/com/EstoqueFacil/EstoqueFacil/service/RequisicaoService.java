@@ -89,6 +89,10 @@ public class RequisicaoService {
 
         for (RequisicaoProduto rp : requisicao.getProdutos()) {
 
+            if (rp == null) {
+                throw new ErroDePreenchimentoInvalidoException("Item da requisição inválido.");
+            }
+
             if (rp.getQuantidadeSolicitada() <= 0) {
                 throw new ErroDePreenchimentoInvalidoException(
                         "A quantidade deve ser maior que zero.");
@@ -139,6 +143,10 @@ public class RequisicaoService {
         return requisicaoRepository.findAll();
     }
 
+    public List<Requisicao> buscarPorFuncionario(Funcionario funcionario) {
+        return requisicaoRepository.findByFuncionarioWithProdutos(funcionario);
+    }
+
     public long totalRequisicoes() {
         return requisicaoRepository.count();
     }
@@ -161,6 +169,10 @@ public class RequisicaoService {
 
     public List<Requisicao> buscarHistorico() {
         return requisicaoRepository.findByStatusNot(Status.PENDENTE);
+    }
+
+    public List<Requisicao> buscarHistoricoPorFuncionario(Funcionario funcionario) {
+        return requisicaoRepository.findHistoricoByFuncionarioWithProdutos(funcionario);
     }
 
     public List<Requisicao> buscarUltimas() {

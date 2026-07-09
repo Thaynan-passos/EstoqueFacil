@@ -32,7 +32,7 @@ public class RequisicaoController {
             Authentication authentication) {
 
 
-        System.out.println("ENTROU NO POST /requisicao");
+
 
 
         if (authentication == null) {
@@ -65,14 +65,21 @@ public class RequisicaoController {
     @GetMapping("/minhas")
     public ResponseEntity<?> listarRequisicao() {
 
-        return ResponseEntity.ok(requisicaoService.buscarTodasRequisicoes());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String cpf = authentication.getName();
+        Funcionario funcionario = funcionarioService.buscarPorCpf(cpf);
+
+        return ResponseEntity.ok(requisicaoService.buscarPorFuncionario(funcionario));
     }
 
     @GetMapping("/historico")
     public ResponseEntity<?> listarHistorico() {
-        return ResponseEntity.ok(requisicaoService.buscarHistorico());
-    }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String cpf = authentication.getName();
+        Funcionario funcionario = funcionarioService.buscarPorCpf(cpf);
 
+        return ResponseEntity.ok(requisicaoService.buscarHistoricoPorFuncionario(funcionario));
+    }
     @GetMapping("/data")
     public ResponseEntity<?> buscarRequisicaoPorData(@Valid @RequestParam LocalDate data){
 

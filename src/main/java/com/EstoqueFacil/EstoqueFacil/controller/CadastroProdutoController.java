@@ -56,6 +56,8 @@ public class CadastroProdutoController {
 
         produtoService.cadastrarProduto(produto);
 
+        boolean informouLote = temDadosMinimosDeLote(numeroLote, dataFabricacao, dataValidade, quantidade, dataFornecimento, fornecedorId);
+
         // Se foram informados dados de lote, criar lote associado ao produto
         if (numeroLote != null && numeroLote > 0) {
             Lote lote = new Lote();
@@ -81,6 +83,22 @@ public class CadastroProdutoController {
         }
 
         return "redirect:/cadastrar-produto";
+    }
+
+    private boolean temDadosMinimosDeLote(Integer numeroLote,
+                                          String dataFabricacao,
+                                          String dataValidade,
+                                          Integer quantidade,
+                                          String dataFornecimento,
+                                          Integer fornecedorId) {
+        boolean informouNumero = numeroLote != null && numeroLote > 0;
+        boolean informouFabricacao = dataFabricacao != null && !dataFabricacao.isBlank();
+        boolean informouValidade = dataValidade != null && !dataValidade.isBlank();
+        boolean informouQuantidade = quantidade != null && quantidade >= 0;
+        boolean informouFornecimento = dataFornecimento != null && !dataFornecimento.isBlank();
+        boolean informouFornecedor = fornecedorId != null;
+
+        return informouNumero || informouFabricacao || informouValidade || informouQuantidade || informouFornecimento || informouFornecedor;
     }
 
     private ClassificacaoProduto mapClassificacao(String categoria) {

@@ -118,10 +118,7 @@ public class NavegadorAlmoxarifeController {
         mov.setDescricao(descricao);
         mov.setDataMovimentacao(LocalDate.parse(dataMovimentacao));
 
-        movimentacaoService.cadastrarMovimentacao(mov);
-
-
-        movimentacaoService.registrarEntrada(loteId, quantidade);
+        movimentacaoService.registrarEntrada(loteId, quantidade, mov);
 
         return "redirect:/entrada-materiais";
     }

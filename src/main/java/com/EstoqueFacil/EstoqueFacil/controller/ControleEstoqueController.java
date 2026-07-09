@@ -1,20 +1,25 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
 import com.EstoqueFacil.EstoqueFacil.model.ClassificacaoProduto;
 import com.EstoqueFacil.EstoqueFacil.model.Lote;
 import com.EstoqueFacil.EstoqueFacil.model.Produto;
 import com.EstoqueFacil.EstoqueFacil.repository.LoteRepository;
 import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
 import com.EstoqueFacil.EstoqueFacil.utils.AuthUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.*;
 
 @Controller
 public class ControleEstoqueController {
@@ -43,13 +48,22 @@ public class ControleEstoqueController {
 
         for (Lote lote : lotes){
 
+            if (lote == null || lote.getProduto() == null) {
+                continue;
+            }
+
             Produto p = lote.getProduto();
+            Integer produtoId = p.getIdProduto();
+
+            if (produtoId == null) {
+                continue;
+            }
 
             mapa.merge(
 
-                    p.getIdProduto(),
+                    produtoId,
 
-                    new NavegadorAlmoxarifeController.InventarioItem(p,lote.getQuantidade()),
+                    new NavegadorAlmoxarifeController.InventarioItem(p, lote.getQuantidade()),
 
                     (existente,novo)->{
 
@@ -64,6 +78,10 @@ public class ControleEstoqueController {
         List<Produto> produtos = produtoRepository.findAll();
 
         for(Produto p : produtos){
+
+            if (p == null || p.getIdProduto() == null) {
+                continue;
+            }
 
             mapa.putIfAbsent(
 
@@ -118,3 +136,5 @@ public class ControleEstoqueController {
         return "redirect:/controle-estoque";
     }
 }
+
+

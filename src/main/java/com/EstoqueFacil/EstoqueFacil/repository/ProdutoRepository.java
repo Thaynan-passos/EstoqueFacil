@@ -3,6 +3,8 @@ package com.EstoqueFacil.EstoqueFacil.repository;
 
 import com.EstoqueFacil.EstoqueFacil.model.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
@@ -19,7 +21,8 @@ public interface ProdutoRepository extends JpaRepository<Produto,Integer> {
     Optional<Produto> findByNome(String nome);
     List<Produto> findAll();
     Produto deleteByNome(String nome);
-    Optional<Produto> findByCodigoBarras(String codigoProduto);
+    @Query("SELECT p FROM Produto p WHERE p.codigoProduto = :codigoBarras")
+    Optional<Produto> findByCodigoBarras(@Param("codigoBarras") String codigoBarras);
     Produto deleteByCodigoProduto(String codigoProduto);
 }
 

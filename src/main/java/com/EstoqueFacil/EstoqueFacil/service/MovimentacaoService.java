@@ -22,9 +22,11 @@ public class MovimentacaoService {
     @Autowired
     private LoteRepository loteRepository;
 
-    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository) {
+    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository, LoteRepository loteRepository) {
         this.movimentacaoRepository = movimentacaoRepository;
+        this.loteRepository = loteRepository;
     }
+
 
     public void registrarSaida(Integer loteId,
                                Integer quantidade,
@@ -62,19 +64,29 @@ public class MovimentacaoService {
         return movimentacaoRepository.save(movimentacaoModel);
     }
 
-    public void registrarEntrada(Integer loteId, Integer quantidade) {
+    public void registrarEntrada(Integer loteId, Integer quantidade, Movimentacao movimentacao) {
+
+        if (movimentacao == null) {
+            throw new IllegalArgumentException("Movimentação inválida");
+        }
 
         Lote lote = loteRepository.findById(loteId)
                 .orElseThrow(() -> new NoSuchElementException("Lote não encontrado"));
 
-        if (quantidade <= 0) {
+        if (quantidade == null || quantidade <= 0) {
             throw new IllegalArgumentException("Quantidade inválida");
         }
 
-        lote.setQuantidade(lote.getQuantidade() + quantidade);
+        validarMovimentacao(movimentacao);
 
+        lote.setQuantidade(lote.getQuantidade() + quantidade);
         loteRepository.save(lote);
+
+        movimentacao.setStatus(com.EstoqueFacil.EstoqueFacil.model.Status.APROVADO);
+        movimentacao.setDescricao(movimentacao.getDescricao() == null ? "Entrada de material" : movimentacao.getDescricao());
+        movimentacaoRepository.save(movimentacao);
     }
+
 
     public Movimentacao buscarPorId(Integer id){
         return movimentacaoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Nenhum movimento foi encontrado"));

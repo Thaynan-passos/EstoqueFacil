@@ -1,9 +1,11 @@
 package com.EstoqueFacil.EstoqueFacil.repository;
 
+import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
 import com.EstoqueFacil.EstoqueFacil.model.Requisicao;
 import com.EstoqueFacil.EstoqueFacil.model.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -18,4 +20,21 @@ public interface RequisicaoRepository extends JpaRepository<Requisicao, Integer>
   List<Requisicao> findTop5ByOrderByDataRequisicaoDesc();
   List<Requisicao> findByStatus(Status status);
   List<Requisicao> findByStatusNot(Status status);
+
+
+  @Query("SELECT DISTINCT r FROM Requisicao r " +
+          "LEFT JOIN FETCH r.produtos rp " +
+          "LEFT JOIN FETCH rp.produto " +
+          "WHERE r.funcionario = :funcionario " +
+          "ORDER BY r.dataRequisicao DESC")
+  List<Requisicao> findByFuncionarioWithProdutos(@Param("funcionario") Funcionario funcionario);
+
+  @Query("SELECT DISTINCT r FROM Requisicao r " +
+          "LEFT JOIN FETCH r.produtos rp " +
+          "LEFT JOIN FETCH rp.produto " +
+          "WHERE r.funcionario = :funcionario " +
+          "AND r.status <> 'PENDENTE' " +
+          "ORDER BY r.dataRequisicao DESC")
+  List<Requisicao> findHistoricoByFuncionarioWithProdutos(@Param("funcionario") Funcionario funcionario);
+
 }

@@ -44,6 +44,11 @@ public class LoteService {
     }
 
     public Lote cadastrarLote(Lote loteModel) {
+
+        if (loteModel == null) {
+            throw new ErroDePreenchimentoInvalidoException("Lote inválido.");
+        }
+
         validarLote(loteModel);
         return loteRepository.save(loteModel);
     }

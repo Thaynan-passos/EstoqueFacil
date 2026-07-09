@@ -37,11 +37,11 @@ public class ProdutoService {
     }
 
     public Produto buscarProdutosPorNome(String nome){
-        return produtoRepository.findByNome(nome).orElseThrow(()-> new NoSuchElementException("Nenhum produto foi encontrado"));
+        return produtoRepository.findByNome(nome).orElseThrow(()-> new NoSuchElementException("Nenhum produto não foi encontrado"));
     }
 
     public Produto buscarProdutosPorCodigoProduto(String codigoProduto){
-        return produtoRepository.findByCodigoBarras(codigoProduto).orElseThrow(()-> new NoSuchElementException("Produto foi encontrado"));
+        return produtoRepository.findByCodigoBarras(codigoProduto).orElseThrow(()-> new NoSuchElementException("Produto não foi encontrado"));
     }
 
     public Produto atualizarProdutosPorNome(String nome, Produto dadosAtualizados){

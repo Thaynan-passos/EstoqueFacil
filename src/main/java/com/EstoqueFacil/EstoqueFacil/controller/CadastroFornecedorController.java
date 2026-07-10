@@ -91,8 +91,8 @@ public class CadastroFornecedorController {
             model.addAttribute("fornecedores", fornecedorService.buscarTodosFornecedores());
             return "telas-gerente/cadastrar-fornecedor";
 
-        } catch (Exception e) {                      // ← sem } antes, só encadeia
-            e.printStackTrace();
+        } catch (Exception e) {
+            // trocar printStackTrace() por um logger de verdade
             model.addAttribute("erro", e.getMessage());
             model.addAttribute("fornecedores", fornecedorService.buscarTodosFornecedores());
             return "telas-gerente/cadastrar-fornecedor";

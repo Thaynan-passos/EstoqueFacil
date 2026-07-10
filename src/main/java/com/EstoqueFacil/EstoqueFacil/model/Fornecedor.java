@@ -27,8 +27,8 @@ public class Fornecedor {
     @NotBlank(message = "Digite a sua razão social.")
     @Size(min = 3, max = 100)
     @Pattern(
-            regexp = "[\\p{L} ]+",
-            message = "O nome deve conter apenas letras"
+            regexp = "[\\p{L}0-9 .,&/-]+",
+            message = "O nome contém caracteres inválidos"
     )
     private String razaoSocial;
 

@@ -287,9 +287,59 @@ Para reportar bugs ou sugerir melhorias, entre em contato ou abra uma issue no r
 
 ---
 
+## 📄 Tutorial de como rodar o projeto
+
+```
+### 🖳 Pelo Terminal
+
+.\mvnw clean package -DskipTests 
+docker compose down
+Copy-Item .\target\EstoqueFacil-0.0.1-SNAPSHOT.jar .\EstoqueFacil.jar -Force
+docker compose up -d
+docker compose logs -f app
+
+
+## Caso o projeto seja completamente dockerizado (Java, suas dependências e o BD)
+
+### 🐳 Execução via Docker
+
+```bash
+# 1. Subir e compilar todos os containers (Java + dependências)
+docker compose up --build
+
+# 2. Rodar em segundo plano (opcional)
+docker compose up --build -d
+
+# 3. Ver status dos containers
+docker compose ps
+
+# 4. Ver logs em tempo real
+docker compose logs -f
+
+# 5. Parar a aplicação mantendo os dados salvos
+docker compose down
+
+# 6. Parar a aplicação limpando o banco de dados
+docker compose down -v
+```
+---
+
+
+
 ## 📄 Licença
 
-Este projeto foi desenvolvido como trabalho acadêmico (APS).
+Este projeto foi desenvolvido como trabalho acadêmico para a matéria de Análise e Projeto de Sistemas (APS) do curso de Análise e Desenvolvimento de Sistemas (ADS).
+
+Projeto para o Instituto Federal De Pernambuco (IFPE - Campus Paulista).
+
+
+# Desenvolvido por: Gabriel Veríssimo e Thaynan Passos
+
+ Github dos desenvolvedores: GabVr e Thaynan-Passos 
+
+ Link pro GitHub de GabVr: https://github.com/GabVr
+
+ Link pro GitHub de Thaynan-Passos:  https://github.com/Thaynan-passos
 
 ---
 

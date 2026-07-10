@@ -76,6 +76,7 @@
             <thead>
             <tr>
                 <th>Produto</th>
+                <th>Descrição</th>
                 <th>Movimentação</th>
                 <th>Quantidade</th>
                 <th>Data</th>
@@ -84,7 +85,7 @@
 
             <tbody>
             <tr th:each="m : ${movimentacoes}">
-
+                <td th:text="${m.produto.nome}"></td>
                 <td th:text="${m.descricao}"></td>
 
                 <td>

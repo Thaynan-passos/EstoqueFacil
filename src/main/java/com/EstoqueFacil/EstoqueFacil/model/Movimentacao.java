@@ -27,6 +27,10 @@ public class Movimentacao {
     @NotBlank(message="É necessário ter a descrição")
     private String  descricao;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_id_produto", nullable = false)
+    private Produto produto;
+
 
     public int  getIdMovimentacao() {
         return idMovimentacao;
@@ -57,6 +61,13 @@ public class Movimentacao {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
 }

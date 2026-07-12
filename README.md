@@ -102,17 +102,84 @@ mysql -u root -p < sql/EstoqueFacil.sql
 
 ### 3. Configurar Variáveis de Ambiente
 
-Crie um arquivo `.env.properties` na raiz do projeto:
+Crie um arquivo `.env` na raiz do projeto:
 ```properties
-MYSQL_HOST=localhost
+MYSQL_HOST=db
 MYSQL_DATABASE=estoquefacil
 MYSQL_USER=seu_usuario
 MYSQL_PASSWORD=sua_senha
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=seu_email@gmail.com
-MAIL_PASSWORD=sua_senha_app
 ```
+
+Crie um arquivo `.env.properties` na raiz do projeto:
+```properties
+# ==============================================================================
+# CONFIGURAÇÕES DO E-MAIL
+# ==============================================================================
+
+MAIL_HOST=servidor_smtp_do_seu_provedor_ex_smtp.gmail.com
+MAIL_PORT=porta_do_servidor_smtp_ex_587
+MAIL_USERNAME=seu_email_remetente@provedor.com
+MAIL_PASSWORD=sua_senha_de_aplicativo_do_email
+
+# ==============================================================================
+# CONFIGURAÇÕES INICIAIS DOS SETORES
+# ==============================================================================
+
+# --- Setor 1: Gerência ---
+SETOR_GERENCIA_NOME=Nome_exibido_para_o_setor_de_gerencia
+SETOR_GERENCIA_CAPACIDADE=limite_maximo_de_pessoas_ou_itens_no_setor
+SETOR_GERENCIA_TIPO=identificador_do_tipo_do_setor_no_sistema
+SETOR_GERENCIA_RUA=rua_onde_fica_o_setor
+SETOR_GERENCIA_NUMERO=numero_do_predio_ou_sala
+SETOR_GERENCIA_CIDADE=cidade_do_setor
+SETOR_GERENCIA_ESTADO=sigla_do_estado_ex_PE
+SETOR_GERENCIA_CEP=apenas_numeros_do_cep
+SETOR_GERENCIA_BAIRRO=bairro_do_setor
+
+# --- Setor 2: Almoxarifado ---
+SETOR_ALMOX_NOME=Nome_exibido_para_o_setor_de_almoxarifado
+SETOR_ALMOX_CAPACIDADE=limite_maximo_de_itens_do_almoxarifado
+SETOR_ALMOX_TIPO=identificador_do_tipo_do_setor_no_sistema
+SETOR_ALMOX_RUA=rua_ou_avenida_do_almoxarifado
+SETOR_ALMOX_NUMERO=numero_do_endereco_do_almoxarifado
+SETOR_ALMOX_CIDADE=cidade_do_almoxarifado
+SETOR_ALMOX_ESTADO=sigla_do_estado_ex_PE
+SETOR_ALMOX_CEP=apenas_numeros_do_cep
+SETOR_ALMOX_BAIRRO=bairro_do_almoxarifado
+
+# --- Setor 3: Financeiro ---
+SETOR_FIN_NOME=Nome_exibido_para_o_setor_financeiro
+SETOR_FIN_CAPACIDADE=limite_maximo_de_pessoas_ou_itens_no_setor
+SETOR_FIN_TIPO=identificador_do_tipo_do_setor_no_sistema
+SETOR_FIN_RUA=rua_do_setor_financeiro
+SETOR_FIN_NUMERO=numero_do_endereco_do_financeiro
+SETOR_FIN_CIDADE=cidade_do_financeiro
+SETOR_FIN_ESTADO=sigla_do_estado_ex_PE
+SETOR_FIN_CEP=apenas_numeros_do_cep
+SETOR_FIN_BAIRRO=bairro_do_financeiro
+
+
+# ==============================================================================
+# CONFIGURAÇÕES INICIAIS DO GERENTE PADRÃO
+# ==============================================================================
+GERENTE_NOME=nome_completo_do_administrador_do_sistema
+GERENTE_CPF=apenas_os_11_digitos_do_cpf_sem_pontos_ou_tracos
+GERENTE_EMAIL=email_de_acesso_do_gerente
+GERENTE_SENHA=senha_forte_para_o_primeiro_acesso
+
+# Endereço do Gerente
+GERENTE_RUA=nome_da_rua_da_residencia_do_gerente
+GERENTE_NUMERO=numero_da_residencia
+GERENTE_CIDADE=cidade_do_gerente
+GERENTE_ESTADO=sigla_do_estado_ex_PE
+GERENTE_CEP=apenas_numeros_do_cep_da_residencia
+GERENTE_BAIRRO=bairro_do_gerente
+
+# Telefone do Gerente
+GERENTE_TEL=telefone_com_ddd_apenas_numeros_ex_81999999999
+GERENTE_TEL_TIPO=tipo_do_telefone_ex_CELULAR_ou_FIXO
+```
+
 
 ### 4. Compilar o Projeto
 

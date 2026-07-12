@@ -105,6 +105,7 @@ mysql -u root -p < sql/EstoqueFacil.sql
 Crie um arquivo `.env` na raiz do projeto:
 ```properties
 MYSQL_HOST=db
+MYSQL_ROOT_PASSWORD=root_sua_senha
 MYSQL_DATABASE=estoquefacil
 MYSQL_USER=seu_usuario
 MYSQL_PASSWORD=sua_senha

@@ -32,6 +32,10 @@
   </header>
 
   <section>
+
+      <div th:if="${erro}" class="mensagem-erro">
+          <span th:text="${erro}"></span>
+      </div>
       <form th:action="@{/produto/cadastrar}" method="post">
           <div class="form-grid">
 

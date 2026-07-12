@@ -157,7 +157,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS estoquefacil.lote (
   id_lote INT NOT NULL AUTO_INCREMENT,
-  numero_lote INT NOT NULL,
+  numero_lote BIGINT NOT NULL,
   data_fabricacao DATE NOT NULL,
   data_validade DATE NOT NULL,
   quantidade INT NOT NULL,

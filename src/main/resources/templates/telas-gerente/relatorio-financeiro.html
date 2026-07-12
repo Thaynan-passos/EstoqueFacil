@@ -1,128 +1,175 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
 <head>
-		<meta charset="UTF-8">
-		<title>Relatório Financeiro - Estoque Fácil</title>
-	    <link rel="stylesheet" th:href="@{/css/relatorio-financeiro.css}"/>
+	<meta charset="UTF-8">
+	<title>Relatório Financeiro - Estoque Fácil</title>
+	<link rel="stylesheet" th:href="@{/css/relatorio-financeiro.css}"/>
 </head>
 <body>
-	<div id="painel">
-		<h1 id="titulo1">Estoque Fácil</h1>
-		<span class="subtitle">Painel Financeiro</span>
-		<a th:href="@{/dashboard-gerente}" class="menu-btn">
-			Dashboard
-		</a>
+<div id="painel">
+	<h1 id="titulo1">Estoque Fácil</h1>
+	<span class="subtitle">Painel Financeiro</span>
+	<a th:href="@{/dashboard-gerente}" class="menu-btn">
+		Dashboard
+	</a>
 
-		<a th:href="@{/analise-gerente}" class="menu-btn">
-			Análise Gerente
-		</a>
+	<a th:href="@{/analise-gerente}" class="menu-btn">
+		Análise Gerente
+	</a>
 
-		<a th:href="@{/cadastro-funcionario}" class="menu-btn">
-			Cadastrar Funcionário
-		</a>
+	<a th:href="@{/cadastro-funcionario}" class="menu-btn">
+		Cadastrar Funcionário
+	</a>
 
-		<a th:href="@{/relatorio-financeiro}" class="menu-btn ">
-			Relatório Financeiro
-		</a>
-		<a th:href="@{/cadastrar-fornecedor}" class="menu-btn">Fornecedores</a>
+	<a th:href="@{/relatorio-financeiro}" class="menu-btn ">
+		Relatório Financeiro
+	</a>
+	<a th:href="@{/cadastrar-fornecedor}" class="menu-btn">Fornecedores</a>
 
-		<a th:href="@{/desativar-funcionario}" class="menu-btn">
-			Gerenciar Funcionários
+	<a th:href="@{/desativar-funcionario}" class="menu-btn">
+		Gerenciar Funcionários
+	</a>
+</div>
+
+<header>
+	<div>
+		<h1 id="historico">Relatório Financeiro</h1>
+
+	</div>
+</header>
+
+<section>
+
+	<div class="card" th:if="${sucesso}" style="border-left:4px solid #2e7d32; margin-bottom:18px">
+		<span th:text="${sucesso}"></span>
+	</div>
+
+	<div class="card" th:if="${erro}" style="border-left:4px solid #c62828; margin-bottom:18px">
+		<span th:text="${erro}"></span>
+	</div>
+
+	<div class="card" style="margin-bottom:18px">
+		<h3>Novo Lançamento</h3>
+		<form th:action="@{/relatorio-financeiro}" method="post">
+
+			<label for="descricao">Descrição</label>
+			<input type="text" id="descricao" name="descricao" class="input-filtro" maxlength="45" required>
+
+			<label for="dataInicio">Período - Início</label>
+			<input type="date" id="dataInicio" name="dataInicio" class="input-filtro" required>
+
+			<label for="dataFim">Período - Fim</label>
+			<input type="date" id="dataFim" name="dataFim" class="input-filtro" required>
+
+			<label for="valorTotalEntrada">Total de Entradas (R$)</label>
+			<input type="number" id="valorTotalEntrada" name="valorTotalEntrada" class="input-filtro" step="0.01" min="0" required>
+
+			<label for="valorTotalSaida">Total de Saídas (R$)</label>
+			<input type="number" id="valorTotalSaida" name="valorTotalSaida" class="input-filtro" step="0.01" min="0" required>
+
+			<div class="form-actions">
+				<button type="submit" class="btn-acao">Salvar Relatório</button>
+			</div>
+		</form>
+	</div>
+
+	<div class="filtros">
+		<input id="periodoInicio" type="date" class="input-filtro">
+		<input id="periodoFim" type="date" class="input-filtro">
+		<button class="btn-acao" onclick="aplicarFiltro()">Aplicar</button>
+	</div>
+
+	<div class="button-row">
+		<a th:href="@{/relatorio/pdf}" class="btn-acao">
+			Baixar PDF
 		</a>
 	</div>
 
-	<header>
-		<div>
-			<h1 id="historico">Relatório Financeiro</h1>
-
-		</div>
-	</header>
-
-	<section>
-		<div class="filtros">
-			<input id="periodoInicio" type="date" class="input-filtro">
-			<input id="periodoFim" type="date" class="input-filtro">
-			<select id="tipo" class="select-filtro">
-				<option value="">Todos os tipos</option>
-				<option value="entrada">Entrada (Compras)</option>
-				<option value="saida">Saída (Uso/Venda)</option>
-			</select>
-			<button class="btn-acao" onclick="aplicarFiltro()">Aplicar</button>
-		</div>
-
-		<div class="grid">
-			<div class="card">
-				<div>Total Entradas</div>
-				<div class="valor-grande" id="totalEntradas">R$ 0,00</div>
-			</div>
-			<div class="card">
-				<div>Total Saídas</div>
-				<div class="valor-grande" id="totalSaidas">R$ 0,00</div>
-			</div>
-
-		</div>
-
-		<div>
-			<a th:href="@{/relatorio/pdf}" class="btn-acao">
-				Baixar PDF
-			</a>
-		</div>
-
-		<div class="card" style="margin-bottom:18px">
-			<h3>Lançamentos</h3>
-			<table>
-				<thead>
-					<tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Valor (R$)</th></tr>
-				</thead>
-				<tbody>
-
-				<tr th:each="r : ${relatorios}">
-
-					<td th:text="${r.dataEmissao}"></td>
-
-					<td th:text="${r.descricao}"></td>
-
-					<td th:text="${r.valorTotalEntrada}"></td>
-
-					<td th:text="${r.valorTotalSaida}"></td>
-
-				</tr>
-				</tbody>
-
-			</table>
-
-		</div>
-
+	<div class="grid">
 		<div class="card">
-			<h3>Resumo por Categoria</h3>
-			<div id="resumoCat">
-			</div>
+			<div>Total Entradas</div>
+			<div class="valor-grande" id="totalEntradas">R$ 0,00</div>
 		</div>
-	</section>
+		<div class="card">
+			<div>Total Saídas</div>
+			<div class="valor-grande" id="totalSaidas">R$ 0,00</div>
+		</div>
 
-	<script>
-		function aplicarFiltro() {
-			const trs = document.querySelectorAll('tbody tr');
+	</div>
 
-			let totalE = 0;
-			let totalS = 0;
+	<div>
+		<a th:href="@{/relatorio/pdf}" class="btn-acao">
+			Baixar PDF
+		</a>
+	</div>
 
-			trs.forEach(tr => {
+	<div class="card" style="margin-bottom:18px">
+		<h3>Lançamentos</h3>
+		<table>
+			<thead>
+			<tr><th>Data</th><th>Descrição</th><th>Entradas (R$)</th><th>Saídas (R$)</th></tr>
+			</thead>
+			<tbody>
 
-				const entrada = parseFloat(tr.children[2].innerText.replace(',', '.')) || 0;
-				const saida = parseFloat(tr.children[3].innerText.replace(',', '.')) || 0;
+			<tr th:each="r : ${relatorios}"
+			    th:attr="data-inicio=${r.dataInicio}, data-fim=${r.dataFim}">
 
-				totalE += entrada;
-				totalS += saida;
-			});
+				<td th:text="${r.dataEmissao}"></td>
 
-			document.getElementById('totalEntradas').innerText =
-					'R$ ' + totalE.toFixed(2).replace('.', ',');
+				<td th:text="${r.descricao}"></td>
 
-			document.getElementById('totalSaidas').innerText =
-					'R$ ' + totalS.toFixed(2).replace('.', ',');
+				<td th:text="${r.valorTotalEntrada}"></td>
 
-		}
-	</script>
+				<td th:text="${r.valorTotalSaida}"></td>
+
+			</tr>
+			</tbody>
+
+		</table>
+
+		<p th:if="${#lists.isEmpty(relatorios)}">Nenhum relatório cadastrado ainda.</p>
+
+	</div>
+</section>
+
+<script>
+	function aplicarFiltro() {
+		const inicio = document.getElementById('periodoInicio').value;
+		const fim = document.getElementById('periodoFim').value;
+
+		const trs = document.querySelectorAll('tbody tr');
+
+		let totalE = 0;
+		let totalS = 0;
+
+		trs.forEach(tr => {
+			const dataInicioLinha = tr.dataset.inicio;
+			const dataFimLinha = tr.dataset.fim;
+
+			const linhaVisivel = (!inicio || dataFimLinha >= inicio) && (!fim || dataInicioLinha <= fim);
+			tr.style.display = linhaVisivel ? '' : 'none';
+
+			if (!linhaVisivel) {
+				return;
+			}
+
+			const entrada = parseFloat(tr.children[2].innerText.replace(',', '.')) || 0;
+			const saida = parseFloat(tr.children[3].innerText.replace(',', '.')) || 0;
+
+			totalE += entrada;
+			totalS += saida;
+		});
+
+		document.getElementById('totalEntradas').innerText =
+				'R$ ' + totalE.toFixed(2).replace('.', ',');
+
+		document.getElementById('totalSaidas').innerText =
+				'R$ ' + totalS.toFixed(2).replace('.', ',');
+	}
+
+	document.getElementById('periodoInicio').addEventListener('change', aplicarFiltro);
+	document.getElementById('periodoFim').addEventListener('change', aplicarFiltro);
+	document.addEventListener('DOMContentLoaded', aplicarFiltro);
+</script>
 </body>
 </html>

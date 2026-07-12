@@ -36,20 +36,20 @@ public class LoteController {
     }
 
     @GetMapping("/pegar")
-    public ResponseEntity<?> buscarListaLotesPorNumero(@Valid @RequestParam int numeroLote) {
+    public ResponseEntity<?> buscarListaLotesPorNumero(@Valid @RequestParam long numeroLote) {
 
 
         return ResponseEntity.status(HttpStatus.OK).body(loteService.buscarPorNumeroLote(numeroLote));
     }
 
     @PutMapping("/atualizar")
-    public Object atualizarLotePorNumero(@Valid @RequestParam int numeroLote,@Valid @RequestBody Lote lote) {
+    public Object atualizarLotePorNumero(@Valid @RequestParam long numeroLote,@Valid @RequestBody Lote lote) {
 
         return ResponseEntity.status(HttpStatus.OK).body(loteService.atualizarLotePorNumero(numeroLote,lote));
     }
 
     @DeleteMapping("/deletar")
-    public ResponseEntity<?> deletarLotePorNumero(@RequestParam int numeroLote) {
+    public ResponseEntity<?> deletarLotePorNumero(@RequestParam long numeroLote) {
 
         return ResponseEntity.status(HttpStatus.OK).body(loteService.deletarLotePorNumero(numeroLote));
 

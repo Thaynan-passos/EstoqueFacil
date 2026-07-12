@@ -30,4 +30,13 @@ public class AuthUtil {
         return auth.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals(role));
     }
+
+    /**
+     * CPF do funcionário logado (é o username usado no login).
+     * Retorna null se não houver ninguém autenticado.
+     */
+    public String getCpfLogado() {
+        Authentication auth = getAuth();
+        return (auth != null && isLogado()) ? auth.getName() : null;
+    }
 }

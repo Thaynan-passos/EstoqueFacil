@@ -36,7 +36,7 @@
 
     <div class="filtros">
 
-        <input type="text" placeholder="Pesquisar produto">
+        <input id="busca" type="text" placeholder="Pesquisar produto">
 
         <select>
             <option>Todas Categorias</option>
@@ -45,7 +45,7 @@
         <select>
             <option>Todos Fornecedores</option>
         </select>
-        <select>
+        <select id="categoria-filtro">
 
             <option value="">Todas Categorias</option>
 
@@ -57,6 +57,10 @@
 
         </select>
 
+    </div>
+
+    <div class="inventario-total" style="margin: 16px 0; font-weight: bold;">
+        Total geral no estoque: <span th:text="${totalQuantidadeEstoque}">0</span>
     </div>
 
     <div class="tabela-box">
@@ -111,6 +115,27 @@
     </div>
 
 </section>
+
+<script>
+    function filtrarInventario() {
+        const texto = document.getElementById('busca').value.toLowerCase();
+        const categoria = document.getElementById('categoria-filtro').value.toLowerCase();
+
+        const linhas = document.querySelectorAll('.tabela-box table tbody tr');
+        linhas.forEach(row => {
+            const produto = row.cells[1]?.innerText.toLowerCase() || '';
+            const categoriaRow = row.cells[2]?.innerText.toLowerCase() || '';
+
+            const matchesTexto = texto === '' || produto.includes(texto);
+            const matchesCategoria = categoria === '' || categoriaRow === categoria;
+
+            row.style.display = matchesTexto && matchesCategoria ? '' : 'none';
+        });
+    }
+
+    document.getElementById('busca').addEventListener('input', filtrarInventario);
+    document.getElementById('categoria-filtro').addEventListener('change', filtrarInventario);
+</script>
 
 </body>
 </html>

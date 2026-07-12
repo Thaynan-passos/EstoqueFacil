@@ -1,6 +1,7 @@
 package com.EstoqueFacil.EstoqueFacil.controller;
 
 import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
+import com.EstoqueFacil.EstoqueFacil.model.Relatorio;
 import com.EstoqueFacil.EstoqueFacil.model.Status;
 import com.EstoqueFacil.EstoqueFacil.repository.FuncionarioRepository;
 import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
@@ -13,10 +14,15 @@ import com.EstoqueFacil.EstoqueFacil.repository.SetorRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
+
+import exceptions.ErroDePreenchimentoInvalidoException;
 
 @Controller
 public class NavegadorGerenteController {
@@ -47,18 +53,18 @@ public class NavegadorGerenteController {
         if (!authUtil.isLogado()) return "redirect:/login";
 
         model.addAttribute("totalProdutos",
-                    produtoService.buscarTodosProdutos().size());
+                produtoService.buscarTodosProdutos().size());
 
         model.addAttribute("totalRequisicoes",
-                    requisicaoService.buscarTodasRequisicoes().size());
+                requisicaoService.buscarTodasRequisicoes().size());
 
         model.addAttribute("totalFuncionarios",
                 funcionarioService.buscarTodosFuncionarios().size());
         model.addAttribute("estoqueBaixo", 0);
 
         model.addAttribute("atividades", java.util.List.of(
-                            "Sistema iniciado",
-                            "Dashboard carregado"));
+                "Sistema iniciado",
+                "Dashboard carregado"));
 
         return "telas-gerente/dashboard-gerente";
     }
@@ -83,6 +89,36 @@ public class NavegadorGerenteController {
 
         model.addAttribute("relatorios", relatorioService.buscarTodosRelatorios());
         return "telas-gerente/relatorio-financeiro";
+    }
+
+    @PostMapping("/relatorio-financeiro")
+    public String criarRelatorio(@ModelAttribute Relatorio relatorio,
+                                 RedirectAttributes redirectAttributes) {
+
+        if (!authUtil.isLogado()) return "redirect:/login";
+        if (!authUtil.hasRole("ROLE_GERENTE")) return "redirect:/dashboard-gerente";
+
+        try {
+            String cpfLogado = authUtil.getCpfLogado();
+            Funcionario gerente = funcionarioRepository.findByCpf(cpfLogado)
+                    .orElseThrow(() -> new NoSuchElementException("Funcionário logado não foi encontrado."));
+
+            // A emissão é sempre "hoje" (é o que o RelatorioService exige) e o
+            // emissor é sempre o gerente logado — nada disso vem do formulário.
+            relatorio.setDataEmissao(LocalDate.now());
+            relatorio.setFuncionario(gerente);
+
+            relatorioService.cadastrarRelatorio(relatorio);
+
+            redirectAttributes.addFlashAttribute("sucesso", "Relatório salvo com sucesso.");
+        } catch (ErroDePreenchimentoInvalidoException e) {
+            redirectAttributes.addFlashAttribute("erro", e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro",
+                    "Não foi possível salvar o relatório. Confira as datas e os valores informados.");
+        }
+
+        return "redirect:/relatorio-financeiro";
     }
 
     @GetMapping("/analise-gerente")

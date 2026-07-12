@@ -41,21 +41,21 @@
 
 <section>
     <div class="area-filtros">
-        <input type="text" class="input-filtro" placeholder="Buscar por código, produto ou solicitante...">
-        <select class="select-filtro">
+        <input id="busca" type="text" class="input-filtro" placeholder="Buscar por código, produto ou solicitante...">
+        <select id="setor-filtro" class="select-filtro">
             <option value="">Todos os Setores</option>
-            <option>Almoxarifado</option>
-            <option>Gerência</option>
-            <option>Financeiro</option>
+            <option value="almoxarifado">Almoxarifado</option>
+            <option value="gerência">Gerência</option>
+            <option value="financeiro">Financeiro</option>
 
         </select>
-        <select class="select-filtro">
+        <select id="status-filtro" class="select-filtro">
             <option value="">Qualquer Status</option>
             <option value="pendente">Pendente</option>
             <option value="aprovado">Aprovado</option>
             <option value="desaprovado">Desaprovado</option>
         </select>
-        <button class="btn-filtrar">Filtrar</button>
+        <button class="btn-filtrar" onclick="filtrarAnalise()">Filtrar</button>
     </div>
 
     <div class="topo-tabela">
@@ -165,5 +165,46 @@
     </table>
 
 </section>
+<script>
+    function filtrarAnalise() {
+        const texto = document.getElementById('busca').value.toLowerCase();
+        const setor = document.getElementById('setor-filtro').value.toLowerCase();
+        const status = document.getElementById('status-filtro').value.toLowerCase();
+
+        const linhasPendentes = document.querySelectorAll('#corpo-pendentes tr');
+        linhasPendentes.forEach(row => {
+            const codigo = row.cells[0]?.innerText.toLowerCase() || '';
+            const solicitante = row.cells[1]?.innerText.toLowerCase() || '';
+            const setorRow = row.cells[2]?.innerText.toLowerCase() || '';
+            const produto = row.cells[3]?.innerText.toLowerCase() || '';
+            const statusRow = 'pendente';
+
+            const matchesTexto = texto === '' || codigo.includes(texto) || solicitante.includes(texto) || produto.includes(texto);
+            const matchesSetor = setor === '' || setorRow === setor;
+            const matchesStatus = status === '' || statusRow === status;
+
+            row.style.display = matchesTexto && matchesSetor && matchesStatus ? '' : 'none';
+        });
+
+        const linhasHistorico = document.querySelectorAll('#corpo-historico tr');
+        linhasHistorico.forEach(row => {
+            const codigo = row.cells[0]?.innerText.toLowerCase() || '';
+            const solicitante = row.cells[1]?.innerText.toLowerCase() || '';
+            const setorRow = row.cells[2]?.innerText.toLowerCase() || '';
+            const produto = row.cells[3]?.innerText.toLowerCase() || '';
+            const statusRow = row.cells[7]?.innerText.toLowerCase() || '';
+
+            const matchesTexto = texto === '' || codigo.includes(texto) || solicitante.includes(texto) || produto.includes(texto);
+            const matchesSetor = setor === '' || setorRow === setor;
+            const matchesStatus = status === '' || statusRow === status;
+
+            row.style.display = matchesTexto && matchesSetor && matchesStatus ? '' : 'none';
+        });
+    }
+
+    document.getElementById('busca').addEventListener('input', filtrarAnalise);
+    document.getElementById('setor-filtro').addEventListener('change', filtrarAnalise);
+    document.getElementById('status-filtro').addEventListener('change', filtrarAnalise);
+</script>
 </body>
 </html>

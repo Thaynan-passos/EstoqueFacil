@@ -1,10 +1,13 @@
 package com.EstoqueFacil.EstoqueFacil.service;
 
+import com.EstoqueFacil.EstoqueFacil.model.Funcionario;
 import com.EstoqueFacil.EstoqueFacil.model.Lote;
 import com.EstoqueFacil.EstoqueFacil.model.Produto;
 import com.EstoqueFacil.EstoqueFacil.repository.LoteRepository;
 import com.EstoqueFacil.EstoqueFacil.repository.MovimentacaoRepository;
 import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
+import com.EstoqueFacil.EstoqueFacil.service.FuncionarioService;
+import com.EstoqueFacil.EstoqueFacil.utils.AuthUtil;
 import exceptions.ErroDePreenchimentoInvalidoException;
 import com.EstoqueFacil.EstoqueFacil.model.Movimentacao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +21,18 @@ import java.util.NoSuchElementException;
 public class MovimentacaoService {
 
     private final MovimentacaoRepository movimentacaoRepository;
+    private final FuncionarioService funcionarioService;
+    private final AuthUtil authUtil;
+    private final LoteRepository loteRepository;
 
-    @Autowired
-    private LoteRepository loteRepository;
-
-    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository, LoteRepository loteRepository) {
+    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository,
+                                LoteRepository loteRepository,
+                                FuncionarioService funcionarioService,
+                                AuthUtil authUtil) {
         this.movimentacaoRepository = movimentacaoRepository;
         this.loteRepository = loteRepository;
+        this.funcionarioService = funcionarioService;
+        this.authUtil = authUtil;
     }
 
 
@@ -50,6 +58,25 @@ public class MovimentacaoService {
         );
 
         loteRepository.save(lote);
+        
+        // Registrar movimentação de saída
+        Movimentacao mov = new Movimentacao();
+        mov.setDataMovimentacao(LocalDate.now());
+        mov.setDescricao(observacoes == null || observacoes.isEmpty() ? "Saída de material" : observacoes);
+        mov.setStatus(com.EstoqueFacil.EstoqueFacil.model.Status.APROVADO);
+        mov.setProduto(lote.getProduto());
+        mov.setQuantidade(quantidade);
+        mov.setFuncionarioExecutor(getFuncionarioLogado());
+        mov.setFuncionarioAprovador(getFuncionarioLogado());
+        movimentacaoRepository.save(mov);
+    }
+
+    private Funcionario getFuncionarioLogado() {
+        String cpf = authUtil.getCpfLogado();
+        if (cpf == null || cpf.isBlank()) {
+            throw new IllegalStateException("Nenhum usuário autenticado para registrar movimentação");
+        }
+        return funcionarioService.buscarPorCpf(cpf);
     }
 
 
@@ -83,7 +110,11 @@ public class MovimentacaoService {
         loteRepository.save(lote);
 
         movimentacao.setStatus(com.EstoqueFacil.EstoqueFacil.model.Status.APROVADO);
-        movimentacao.setDescricao(movimentacao.getDescricao() == null ? "Entrada de material" : movimentacao.getDescricao());
+        movimentacao.setDescricao(movimentacao.getDescricao() == null || movimentacao.getDescricao().isBlank() ? "Entrada de material" : movimentacao.getDescricao());
+        movimentacao.setProduto(lote.getProduto());
+        movimentacao.setQuantidade(quantidade);
+        movimentacao.setFuncionarioExecutor(getFuncionarioLogado());
+        movimentacao.setFuncionarioAprovador(getFuncionarioLogado());
         movimentacaoRepository.save(movimentacao);
     }
 

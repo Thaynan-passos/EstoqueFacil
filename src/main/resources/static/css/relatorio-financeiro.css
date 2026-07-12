@@ -86,13 +86,52 @@ section {
     font-size:13px;
 }
 
-.btn-acao {
+.card form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-actions,
+.button-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-acao,
+a.btn-acao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background:#0a4da3;
     color:white;
-    padding:10px 14px;
+    padding:10px 18px;
     border-radius:4px;
     border:none;
     cursor:pointer;
+    text-decoration:none;
+    font-weight: 600;
+    transition: background .2s ease, transform .2s ease;
+    min-height: 42px;
+}
+
+.btn-acao:hover,
+a.btn-acao:hover {
+    background:#083d82;
+    transform: translateY(-1px);
+}
+
+.filtros {
+    display:flex;
+    gap:12px;
+    align-items:center;
+    justify-content:flex-start;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+}
+
+.filtros button {
+    min-width: 130px;
 }
 
 .grid {
@@ -126,7 +165,7 @@ th, td {
     border-bottom:1px solid #eee;
     text-align:left;
 }
-t
-head {
-    background:#f7f9fb;
+
+thead {
+    background: #f7f9fb;
 }

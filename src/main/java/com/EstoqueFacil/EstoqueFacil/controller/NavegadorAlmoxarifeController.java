@@ -190,8 +190,13 @@ public class NavegadorAlmoxarifeController {
                 .map(Enum::name)
                 .collect(Collectors.toList());
 
+        int totalQuantidadeEstoque = mapaInventario.values().stream()
+                .mapToInt(InventarioItem::getQuantidadeTotal)
+                .sum();
+
         model.addAttribute("inventario", new ArrayList<>(mapaInventario.values()));
         model.addAttribute("categorias", categorias);
+        model.addAttribute("totalQuantidadeEstoque", totalQuantidadeEstoque);
 
         return "telas-almoxarife/inventario";
     }

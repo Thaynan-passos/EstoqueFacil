@@ -22,15 +22,13 @@ public class TelefoneService {
 
         String numeroLimpo = numerotelefone.replaceAll("[^0-9]", "");
 
-
-        if (!numeroLimpo.matches("^\\d{11}$")) {
-
-          throw new TelefoneInvalidoException("Atenção: O telefone deve contar 11 digitos (DDD + número)!");
+        if (!numeroLimpo.matches("^\\d{10,11}$")) {
+            throw new TelefoneInvalidoException("Atenção: O telefone deve contar 10 ou 11 dígitos (DDD + número)!");
         }
 
         int ddd = Integer.parseInt(numeroLimpo.substring(0, 2));
         if (ddd < 11 || ddd > 99) {
-           throw new TelefoneInvalidoException("Atenção: DDD inválido. Deve estar entre 11 e 99.");
+            throw new TelefoneInvalidoException("Atenção: DDD inválido. Deve estar entre 11 e 99.");
         }
     }
 

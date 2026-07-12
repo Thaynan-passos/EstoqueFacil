@@ -31,6 +31,17 @@ public class Movimentacao {
     @JoinColumn(name = "fk_id_produto", nullable = false)
     private Produto produto;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_id_funcionario_executor", nullable = false)
+    private Funcionario funcionarioExecutor;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_id_funcionario_aprovador", nullable = false)
+    private Funcionario funcionarioAprovador;
+
+    @Column(name = "quantidade", nullable = false)
+    private int quantidade;
+
 
     public int  getIdMovimentacao() {
         return idMovimentacao;
@@ -70,4 +81,27 @@ public class Movimentacao {
         this.produto = produto;
     }
 
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public Funcionario getFuncionarioExecutor() {
+        return funcionarioExecutor;
+    }
+
+    public void setFuncionarioExecutor(Funcionario funcionarioExecutor) {
+        this.funcionarioExecutor = funcionarioExecutor;
+    }
+
+    public Funcionario getFuncionarioAprovador() {
+        return funcionarioAprovador;
+    }
+
+    public void setFuncionarioAprovador(Funcionario funcionarioAprovador) {
+        this.funcionarioAprovador = funcionarioAprovador;
+    }
 }

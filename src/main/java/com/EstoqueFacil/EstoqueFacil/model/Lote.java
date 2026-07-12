@@ -19,7 +19,15 @@ public class Lote {
     @Column(name="numero_lote",unique = true, nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
     @Positive(message = "O numero do lote deve ser maior que 0 ")
-    private int numeroLote;
+    private long numeroLote;
+
+    public long getNumeroLote() {
+        return numeroLote;
+    }
+
+    public void setNumeroLote(long numeroLote) {
+        this.numeroLote = numeroLote;
+    }
 
     @Column(name="data_fabricacao", nullable = false)
     @NotNull (message = "Não pode ficar nulo.")
@@ -54,14 +62,6 @@ public class Lote {
 
     public void setIdLote(int idLote) {
         this.idLote = idLote;
-    }
-
-    public int getNumeroLote() {
-        return numeroLote;
-    }
-
-    public void setNumeroLote(int numeroLote) {
-        this.numeroLote = numeroLote;
     }
 
     public LocalDate getDataFabricacao() {

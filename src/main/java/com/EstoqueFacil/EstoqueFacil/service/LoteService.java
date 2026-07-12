@@ -63,14 +63,14 @@ public class LoteService {
         return loteRepository.findAll();
     }
 
-    public Lote buscarPorNumeroLote(int numeroLote) {
+    public Lote buscarPorNumeroLote(long numeroLote) {
         if (numeroLote <= 0) {
             throw new NoSuchElementException("Não foi possível encontrar nenhum lote");
         }
         return loteRepository.findByNumeroLote(numeroLote).orElseThrow(() -> new NoSuchElementException("Não foi possível encontrar nenhum lote"));
     }
 
-    public Lote atualizarLotePorNumero(int numero, Lote dadosAtualizados) {
+    public Lote atualizarLotePorNumero(long numero, Lote dadosAtualizados) {
 
         Lote loteNovo = buscarPorNumeroLote(numero);
 
@@ -81,7 +81,7 @@ public class LoteService {
     }
 
     @Transactional
-    public Lote deletarLotePorNumero(int numeroLote){
+    public Lote deletarLotePorNumero(long numeroLote){
         if(!loteRepository.existsByNumeroLote(numeroLote)) {
             throw new NoSuchElementException("Não existe nenhum Lote com esse numero");
         }

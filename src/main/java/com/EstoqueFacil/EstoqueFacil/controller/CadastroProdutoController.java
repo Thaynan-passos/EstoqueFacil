@@ -38,7 +38,7 @@ public class CadastroProdutoController {
             @RequestParam BigDecimal valorUnitario,
             @RequestParam String categoria
             ,
-            @RequestParam(required = false) Integer numeroLote,
+            @RequestParam(required = false) Long numeroLote,
             @RequestParam(required = false) String dataFabricacao,
             @RequestParam(required = false) String dataValidade,
             @RequestParam(required = false) Integer quantidade,
@@ -79,13 +79,19 @@ public class CadastroProdutoController {
                 if (fornecedor != null) lote.setFornecedor(fornecedor);
             }
 
-            loteService.cadastrarLote(lote);
+            try {
+                loteService.cadastrarLote(lote);
+            } catch (Exception e) {
+                // Se o lote não puder ser criado (por exemplo validação/constraint do fornecedor),
+                // não impedir o cadastro do produto. Registrar erro para diagnóstico.
+                System.err.println("Falha ao criar lote associado ao produto: " + e.getMessage());
+            }
         }
 
         return "redirect:/cadastrar-produto";
     }
 
-    private boolean temDadosMinimosDeLote(Integer numeroLote,
+    private boolean temDadosMinimosDeLote(Long numeroLote,
                                           String dataFabricacao,
                                           String dataValidade,
                                           Integer quantidade,

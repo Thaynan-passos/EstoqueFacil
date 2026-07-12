@@ -8,17 +8,15 @@
 </head>
 
 <body>
-
-
 <div id="painel">
     <h1 id="titulo1">Estoque Fácil</h1>
     <span class="subtitle">Painel Administrativo</span>
 
-    <a th:href="@{/dashboard-gerente}" class="menu-btn">Dashboard</a>
-    <a th:href="@{/analise-gerente}" class="menu-btn">Análise Gerente</a>
+    <a th:href="@{/dashboard-gerente}" class="menu-btn">Dashboard de gerenciamento</a>
+    <a th:href="@{/analise-gerente}" class="menu-btn">Analisar as solicitações</a>
     <a th:href="@{/cadastro-funcionario}" class="menu-btn">Cadastrar Funcionário</a>
-    <a th:href="@{/relatorio-financeiro}" class="menu-btn">Relatório Financeiro</a>
-    <a th:href="@{/cadastrar-fornecedor}" class="menu-btn">Fornecedores</a>
+    <a th:href="@{/relatorio-financeiro}" class="menu-btn">Gerar Relatório</a>
+    <a th:href="@{/cadastrar-fornecedor}" class="menu-btn">Cadastrar Fornecedor</a>
     <a th:href="@{/desativar-funcionario}" class="menu-btn">
         Gerenciar Funcionários
     </a>
@@ -38,19 +36,34 @@
         <div class="box">
             <h2>Cadastrar Fornecedor</h2>
 
+            <div th:if="${erro}" class="mensagem-erro">
+                <span th:text="${erro}"></span>
+            </div>
+
             <form method="post" th:action="@{/cadastrar-fornecedor/fornecimento}">
 
-                <label>Nome:</label>
-                <input type="text" name="nome" required>
+                <div class="form-group full-width">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" name="nome"
+                           placeholder="Digite o nome do fornecedor" required>
+                </div>
+                <div class="form-group">
+                    <label for="cnpj">CNPJ</label>
+                    <input type="text" id="cnpj" name="cnpj" required
+                           placeholder="00.000.000/0000-00">
+                </div>
 
-                <label>CNPJ:</label>
-                <input type="text" name="cnpj" required>
+                <div class="form-group">
+                    <label for="telefone">Telefone / Celular</label>
+                    <input type="tel" id="telefone" name="telefone"
+                           placeholder="(00) 00000-0000"  required>
+                </div>
 
-                <label>Telefone:</label>
-                <input type="text" name="telefone">
-
-                <label>Email:</label>
-                <input type="email" name="email">
+                <div class="form-group">
+                    <label for="email">E-mail do Fornecedor</label>
+                    <input type="email" id="email" name="email"
+                           placeholder="fornecedor@empresa.com" required>
+                </div>
 
                 <div class="form-grid">
 

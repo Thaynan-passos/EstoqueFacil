@@ -9,7 +9,7 @@
 
   <div id="painel">
     <h1 id="titulo1">Estoque Fácil</h1>
-    <span class="subtitle">Painel Administrativo</span>
+    <span class="subtitle">Painel do Almoxarife</span>
       <a th:href="@{/dashboard-almoxarife}" class="menu-btn">Dashboard do almoxarifado</a>
 
       <a th:href="@{/controle-estoque}" class="menu-btn">Controle de Estoque</a>
@@ -52,7 +52,7 @@
 
               <div class="form-group">
                   <label>Valor Unitário</label>
-                  <input type="number" step="0.01" name="valorUnitario" required>
+                  <input type="number" step="0.01" min="0" name="valorUnitario" required>
               </div>
 
               <div class="form-group">

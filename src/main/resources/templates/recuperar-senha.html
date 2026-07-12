@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuperar Senha - Estoque Fácil</title>
-    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+    <link rel="stylesheet"  th:href="@{/css/login.css}"/>
 </head>
 <body>
 <div class="planoFundo">
     <section class="conteiner" id="header">
+
+        <div th:if="${erro}" class="mensagem-erro">
+            <span th:text="${erro}"></span>
+        </div>
+
+
         <form th:action="@{/recuperar-senha}" method="post">
 
             <h1 class="h1">Recuperar Senha</h1>
@@ -16,17 +22,24 @@
 
             <p class="login">Confirme seus dados para redefinir a senha</p>
 
-            <p th:if="${erro}" th:text="${erro}" style="color:red;"></p>
-            <p th:if="${sucesso}" th:text="${sucesso}" style="color:green;"></p>
-
             <label>Email cadastrado:</label>
             <input type="email" name="email" required>
 
-            <label>Nova Senha:</label>
-            <input type="password" name="novaSenha" minlength="8" maxlength="14" required>
+            <div class="form-group">
+                <label>Nova Senha:</label>
+                <div class="senha-container">
+                    <input type="password" id="novaSenha" name="novaSenha" minlength="8" maxlength="14" required>
+                    <span class="olho-btn" onclick="toggleSenhaInput('novaSenha', this)">👁️</span>
+                </div>
+            </div>
 
-            <label>Confirmar Nova Senha:</label>
-            <input type="password" name="confirmarSenha" minlength="8" maxlength="14" required>
+            <div class="form-group">
+                <label>Confirmar Nova Senha:</label>
+                <div class="senha-container">
+                    <input type="password" id="confirmarSenha" name="confirmarSenha" minlength="8" maxlength="14" required>
+                    <span class="olho-btn" onclick="toggleSenhaInput('confirmarSenha', this)">👁️</span>
+                </div>
+            </div>
 
             <div class="botoes">
                 <button type="submit" class="btn-entrar">Redefinir Senha</button>
@@ -39,5 +52,20 @@
         </form>
     </section>
 </div>
+
+<script>
+    function toggleSenhaInput(inputId, icone) {
+        const input = document.getElementById(inputId);
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icone.textContent = '🙈'; // Ícone de escondido
+        } else {
+            input.type = 'password';
+            icone.textContent = '👁️'; // Ícone de visível
+        }
+    }
+</script>
+
 </body>
 </html>

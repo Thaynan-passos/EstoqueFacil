@@ -88,6 +88,43 @@ input {
     box-sizing: border-box;
 }
 
+.mensagem-erro {
+    background-color: #fdecea;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+
+.senha-container {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+
+
+.senha-container input {
+    width: 100%;
+    padding-right: 45px;
+}
+
+
+.olho-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+
 input:focus {
     border: 2px solid #4da6ff;
 }

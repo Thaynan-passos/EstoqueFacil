@@ -8,7 +8,7 @@
 <body>
   <div id="painel">
     <h1 id="titulo1">Estoque Fácil</h1>
-    <span class="subtitle">Almoxarifado</span>
+    <span class="subtitle">Painel do Almoxarife</span>
       <a th:href="@{/dashboard-almoxarife}" class="menu-btn">Dashboard do almoxarifado</a>
 
       <a th:href="@{/controle-estoque}" class="menu-btn">Controle de Estoque</a>
@@ -28,6 +28,11 @@
       </div>
   </header>
   <section>
+
+      <div th:if="${erro}" class="mensagem-erro">
+          <span th:text="${erro}"></span>
+      </div>
+
       <form th:action="@{/entrada}" method="post">
 
           <div class="form-grid">

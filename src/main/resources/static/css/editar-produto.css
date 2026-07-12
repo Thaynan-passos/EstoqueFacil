@@ -58,6 +58,16 @@ label {
 
 }
 
+.mensagem-erro {
+    background-color: #fdecea;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
 
 
 input {

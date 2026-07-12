@@ -12,6 +12,5 @@ public class EstoqueFacilApplication  {
 		SpringApplication.run(EstoqueFacilApplication.class, args);
 	}
 
-
 }
 

@@ -11,6 +11,11 @@
 <body>
     <div class="planoFundo">
         <section class="conteiner" id="header">
+
+            <div th:if="${erro}" class="mensagem-erro">
+                <span th:text="${erro}"></span>
+            </div>
+
             <form th:action="@{/login}" method="post">
 
                 <h1 class="h1">Login</h1>
@@ -27,9 +32,14 @@
                        maxlength="14"
                        required>
 
-                <label>Senha:</label>
-                <input type="password" name="senha" required>
-
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <!-- Container criado para isolar o posicionamento do olho -->
+                    <div class="senha-container">
+                        <input type="password" id="senha" name="senha" placeholder="Digite sua senha">
+                        <span id="toggleSenha" class="olho-btn">👁️</span>
+                    </div>
+                </div>
                 <div class="botoes">
                     <button type="submit" class="btn-entrar">Entrar</button>
                 </div>
@@ -41,6 +51,23 @@
             </form>
         </section>
     </div>
+
+    <script>
+        const senhaInput = document.getElementById('senha');
+        const toggleSenha = document.getElementById('toggleSenha');
+
+        toggleSenha.addEventListener('click', function() {
+            // Altera o tipo entre password e text
+            if (senhaInput.type === 'password') {
+                senhaInput.type = 'text';
+                toggleSenha.textContent = '🙈'; // Muda o ícone
+            } else {
+                senhaInput.type = 'password';
+                toggleSenha.textContent = '👁️'; // Volta ao ícone original
+            }
+        });
+    </script>
+
 </body>
 </html>
 

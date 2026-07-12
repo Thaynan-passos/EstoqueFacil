@@ -166,6 +166,10 @@ public class NavegadorGerenteController {
     @PostMapping("/desativar-funcionario/{id}")
     public String alterarStatus(@PathVariable Integer id){
 
+        if (id == 1) {
+            throw new RuntimeException("O gerente administrador não pode ser desativado.");
+        }
+
         Funcionario funcionario = funcionarioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Funcionário não encontrado."));
 

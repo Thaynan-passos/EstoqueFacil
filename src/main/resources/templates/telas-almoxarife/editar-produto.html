@@ -15,6 +15,10 @@
 
     <h1>Editar Produto</h1>
 
+    <div th:if="${erro}" class="mensagem-erro">
+        <span th:text="${erro}"></span>
+    </div>
+
     <form th:action="@{/controle-estoque/editar}"
           th:object="${produto}"
           method="post">

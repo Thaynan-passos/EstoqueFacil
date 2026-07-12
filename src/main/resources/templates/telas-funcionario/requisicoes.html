@@ -10,7 +10,7 @@
     <h1 id="titulo1">Estoque Fácil</h1>
     <span class="subtitle">Área do Financeiro</span>
     <a th:href="@{/dashboard-funcionario}" class="menu-btn">
-        Dashboard financeiro
+        Dashboard do Financeiro
     </a>
     <a th:href="@{/requisicoes}" class="menu-btn">
         Pedir uma nova Requisição
@@ -28,6 +28,12 @@
     </div>
 </header>
 <section>
+
+    <div th:if="${erro}" class="mensagem-erro">
+        <span th:text="${erro}"></span>
+    </div>
+
+
     <form id="form-requisicao" th:action="@{/requisicao}" th:object="${requisicao}" method="post">
         <div id="mensagem" class="mensagem-escondida"></div>
         <div class="form-grid">

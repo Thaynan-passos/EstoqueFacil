@@ -11,23 +11,11 @@
 <div id="painel">
     <h1 id="titulo1">Estoque Fácil</h1>
     <span class="subtitle">Painel Administrativo</span>
-    <a th:href="@{/dashboard-gerente}" class="menu-btn ">
-        Dashboard
-    </a>
-
-
-    <a th:href="@{/analise-gerente}" class="menu-btn ">
-        Análise Gerente
-    </a>
-
-    <a th:href="@{/cadastro-funcionario}" class="menu-btn ">
-        Cadastrar Funcionário
-    </a>
-
-    <a th:href="@{/relatorio-financeiro}" class="menu-btn">
-        Relatório Financeiro
-    </a>
-    <a th:href="@{/cadastrar-fornecedor}" class="menu-btn">Fornecedores</a>
+    <a th:href="@{/dashboard-gerente}" class="menu-btn">Dashboard de gerenciamento</a>
+    <a th:href="@{/analise-gerente}" class="menu-btn">Analisar as solicitações</a>
+    <a th:href="@{/cadastro-funcionario}" class="menu-btn">Cadastrar Funcionário</a>
+    <a th:href="@{/relatorio-financeiro}" class="menu-btn">Gerar Relatório</a>
+    <a th:href="@{/cadastrar-fornecedor}" class="menu-btn">Cadastrar Fornecedor</a>
     <a th:href="@{/desativar-funcionario}" class="menu-btn">
         Gerenciar Funcionários
     </a>
@@ -40,6 +28,11 @@
 </header>
 
 <section>
+
+    <div th:if="${erro}" class="mensagem-erro">
+        <span th:text="${erro}"></span>
+    </div>
+
     <form th:action="@{/cadastro/funcionario}" method="post">
         <div class="form-grid">
 
@@ -57,9 +50,12 @@
             </div>
 
             <div class="form-group">
-                <label for="senha">Senha de Acesso</label>
-                <input type="password" id="senha" name="senha"
-                       placeholder="Crie uma senha inicial" required>
+                <label for="senha">Senha</label>
+                <!-- Container criado para isolar o posicionamento do olho -->
+                <div class="senha-container">
+                    <input type="password" id="senha" name="senha" placeholder="Digite sua senha">
+                    <span id="toggleSenha" class="olho-btn">👁️</span>
+                </div>
             </div>
 
             <div class="form-group">
@@ -70,8 +66,8 @@
 
             <div class="form-group">
                 <label for="telefone">Telefone / Celular</label>
-                <input type="text" id="telefone" name="telefone"
-                       placeholder="(00) 00000-0000">
+                <input type="tel" id="telefone" name="telefone"
+                       placeholder="(00) 00000-0000"  required>
             </div>
 
             <div class="form-group">
@@ -103,12 +99,6 @@
             <div class="form-group full-width">
                 <label for="endereco_rua">Rua</label>
                 <input type="text" id="endereco_rua" name="rua" required>
-            </div>
-
-            <div class="form-group">
-                <label for="numero">Número</label>
-                <input type="text" id="numero" name="numero"
-                       placeholder="Nº" required>
             </div>
 
             <div class="form-group">
@@ -168,6 +158,23 @@
         </div>
     </form>
 </section>
+
+<script>
+    const senhaInput = document.getElementById('senha');
+    const toggleSenha = document.getElementById('toggleSenha');
+
+    toggleSenha.addEventListener('click', function() {
+        // Altera o tipo entre password e text
+        if (senhaInput.type === 'password') {
+            senhaInput.type = 'text';
+            toggleSenha.textContent = '🙈'; // Muda o ícone
+        } else {
+            senhaInput.type = 'password';
+            toggleSenha.textContent = '👁️'; // Volta ao ícone original
+        }
+    });
+</script>
+
 
 </body>
 </html>

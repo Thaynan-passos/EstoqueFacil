@@ -60,12 +60,29 @@
 
             <div class="form-group">
                 <label>Solicitante</label>
-                <input type="text" name="solicitante" required>
+
+                <select id="funcionario" name="funcionarioId" required>
+                    <option value="" selected disabled>Selecione...</option>
+
+                    <option th:each="fs : ${funcionariosSetores}"
+                            th:value="${fs.funcionario.idFuncionario}"
+                            th:data-setor="${fs.setor.nomeSetor}"
+                            th:data-idsetor="${fs.setor.idSetor}"
+                            th:text="${fs.funcionario.nome}">
+                    </option>
+                </select>
             </div>
 
             <div class="form-group">
                 <label>Setor</label>
-                <input type="text" name="setor" required>
+
+                <input type="text"
+                       id="nomeSetor"
+                       readonly>
+
+                <input type="hidden"
+                       id="setorId"
+                       name="setorId">
             </div>
 
             <div class="form-group full-width">
@@ -82,6 +99,23 @@
     </form>
 
 </section>
+
+<script>
+
+    const funcionario = document.getElementById("funcionario");
+    const nomeSetor = document.getElementById("nomeSetor");
+    const setorId = document.getElementById("setorId");
+
+    funcionario.addEventListener("change", function () {
+
+        const opcao = this.options[this.selectedIndex];
+
+        nomeSetor.value = opcao.dataset.setor;
+        setorId.value = opcao.dataset.idsetor;
+
+    });
+
+</script>
 
 </body>
 </html>

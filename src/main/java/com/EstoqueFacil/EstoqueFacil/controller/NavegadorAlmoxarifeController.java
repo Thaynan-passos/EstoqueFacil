@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.EstoqueFacil.EstoqueFacil.model.*;
+import com.EstoqueFacil.EstoqueFacil.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.EstoqueFacil.EstoqueFacil.model.ClassificacaoProduto;
-import com.EstoqueFacil.EstoqueFacil.model.Lote;
-import com.EstoqueFacil.EstoqueFacil.model.Movimentacao;
-import com.EstoqueFacil.EstoqueFacil.model.Produto;
-import com.EstoqueFacil.EstoqueFacil.model.Status;
-import com.EstoqueFacil.EstoqueFacil.repository.LoteRepository;
-import com.EstoqueFacil.EstoqueFacil.repository.ProdutoRepository;
 import com.EstoqueFacil.EstoqueFacil.service.LoteService;
 import com.EstoqueFacil.EstoqueFacil.service.MovimentacaoService;
 import com.EstoqueFacil.EstoqueFacil.service.ProdutoService;
@@ -49,6 +44,15 @@ public class NavegadorAlmoxarifeController {
 
     @Autowired
     private AuthUtil authUtil;
+
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
+
+    @Autowired
+    private SetorRepository setorRepository;
+
+    @Autowired
+    private FuncionarioSetorRepository funcionarioSetorRepository;
 
     @Autowired
     private com.EstoqueFacil.EstoqueFacil.service.FornecedorService fornecedorService;
@@ -133,6 +137,10 @@ public class NavegadorAlmoxarifeController {
             return "redirect:/dashboard-almoxarife";
         model.addAttribute("lotes", loteService.buscarTodosLotes());
 
+        model.addAttribute(
+                "funcionariosSetores",
+                funcionarioSetorRepository.buscarFuncionariosAtivos());
+
 
 
         return "telas-almoxarife/saidas-materiais";
@@ -141,15 +149,22 @@ public class NavegadorAlmoxarifeController {
     @PostMapping("/saidas-materiais")
     public String registrarSaida(@RequestParam Integer loteId,
                                  @RequestParam Integer quantidade,
-                                 @RequestParam String solicitante,
-                                 @RequestParam String setor,
+                                 @RequestParam Integer funcionarioId,
+                                 @RequestParam Integer setorId,
                                  @RequestParam String observacoes) {
+
+
+        Funcionario funcionario =
+                funcionarioRepository.findById(funcionarioId).orElseThrow();
+
+        Setor setor =
+                setorRepository.findById(setorId).orElseThrow();
 
         movimentacaoService.registrarSaida(
                 loteId,
                 quantidade,
-                solicitante,
-                setor,
+                funcionarioId,
+                setorId,
                 observacoes
         );
 

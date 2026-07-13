@@ -45,17 +45,13 @@ public class CadastroFornecedorController {
             Model model
     ) {
         try {
-            // =========================
-            // FORNECEDOR
-            // =========================
+
             Fornecedor f = new Fornecedor();
             f.setRazaoSocial(nome);
             f.setCnpj(cnpj.replaceAll("\\D", ""));
             f.setEmail(email);
 
-            // =========================
-            // ENDEREÇO
-            // =========================
+
             Endereco end = new Endereco();
             end.setCep(cep.replace("-", ""));
             end.setRua(rua);
@@ -66,18 +62,14 @@ public class CadastroFornecedorController {
 
             f.setEndereco(end);
 
-            // =========================
-            // TELEFONE
-            // =========================
+
             Telefone tel = new Telefone();
             tel.setTelefone(telefone);
             tel.setTipoTelefone("PRINCIPAL");
 
             f.setTelefone(List.of(tel));
 
-            // =========================
-            // SALVAR
-            // =========================
+
             fornecedorService.cadastrarFornecedor(f);
             emailUtil.enviarConfirmacaoFornecedor(
                     f.getEmail(),

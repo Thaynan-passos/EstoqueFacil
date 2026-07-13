@@ -38,19 +38,19 @@ public class MovimentacaoService {
 
     public void registrarSaida(Integer loteId,
                                Integer quantidade,
-                               String solicitante,
-                               String setor,
+                                Integer funcionarioId,
+                                Integer setorId,
                                String observacoes) {
 
         Lote lote = loteRepository.findById(loteId)
                 .orElseThrow(() -> new NoSuchElementException("Lote não encontrado"));
 
         if (quantidade <= 0) {
-            throw new IllegalArgumentException("Quantidade inválida");
+            throw new  ErroDePreenchimentoInvalidoException("Quantidade inválida");
         }
 
         if (lote.getQuantidade() < quantidade) {
-            throw new IllegalStateException("Estoque insuficiente no lote");
+            throw new  ErroDePreenchimentoInvalidoException("Estoque insuficiente no lote");
         }
 
         lote.setQuantidade(

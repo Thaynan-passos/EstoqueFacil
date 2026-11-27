@@ -1,7 +1,7 @@
 services:
 
   db:
-    image: postgres:17
+    image: postgres:17-alpine
     container_name: estoquefacil-db
     restart: unless-stopped
     environment:
@@ -34,6 +34,6 @@ services:
     env_file:
       - .env
     volumes:
-      - ./.env.properties:/app/.env.properties:ro
+      - ./.env:/app/.env.properties:ro
 volumes:
   pg_data:

@@ -13,7 +13,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class EstoqueFacilApplicationTests {
 	
 	@Container
-	static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17")
+	static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17-alpine")
 			.withDatabaseName("estoquefacil_test")
 			.withUsername("test")
 			.withPassword("test");
